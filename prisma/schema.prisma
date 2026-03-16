@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Page {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  /**
+   * Flexible JSON payload for each page/section.
+   * Example: { "mode": "overlay" | "replace", "html": "<p>...</p>" }
+   */
+  data      Json
+  updatedAt DateTime @updatedAt
+  createdAt DateTime @default(now())
+
+  images    PageImage[]
+}
+
+model PageImage {
+  id        String   @id @default(cuid())
+  pageId    String
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  url       String
+  alt       String?
+  sortOrder Int      @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([pageId, sortOrder])
+}
+
+model Order {
+  id          String   @id @default(cuid())
+  orderNo     String   @unique
+
+  status      String   @default("new") // new | paid | shipped | cancelled
+
+  firstName   String
+  lastName    String
+  email       String
+  phone       String
+  address     String
+  city        String
+  district    String
+  postalCode  String
+
+  currency    String   @default("TRY")
+  totalAmount Int
+
+  items       Json
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([status])
+}
