@@ -7,6 +7,8 @@ export const runtime = "nodejs"
 const CreateSchema = z.object({
   label: z.string().min(1),
   href: z.string().min(1).nullable().optional(),
+  subtitle: z.string().nullable().optional(),
+  imageUrl: z.string().nullable().optional(),
   external: z.boolean().optional(),
   location: z.enum(["header", "footer"]),
   group: z.enum(["quick", "product", "legal"]).nullable().optional(),
@@ -37,6 +39,8 @@ export async function POST(req: Request) {
     repo.create({
       label: parsed.data.label,
       href: parsed.data.href ?? null,
+      subtitle: parsed.data.subtitle ?? null,
+      imageUrl: parsed.data.imageUrl ?? null,
       external: parsed.data.external ?? false,
       location: parsed.data.location,
       group: parsed.data.location === "footer" ? (parsed.data.group ?? "quick") : null,

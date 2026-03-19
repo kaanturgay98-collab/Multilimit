@@ -5,6 +5,7 @@ import { MessageCircle, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Youtu
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useEffect, useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { trackClick } from '@/components/analytics/tracker'
 
 const quickLinks = [
@@ -42,6 +43,7 @@ const whatsappLink = `https://wa.me/905551234567?text=${whatsappMessage}`
 
 export function Footer() {
   const [footer, setFooter] = useState<{ label: string; href: string | null; external: boolean; group: string | null }[] | null>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     let cancelled = false
@@ -51,7 +53,7 @@ export function Footer() {
       if (cancelled) return
       if (data?.ok && (data.rows?.length ?? 0) > 0) {
         setFooter(
-          data.rows.map((r) => ({
+          data.rows!.map((r) => ({
             label: String(r.label),
             href: r.href ? String(r.href) : null,
             external: Boolean(r.external),
@@ -89,6 +91,10 @@ export function Footer() {
     }
     return legalLinks.map((m) => ({ ...m, external: false }))
   }, [footer])
+
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
 
   return (
     <footer className="bg-navy-dark border-t border-border">

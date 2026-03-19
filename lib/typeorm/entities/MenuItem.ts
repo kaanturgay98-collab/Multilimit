@@ -19,12 +19,17 @@ export class MenuItem extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   location!: MenuLocation
 
-  // For footer only: which column/group should it render under.
-  @Column({ type: "varchar", nullable: true })
-  group!: FooterMenuGroup | null
+  @Column({ type: "text", nullable: true })
+  subtitle!: string | null
+
+  @Column({ type: "text", nullable: true })
+  imageUrl!: string | null
 
   @Column({ type: "integer", default: 0 })
   sortOrder!: number
+
+  @Column({ default: true })
+  isActive!: boolean
 
   @ManyToOne(() => MenuItem, { nullable: true })
   parent!: MenuItem | null

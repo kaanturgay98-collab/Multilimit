@@ -64,9 +64,12 @@ export default function AdminPagesList() {
                   <TableCell className="text-sm text-muted-foreground">
                     {new Date(p.updatedAt).toLocaleString("tr-TR")}
                   </TableCell>
-                  <TableCell className="text-right">
+                  <TableCell className="text-right flex justify-end gap-2">
+                    <Button asChild size="sm" variant="outline">
+                      <Link href={`/${p.slug}`} target="_blank">Görüntüle</Link>
+                    </Button>
                     <Button asChild size="sm">
-                      <Link href={`/admin/pages/${p.slug}`}>Duzenle</Link>
+                      <Link href={`/admin/editor?slug=${p.slug}`}>Görsel Editör</Link>
                     </Button>
                   </TableCell>
                 </TableRow>

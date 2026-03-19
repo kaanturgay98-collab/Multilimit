@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { MessageCircle, X, Send, ShoppingCart, HelpCircle, Package, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -24,6 +25,7 @@ export function ChatbotWidget() {
   const [isOpen, setIsOpen] = useState(false)
   const [messages, setMessages] = useState(chatMessages)
   const [inputValue, setInputValue] = useState('')
+  const pathname = usePathname()
 
   const handleSendMessage = () => {
     if (!inputValue.trim()) return
@@ -37,6 +39,10 @@ export function ChatbotWidget() {
       },
     ])
     setInputValue('')
+  }
+
+  if (pathname?.startsWith('/admin')) {
+    return null
   }
 
   return (

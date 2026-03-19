@@ -1,15 +1,20 @@
 import React from "react"
 
-export function MultilimitHeroBackground() {
+export function MultilimitHeroBackground({ bgImageUrl }: { bgImageUrl?: string }) {
+  const bgImage = bgImageUrl || "/multilimit-hero-bg.png";
+  const isCustomImage = !!bgImageUrl && bgImageUrl !== "/multilimit-hero-bg.png";
+  
   return (
     <div className="ml-hero-bg absolute inset-0 -z-10 overflow-hidden pointer-events-none">
       {/* Base deep navy gradient */}
       <div className="ml-hero-bg__base absolute inset-0" />
 
       {/* Blurred photo background (on top of navy, still behind effects/text) */}
-      <div
-        className="ml-hero-bg__photo absolute inset-0"
-        style={{ backgroundImage: "url(/multilimit-hero-bg.png)" }}
+      <img
+        src={bgImage}
+        alt="Hero Background"
+        className="ml-hero-bg__photo absolute inset-0 w-full h-full object-cover object-[70%_80%]"
+        style={isCustomImage ? { filter: 'blur(0px) saturate(1.1)', opacity: 0.8 } : {}}
       />
 
       {/* Metallic energy waves (SVG) */}

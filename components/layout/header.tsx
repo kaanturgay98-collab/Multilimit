@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { Menu, X, ShoppingCart, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
@@ -28,6 +29,7 @@ export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { totalItems, setIsOpen: setCartOpen } = useCart()
   const [menu, setMenu] = useState<{ label: string; href: string | null; external: boolean }[] | null>(null)
+  const pathname = usePathname()
 
   useEffect(() => {
     let cancelled = false
@@ -36,7 +38,7 @@ export function Header() {
       const data = (await res.json().catch(() => null)) as { ok: boolean; rows?: any[] }
       if (cancelled) return
       if (data?.ok && (data.rows?.length ?? 0) > 0) {
-        setMenu(data.rows.map((r) => ({ label: String(r.label), href: r.href ? String(r.href) : null, external: Boolean(r.external) })))
+        setMenu(data.rows!.map((r) => ({ label: String(r.label), href: r.href ? String(r.href) : null, external: Boolean(r.external) })))
       } else {
         setMenu(null)
       }
@@ -54,6 +56,10 @@ export function Header() {
     }
     return fallbackNavigation.map((m) => ({ ...m, external: false }))
   }, [menu])
+
+  if (pathname?.startsWith('/admin')) {
+    return null
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80">
