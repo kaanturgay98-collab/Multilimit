@@ -105,14 +105,14 @@ export async function getDb() {
 
   // Dev safety: if hot reload produced a DS without some entities, rebuild once.
   if (
-    !ds.hasMetadata("MenuItem") ||
-    !ds.hasMetadata("AnalyticsEvent") ||
-    !ds.hasMetadata("Page") ||
-    !ds.hasMetadata("Product") ||
-    !ds.hasMetadata("Order") ||
-    !ds.hasMetadata("OrderItem") ||
-    !ds.hasMetadata("PaymentTransaction") ||
-    !ds.hasMetadata("Address")
+    !ds.hasMetadata(MenuItem) ||
+    !ds.hasMetadata(AnalyticsEvent) ||
+    !ds.hasMetadata(Page) ||
+    !ds.hasMetadata(Product) ||
+    !ds.hasMetadata(Order) ||
+    !ds.hasMetadata(OrderItem) ||
+    !ds.hasMetadata(PaymentTransaction) ||
+    !ds.hasMetadata(Address)
   ) {
     try {
       if (ds.isInitialized) await ds.destroy()

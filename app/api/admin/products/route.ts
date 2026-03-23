@@ -4,9 +4,11 @@ import { z } from "zod"
 
 export const runtime = "nodejs"
 
+import { Product } from "@/lib/typeorm/entities/Product"
+
 export async function GET() {
   const ds = await getDb()
-  const rows = await ds.getRepository("Product").find({ order: { updatedAt: "DESC" }, take: 500 })
+  const rows = await ds.getRepository(Product).find({ order: { updatedAt: "DESC" }, take: 500 })
   return NextResponse.json({ ok: true, rows })
 }
 
@@ -34,7 +36,7 @@ export async function POST(req: Request) {
     }
 
     const ds = await getDb()
-    const repo = ds.getRepository("Product")
+    const repo = ds.getRepository(Product)
     
     const product = repo.create({
       name: parsed.data.name,

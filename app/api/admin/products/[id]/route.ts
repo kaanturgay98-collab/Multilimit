@@ -4,10 +4,12 @@ import { z } from "zod"
 
 export const runtime = "nodejs"
 
+import { Product } from "@/lib/typeorm/entities/Product"
+
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const ds = await getDb()
-  const row = await ds.getRepository("Product").findOne({ where: { id }, relations: { variants: true, media: true } })
+  const row = await ds.getRepository(Product).findOne({ where: { id }, relations: { variants: true, media: true } })
   if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
   return NextResponse.json({ ok: true, row })
 }
@@ -34,7 +36,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
   if (!parsed.success) return NextResponse.json({ ok: false, error: "Invalid body" }, { status: 400 })
 
   const ds = await getDb()
-  const repo = ds.getRepository("Product")
+  const repo = ds.getRepository(Product)
   const row = await repo.findOne({ where: { id } })
   if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
   Object.assign(row as any, parsed.data)
@@ -45,7 +47,7 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const ds = await getDb()
-  await ds.getRepository("Product").delete({ id })
+  await ds.getRepository(Product).delete({ id })
   return NextResponse.json({ ok: true })
 }
 
