@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { Page } from "@/lib/typeorm/entities/Page"
+import { Page } from "@/lib/typeorm/entities/Page"
 
 export type PageSectionType =
   | "hero"
@@ -13,7 +13,7 @@ export type PageSectionType =
 
 @Entity()
 export class PageSection extends BaseEntityWithTimestamps {
-  @ManyToOne("Page", "sections", { onDelete: "CASCADE" })
+  @ManyToOne(() => Page, (page) => page.sections, { onDelete: "CASCADE" })
   page!: Page
 
   @Column({ type: "varchar" })

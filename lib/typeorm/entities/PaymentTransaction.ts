@@ -1,6 +1,6 @@
 import { Column, Entity, Index, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { Order } from "@/lib/typeorm/entities/Order"
+import { Order } from "@/lib/typeorm/entities/Order"
 
 export type PaymentProvider = "mock"
 export type PaymentTxStatus = "created" | "pending" | "paid" | "failed" | "cancelled"
@@ -27,7 +27,7 @@ export class PaymentTransaction extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   status!: PaymentTxStatus
 
-  @ManyToOne("Order", { onDelete: "CASCADE" })
+  @ManyToOne(() => Order, { onDelete: "CASCADE" })
   order!: Order
 
   @Column({ type: "simple-json", nullable: true })

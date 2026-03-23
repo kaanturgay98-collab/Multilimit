@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
-import type { MediaAsset } from "@/lib/typeorm/entities/MediaAsset"
-import type { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
+import { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
+import { MediaAsset } from "@/lib/typeorm/entities/MediaAsset"
+import { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 
 export type ProductBadge = "premium" | "new" | "bestseller" | null
 
@@ -50,13 +50,13 @@ export class Product extends BaseEntityWithTimestamps {
   @Column({ type: "varchar", nullable: true })
   trendyolLink!: string | null
 
-  @OneToMany("ProductVariant", "product")
+  @OneToMany(() => ProductVariant, (variant) => variant.product)
   variants!: ProductVariant[]
 
-  @OneToMany("MediaAsset", "product")
+  @OneToMany(() => MediaAsset, (asset) => asset.product)
   media!: MediaAsset[]
 
-  @OneToMany("SeoMeta", "product")
+  @OneToMany(() => SeoMeta, (seo) => seo.product)
   seoEntries!: SeoMeta[]
 }
 

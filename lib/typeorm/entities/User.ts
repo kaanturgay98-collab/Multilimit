@@ -1,6 +1,6 @@
 import { Column, Entity, Index, OneToMany } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { Order } from "@/lib/typeorm/entities/Order"
+import { Order } from "@/lib/typeorm/entities/Order"
 
 export type UserAuthProvider = "email" | "google" | "facebook" | "guest"
 
@@ -22,7 +22,7 @@ export class User extends BaseEntityWithTimestamps {
   @Column({ default: 0 })
   orderCount!: number
 
-  @OneToMany("Order", "user")
+  @OneToMany(() => Order, (order) => order.user)
   orders!: Order[]
 }
 

@@ -1,7 +1,7 @@
 import { Column, Entity, Index, ManyToOne, OneToMany } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { OrderItem } from "@/lib/typeorm/entities/OrderItem"
-import type { User } from "@/lib/typeorm/entities/User"
+import { OrderItem } from "@/lib/typeorm/entities/OrderItem"
+import { User } from "@/lib/typeorm/entities/User"
 
 export type OrderStatus =
   | "pending_payment"
@@ -87,10 +87,10 @@ export class Order extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   notes!: string | null
 
-  @ManyToOne("User", "orders", { nullable: true })
+  @ManyToOne(() => User, (user) => user.orders, { nullable: true })
   user!: User | null
 
-  @OneToMany("OrderItem", "order", { cascade: ["insert"] })
+  @OneToMany(() => OrderItem, (item) => item.order, { cascade: ["insert"] })
   orderItems!: OrderItem[]
 }
 

@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { Product } from "@/lib/typeorm/entities/Product"
-import type { BlogPost } from "@/lib/typeorm/entities/BlogPost"
-import type { Page } from "@/lib/typeorm/entities/Page"
+import { Product } from "@/lib/typeorm/entities/Product"
+import { BlogPost } from "@/lib/typeorm/entities/BlogPost"
+import { Page } from "@/lib/typeorm/entities/Page"
 
 @Entity()
 export class SeoMeta extends BaseEntityWithTimestamps {
@@ -27,13 +27,13 @@ export class SeoMeta extends BaseEntityWithTimestamps {
   @Column({ default: true })
   indexable!: boolean
 
-  @ManyToOne("Product", "seoEntries", { nullable: true })
+  @ManyToOne(() => Product, (p) => p.seoEntries, { nullable: true })
   product!: Product | null
 
-  @ManyToOne("BlogPost", "seoOverride", { nullable: true })
+  @ManyToOne(() => BlogPost, (p) => p.seoOverride, { nullable: true })
   blogPost!: BlogPost | null
 
-  @ManyToOne("Page", "seoEntries", { nullable: true })
+  @ManyToOne(() => Page, (p) => p.seoEntries, { nullable: true })
   page!: Page | null
 }
 

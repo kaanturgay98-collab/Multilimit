@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { Order } from "@/lib/typeorm/entities/Order"
-import type { Product } from "@/lib/typeorm/entities/Product"
-import type { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
+import { Order } from "@/lib/typeorm/entities/Order"
+import { Product } from "@/lib/typeorm/entities/Product"
+import { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
 
 @Entity()
 export class OrderItem extends BaseEntityWithTimestamps {
@@ -21,13 +21,13 @@ export class OrderItem extends BaseEntityWithTimestamps {
   @Column({ type: "integer" })
   lineTotal!: number
 
-  @ManyToOne("Order", "orderItems", { onDelete: "CASCADE" })
+  @ManyToOne(() => Order, (order) => order.orderItems, { onDelete: "CASCADE" })
   order!: Order
 
-  @ManyToOne("Product", { nullable: true })
+  @ManyToOne(() => Product, { nullable: true })
   product!: Product | null
 
-  @ManyToOne("ProductVariant", { nullable: true })
+  @ManyToOne(() => ProductVariant, { nullable: true })
   variant!: ProductVariant | null
 }
 
