@@ -54,7 +54,7 @@ const navSections: readonly NavSection[] = [
     items: [
       { href: "/admin/editor?slug=icerikler", label: "Sayfa Tasarımı (Puck)" },
       { href: "/admin/pages", label: "Tüm Sayfalar" },
-      { href: "/admin/menu", label: "Menü Yönetimi" },
+      // { href: "/admin/menu", label: "Menü Yönetimi" },
     ],
   },
   {
@@ -70,14 +70,12 @@ const navSections: readonly NavSection[] = [
     href: "/admin/editor?slug=yorumlar",
     items: [
       { href: "/admin/editor?slug=yorumlar", label: "Sayfa Tasarımı (Puck)" },
-      { href: "/admin/testimonials", label: "Müşteri Yorumları" },
     ],
   },
   {
     label: "Blog",
     items: [
       { href: "/admin/blog-posts", label: "Blog Yazıları" },
-      { href: "/admin/blog-categories", label: "Kategoriler" },
     ],
   },
   {

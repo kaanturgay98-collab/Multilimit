@@ -38,22 +38,26 @@ const socialLinks = [
   { name: 'YouTube', href: '#', icon: Youtube },
 ]
 
-const whatsappMessage = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkinda bilgi almak istiyorum.')
-const whatsappLink = `https://wa.me/905551234567?text=${whatsappMessage}`
-
 export function Footer() {
   const [footer, setFooter] = useState<{ label: string; href: string | null; external: boolean; group: string | null }[] | null>(null)
+  const [settings, setSettings] = useState<any>(null)
   const pathname = usePathname()
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const res = await fetch('/api/menu?location=footer', { cache: 'no-store' })
-      const data = (await res.json().catch(() => null)) as { ok: boolean; rows?: any[] }
+      // Menu fetch
+      const menuRes = await fetch('/api/menu?location=footer', { cache: 'no-store' })
+      const menuData = (await menuRes.json().catch(() => null)) as { ok: boolean; rows?: any[] }
+      
+      // Settings fetch
+      const settingsRes = await fetch('/api/admin/site-settings', { cache: 'no-store' })
+      const settingsData = await settingsRes.json().catch(() => null)
+
       if (cancelled) return
-      if (data?.ok && (data.rows?.length ?? 0) > 0) {
+      if (menuData?.ok && (menuData.rows?.length ?? 0) > 0) {
         setFooter(
-          data.rows!.map((r) => ({
+          menuData.rows!.map((r) => ({
             label: String(r.label),
             href: r.href ? String(r.href) : null,
             external: Boolean(r.external),
@@ -63,11 +67,21 @@ export function Footer() {
       } else {
         setFooter(null)
       }
+
+      if (settingsData?.ok && settingsData.row) {
+        setSettings(settingsData.row)
+      }
     })()
     return () => {
       cancelled = true
     }
   }, [])
+
+  const whatsappLink = useMemo(() => {
+    const num = settings?.whatsapp || "905551234567"
+    const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
+    return `https://wa.me/${num}?text=${msg}`
+  }, [settings])
 
   const footerQuick = useMemo(() => {
     if (footer && footer.length) {
@@ -136,27 +150,37 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              <span className="font-serif text-2xl font-bold text-gradient-gold tracking-wide">
-                MULTILIMIT
-              </span>
-              <span className="block text-xs text-muted-foreground tracking-widest uppercase mt-1">
-                Premium Detoks Kompleksi
-              </span>
+              {settings?.logoUrl ? (
+                <img src={settings.logoUrl} alt={settings.siteName || "Logo"} className="h-10 lg:h-12 w-auto object-contain brightness-0 invert" />
+              ) : (
+                <>
+                  <span className="font-serif text-2xl font-bold text-gradient-gold tracking-wide">
+                    {settings?.siteName || "MULTILIMIT"}
+                  </span>
+                  <span className="block text-xs text-muted-foreground tracking-widest uppercase mt-1">
+                    Premium Detoks Kompleksi
+                  </span>
+                </>
+              )}
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
-              Gunluk yasam temposuna destek veren premium formul ile sabah daha zinde baslayin.
+              {settings?.footerText || "Günlük yaşam temposuna destek veren premium formül ile sabah daha zinde başlayın."}
             </p>
             
             {/* Contact Info */}
             <div className="space-y-3 text-sm">
-              <a href="tel:+908501234567" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                <Phone className="h-4 w-4" />
-                0850 123 45 67
-              </a>
-              <a href="mailto:info@multilimit.com" className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
-                <Mail className="h-4 w-4" />
-                info@multilimit.com
-              </a>
+              {settings?.phone && (
+                <a href={`tel:${settings.phone}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                  <Phone className="h-4 w-4" />
+                  {settings.phone}
+                </a>
+              )}
+              {settings?.email && (
+                <a href={`mailto:${settings.email}`} className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors">
+                  <Mail className="h-4 w-4" />
+                  {settings.email}
+                </a>
+              )}
               <div className="flex items-start gap-3 text-muted-foreground">
                 <MapPin className="h-4 w-4 mt-0.5" />
                 <span>Levent Mah. Buyukdere Cad. No:123<br />Besiktas, Istanbul 34394</span>
@@ -257,7 +281,7 @@ export function Footer() {
         <div className="container mx-auto px-4 lg:px-8 py-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-sm text-muted-foreground">
             <p>
-              &copy; {new Date().getFullYear()} Multilimit. Tum haklari saklidir.
+              {settings?.copyright || `© ${new Date().getFullYear()} Multilimit. Tüm hakları saklıdır.`}
             </p>
             <p>
               Bu urun bir gida takviyesidir. Hastaliklari tedavi etmek veya onlemek icin kullanilmaz.

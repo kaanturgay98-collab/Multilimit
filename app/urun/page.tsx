@@ -5,7 +5,7 @@ import { Metadata } from 'next'
 import { getDb } from "@/lib/db"
 import { Product } from "@/lib/typeorm/entities/Product"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart } from "lucide-react"
+import { ProductImageSlider } from "@/components/public/product-image-slider"
 
 export const metadata: Metadata = {
   title: 'Ürünlerimiz | Multilimit Premium Detoks Kompleksi',
@@ -15,14 +15,32 @@ export const metadata: Metadata = {
 export default async function ProductPage() {
   const slug = "urun";
   let pageData = null;
-  let products: Product[] = [];
+  let products: any[] = [];
 
   try {
     const ds = await getDb();
-    products = (await ds.getRepository("Product").find({
+    const rawProducts = await ds.getRepository("Product").find({
       where: { isActive: true },
-      order: { createdAt: "DESC" }
-    })) as Product[];
+      order: { createdAt: "DESC" },
+      relations: { media: true }
+    });
+    
+    // Plain object transformation to avoid Date/Class objects in props
+    products = rawProducts.map((p: any) => ({
+      id: p.id,
+      name: p.name,
+      slug: p.slug,
+      shortDescription: p.shortDescription,
+      price: p.price,
+      salePrice: p.salePrice,
+      badge: p.badge,
+      trendyolLink: p.trendyolLink,
+      media: (p.media || []).map((m: any) => ({
+        id: m.id,
+        url: m.url,
+        alt: m.alt
+      }))
+    }));
   } catch (error) {
     console.error("Failed to fetch products from db", error);
   }
@@ -56,16 +74,20 @@ export default async function ProductPage() {
             
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {products.map((product) => (
-                <div key={product.id} className="bg-card border border-border rounded-2xl p-6 shadow-sm hover:shadow-md transition-shadow relative p-6 flex flex-col">
+                <div key={product.id} className="bg-card border border-border rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow relative p-6 flex flex-col">
                   {product.badge && (
-                    <span className="absolute -top-3 left-6 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full uppercase tracking-wider">
+                    <span className="absolute top-4 left-6 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full uppercase tracking-wider z-10">
                       {product.badge === "bestseller" ? "Çok Satan" : product.badge === "premium" ? "Premium" : "Yeni"}
                     </span>
                   )}
                   
-                  {/* Generic Product Placeholder Image */}
-                  <div className="aspect-square bg-gradient-to-br from-navy-light to-background rounded-xl mb-6 flex items-center justify-center border border-border/50">
-                    <span className="font-serif text-2xl font-bold text-gradient-gold opacity-50">{product.name}</span>
+                  {/* Product Image Display */}
+                  <div className="aspect-square bg-gradient-to-br from-navy-light to-background rounded-xl mb-6 flex items-center justify-center border border-border/50 overflow-hidden relative group">
+                    {product.media && product.media.length > 0 ? (
+                      <ProductImageSlider images={product.media} title={product.name} />
+                    ) : (
+                      <span className="font-serif text-2xl font-bold text-gradient-gold opacity-50">{product.name}</span>
+                    )}
                   </div>
                   
                   <h3 className="text-xl font-bold text-foreground mb-2">{product.name}</h3>

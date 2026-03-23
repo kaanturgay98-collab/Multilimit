@@ -20,6 +20,7 @@ export type ProductHeroProps = {
   description: string
   rating: string
   reviews: string
+  productID?: string
   packages: ProductPackage[]
 }
 
@@ -29,6 +30,7 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
     description: { type: "textarea" },
     rating: { type: "text" },
     reviews: { type: "text" },
+    productID: { type: "text" },
     packages: {
       type: "array",
       getItemSummary: (p) => p.name,
@@ -57,21 +59,80 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
     packages: [
       { id: "small", name: "Küçük Paket", description: "30 Günlük", price: 599, originalPrice: 749, items: "30 Kapsül", popular: false },
       { id: "large", name: "Büyük Paket", description: "60 Günlük", price: 999, originalPrice: 1299, items: "60 Kapsül", popular: true },
-    ]
+    ],
+    productID: "",
   },
-  render: ({ title, description, rating, reviews, packages }) => {
+  render: ({ title, description, rating, reviews, packages, productID }) => {
     // Note: Render must be pure-ish. Using local state for selection.
     const [selectedId, setSelectedId] = useState(packages[0]?.id)
     const [quantity, setQuantity] = useState(1)
+    const [activeImageIndex, setActiveImageIndex] = useState(0)
+    const [productData, setProductData] = useState<any>(null)
     const selectedPkg = packages.find(p => p.id === selectedId) || packages[0]
+
+    React.useEffect(() => {
+      if (!productID) return
+      fetch(`/api/products?id=${productID}`)
+        .then(res => res.json())
+        .then(json => {
+          if (json.success) setProductData(json.data)
+        })
+    }, [productID])
+
+    const images = productData?.media || []
+
+    React.useEffect(() => {
+      if (images.length <= 1) return
+      const interval = setInterval(() => {
+        setActiveImageIndex((prev) => (prev + 1) % images.length)
+      }, 4000)
+      return () => clearInterval(interval)
+    }, [images.length])
+
+    const nextImage = () => setActiveImageIndex((prev) => (prev + 1) % images.length)
+    const prevImage = () => setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length)
 
     return (
       <section className="py-12 lg:py-20 bg-background">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-            {/* Gallery Placeholder */}
-            <div className="aspect-square bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border flex items-center justify-center p-8">
-              <span className="font-serif text-4xl font-bold text-gradient-gold">PRODUCT IMAGE</span>
+            {/* Gallery / Slider */}
+            <div className="relative aspect-square bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border flex items-center justify-center overflow-hidden group">
+              {images.length > 0 ? (
+                <>
+                  <img 
+                    src={images[activeImageIndex].url} 
+                    alt={images[activeImageIndex].alt || title}
+                    className="w-full h-full object-cover transition-opacity duration-500"
+                  />
+                  {images.length > 1 && (
+                    <>
+                      <button 
+                        onClick={prevImage}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Minus size={20} />
+                      </button>
+                      <button 
+                        onClick={nextImage}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 bg-white/20 hover:bg-white/40 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <Plus size={20} />
+                      </button>
+                      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                        {images.map((_: any, idx: number) => (
+                          <div 
+                            key={idx} 
+                            className={`w-2 h-2 rounded-full transition-all ${idx === activeImageIndex ? 'bg-primary w-4' : 'bg-white/50'}`} 
+                          />
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </>
+              ) : (
+                <span className="font-serif text-4xl font-bold text-gradient-gold">PRODUCT IMAGE</span>
+              )}
             </div>
 
             {/* Info */}

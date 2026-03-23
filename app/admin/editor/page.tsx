@@ -83,29 +83,45 @@ function Editor() {
   return (
     <div className="min-h-screen flex flex-col ">
       {/* Top Bar for Mode Toggle & Save */}
-      <div className="h-16 px-6  border-b border-slate-200 flex items-center justify-between shadow-sm sticky top-0 z-50">
-        <div className="flex items-center gap-3">
-          <h1 className="text-xl font-bold text-slate-800">Puck Sayfa Editörü</h1>
-          <span className="px-3 py-1 bg-slate-100 text-slate-600 rounded-lg text-sm font-medium border border-slate-200">
-            Editing: {slug}
+      <div className="h-16 px-6 bg-[#0f172a] border-b border-white/10 flex items-center justify-between shadow-lg sticky top-0 z-50">
+        <div className="flex items-center gap-4">
+          <div className="flex flex-col">
+            <h1 className="text-xl font-bold text-white tracking-tight">Puck Sayfa Editörü</h1>
+            <span className="text-[10px] text-primary font-bold uppercase tracking-widest -mt-1">Site Yönetimi</span>
+          </div>
+          <div className="h-6 w-px bg-white/20 mx-2" />
+          <span className="px-3 py-1 bg-white/5 text-slate-200 rounded-md text-sm font-medium border border-white/10 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            Slug: <span className="text-white font-mono">{slug}</span>
           </span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-sm font-medium text-slate-500">
-            {isEditMode ? "Düzenleme Modu" : "Önizleme Modu"}
-          </span>
-          <button
-            onClick={() => setIsEditMode(!isEditMode)}
-            className="px-4 py-2 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors"
-          >
-            {isEditMode ? "Önizlemeyi Göster" : "Editöre Geri Dön"}
-          </button>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-2 bg-white/5 p-1 rounded-lg border border-white/10">
+            <button
+              onClick={() => setIsEditMode(true)}
+              className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${isEditMode ? "bg-primary text-primary-foreground shadow-md" : "text-slate-400 hover:text-white"}`}
+            >
+              DÜZENLE
+            </button>
+            <button
+              onClick={() => setIsEditMode(false)}
+              className={`px-4 py-1.5 rounded-md text-xs font-bold transition-all ${!isEditMode ? "bg-primary text-primary-foreground shadow-md" : "text-slate-400 hover:text-white"}`}
+            >
+              ÖNİZLEME
+            </button>
+          </div>
+          <div className="h-6 w-px bg-white/20" />
           <button
             onClick={() => handleSave(data)}
             disabled={saving}
-            className="px-6 py-2 bg-primary text-primary-foreground rounded-lg text-sm font-bold hover:bg-primary/90 transition-all shadow-sm active:scale-95 disabled:opacity-50 disabled:pointer-events-none"
+            className="px-8 py-2 bg-primary text-primary-foreground rounded-full text-sm font-bold hover:bg-primary/90 transition-all shadow-lg active:scale-95 disabled:opacity-50 disabled:pointer-events-none flex items-center gap-2"
           >
-            {saving ? "Kaydediliyor..." : "Kaydet"}
+            {saving ? (
+              <>
+                <div className="w-4 h-4 border-2 border-primary-foreground border-t-transparent rounded-full animate-spin" />
+                KAYDEDİLİYOR
+              </>
+            ) : "SAYFAYI KAYDET"}
           </button>
         </div>
       </div>

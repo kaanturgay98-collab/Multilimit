@@ -12,41 +12,56 @@ import { trackClick } from '@/components/analytics/tracker'
 
 const fallbackNavigation = [
   { name: 'Ana Sayfa', href: '/' },
-  { name: 'Hakkimizda', href: '/hakkimizda' },
-  { name: 'Urun', href: '/urun' },
-  { name: 'Nasil Kullanilir', href: '/nasil-kullanilir' },
-  { name: 'Icerikler', href: '/icerikler' },
+  { name: 'Hakkımızda', href: '/hakkimizda' },
+  { name: 'Ürün', href: '/urun' },
+  { name: 'Nasıl Kullanılır', href: '/nasil-kullanilir' },
+  { name: 'İçerikler', href: '/icerikler' },
   { name: 'SSS', href: '/sss' },
   { name: 'Yorumlar', href: '/yorumlar' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Iletisim', href: '/iletisim' },
+  { name: 'İletişim', href: '/iletisim' },
 ]
-
-const whatsappMessage = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkinda bilgi almak istiyorum.')
-const whatsappLink = `https://wa.me/905551234567?text=${whatsappMessage}`
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
   const { totalItems, setIsOpen: setCartOpen } = useCart()
   const [menu, setMenu] = useState<{ label: string; href: string | null; external: boolean }[] | null>(null)
+  const [settings, setSettings] = useState<any>(null)
   const pathname = usePathname()
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const res = await fetch('/api/menu?location=header', { cache: 'no-store' })
-      const data = (await res.json().catch(() => null)) as { ok: boolean; rows?: any[] }
+      // Menu fetch
+      const menuRes = await fetch('/api/menu?location=header', { cache: 'no-store' })
+      const menuData = (await menuRes.json().catch(() => null)) as { ok: boolean; rows?: any[] }
+      
+      // Settings fetch
+      const settingsRes = await fetch('/api/admin/site-settings', { cache: 'no-store' })
+      const settingsData = await settingsRes.json().catch(() => null)
+
       if (cancelled) return
-      if (data?.ok && (data.rows?.length ?? 0) > 0) {
-        setMenu(data.rows!.map((r) => ({ label: String(r.label), href: r.href ? String(r.href) : null, external: Boolean(r.external) })))
+      
+      if (menuData?.ok && (menuData.rows?.length ?? 0) > 0) {
+        setMenu(menuData.rows!.map((r) => ({ label: String(r.label), href: r.href ? String(r.href) : null, external: Boolean(r.external) })))
       } else {
         setMenu(null)
+      }
+
+      if (settingsData?.ok && settingsData.row) {
+        setSettings(settingsData.row)
       }
     })()
     return () => {
       cancelled = true
     }
   }, [])
+
+  const whatsappLink = useMemo(() => {
+    const num = settings?.whatsapp || "905551234567"
+    const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
+    return `https://wa.me/${num}?text=${msg}`
+  }, [settings])
 
   const navigation = useMemo(() => {
     if (menu && menu.length) {
@@ -66,14 +81,18 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          <div className="relative">
-            <span className="font-serif text-xl font-bold text-gradient-gold tracking-wide">
-              MULTILIMIT
-            </span>
-            <span className="block text-[10px] text-muted-foreground tracking-widest uppercase">
-              Premium Detoks
-            </span>
-          </div>
+          {settings?.logoUrl ? (
+            <img src={settings.logoUrl} alt={settings.siteName || "Multilimit"} className="h-10 lg:h-12 w-auto object-contain" />
+          ) : (
+            <div className="relative">
+              <span className="font-serif text-xl font-bold text-gradient-gold tracking-wide">
+                {settings?.siteName || "MULTILIMIT"}
+              </span>
+              <span className="block text-[10px] text-muted-foreground tracking-widest uppercase">
+                Premium Detoks
+              </span>
+            </div>
+          )}
         </Link>
 
         {/* Desktop Navigation */}
