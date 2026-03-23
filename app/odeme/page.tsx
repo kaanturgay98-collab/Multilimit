@@ -134,7 +134,10 @@ export default function CheckoutPage() {
       toast({ title: "Güvenli ödemeye yönlendiriliyorsun", description: "Mock ödeme ekranı açılıyor." })
       const redirectUrl = String(data.payment?.redirectUrl ?? "")
       if (!redirectUrl) throw new Error("Odeme oturumu olusturulamadi")
-      location.href = redirectUrl
+      
+      if (typeof window !== "undefined") {
+        window.location.href = redirectUrl
+      }
     } catch {
       toast({ title: "Hata", description: "Odeme baslatilamadi. Lütfen tekrar dene.", variant: "destructive" as any })
     } finally {

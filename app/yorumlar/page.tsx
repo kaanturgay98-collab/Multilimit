@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: 'Multilimit Premium Detoks Kompleksi kullanıcı yorumları ve deneyimleri.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function TestimonialsPage() {
   const slug = "yorumlar";
   let pageData = null;

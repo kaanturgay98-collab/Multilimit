@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   description: 'Multilimit Premium Detoks Kompleksi özelliklerini ve paket seçeneklerini inceleyin.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function ProductPage() {
   const slug = "urun";
   let pageData = null;
@@ -19,7 +21,8 @@ export default async function ProductPage() {
 
   try {
     const ds = await getDb();
-    const rawProducts = await ds.getRepository("Product").find({
+    const repo = ds.getRepository(Product);
+    const rawProducts = await repo.find({
       where: { isActive: true },
       order: { createdAt: "DESC" },
       relations: { media: true }

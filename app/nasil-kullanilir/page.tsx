@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'Multilimit Premium Detoks Kompleksi nasıl kullanılır? Günlük kullanım önerileri ve rehber.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function HowToUsePage() {
   const slug = "nasil-calisir"; // Using the slug used in the admin header
   let pageData = null;
