@@ -30,14 +30,18 @@ const CreateSchema = z.object({
 export async function POST(req: Request) {
   try {
     const json = await req.json().catch(() => null)
+    console.log("Adding Product Payload:", JSON.stringify(json, null, 2)) // DEBUG
     const parsed = CreateSchema.safeParse(json)
     if (!parsed.success) {
       return NextResponse.json({ ok: false, error: "Validation failed", details: parsed.error.format() }, { status: 400 })
     }
 
     const ds = await getDb()
+    console.log("DB Path:", (ds.options as any).database) // DEBUG
+
     const repo = ds.getRepository(Product)
     
+    // Create new entity instance
     const product = repo.create({
       name: parsed.data.name,
       slug: parsed.data.slug,
@@ -56,7 +60,12 @@ export async function POST(req: Request) {
     const saved = await repo.save(product)
     return NextResponse.json({ ok: true, row: saved })
   } catch (error: any) {
-    console.error("Product creation error:", error)
+    console.error("Product creation error full details:", {
+      message: error.message,
+      stack: error.stack,
+      query: error.query,
+      parameters: error.parameters
+    })
     return NextResponse.json({ ok: false, error: error.message || "Server error" }, { status: 500 })
   }
 }
