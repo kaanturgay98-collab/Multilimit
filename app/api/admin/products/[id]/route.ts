@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 import { z } from "zod"
-import { deleteProduct, getProductById, normalizeSqliteError, updateProduct } from "@/lib/products-db"
+import { deleteProduct, getProductById, listProductMedia, normalizeSqliteError, updateProduct } from "@/lib/products-db"
 
 export const runtime = "nodejs"
 
@@ -8,7 +8,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const { id } = await params
   const row = getProductById(id)
   if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
-  return NextResponse.json({ ok: true, row: { ...row, variants: [], media: [] } })
+  const media = listProductMedia(id).map((m) => ({ id: m.id, url: m.url, alt: m.alt }))
+  return NextResponse.json({ ok: true, row: { ...row, variants: [], media } })
 }
 
 const UpdateSchema = z.object({

@@ -21,6 +21,15 @@ export type ProductRow = {
   updatedAt: string
 }
 
+export type ProductMediaRow = {
+  id: string
+  productId: string
+  url: string
+  alt: string | null
+  sortOrder: number
+  createdAt: string
+}
+
 type ProductInput = Omit<ProductRow, "id" | "createdAt" | "updatedAt">
 type ProductUpdate = Partial<ProductInput>
 
@@ -36,6 +45,7 @@ function getDb() {
   if (dbInstance) return dbInstance
   dbInstance = new Database(getSqlitePath())
   dbInstance.pragma("journal_mode = WAL")
+  dbInstance.pragma("foreign_keys = ON")
   dbInstance.exec(`
     CREATE TABLE IF NOT EXISTS products (
       id TEXT PRIMARY KEY NOT NULL,
@@ -59,8 +69,32 @@ function getDb() {
     CREATE UNIQUE INDEX IF NOT EXISTS idx_products_sku_unique ON products (sku);
     CREATE INDEX IF NOT EXISTS idx_products_updatedAt ON products (updatedAt);
     CREATE INDEX IF NOT EXISTS idx_products_isActive ON products (isActive);
+
+    CREATE TABLE IF NOT EXISTS product_media (
+      id TEXT PRIMARY KEY NOT NULL,
+      productId TEXT NOT NULL,
+      url TEXT NOT NULL,
+      alt TEXT,
+      sortOrder INTEGER NOT NULL DEFAULT 0,
+      createdAt TEXT NOT NULL,
+      FOREIGN KEY (productId) REFERENCES products(id) ON DELETE CASCADE
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_product_media_productId ON product_media (productId);
+    CREATE INDEX IF NOT EXISTS idx_product_media_sortOrder ON product_media (productId, sortOrder, createdAt);
   `)
   return dbInstance
+}
+
+function mapProductMedia(row: any): ProductMediaRow {
+  return {
+    id: row.id,
+    productId: row.productId,
+    url: row.url,
+    alt: row.alt ?? null,
+    sortOrder: Number(row.sortOrder ?? 0),
+    createdAt: row.createdAt,
+  }
 }
 
 function mapProduct(row: any): ProductRow {
@@ -101,6 +135,20 @@ export function getProductById(id: string) {
   const db = getDb()
   const row = db.prepare(`SELECT * FROM products WHERE id = ?`).get(id)
   return row ? mapProduct(row) : null
+}
+
+export function listProductMedia(productId: string) {
+  const db = getDb()
+  const rows = db
+    .prepare(`SELECT * FROM product_media WHERE productId = ? ORDER BY sortOrder ASC, datetime(createdAt) ASC`)
+    .all(productId)
+  return rows.map(mapProductMedia)
+}
+
+export function getProductMediaById(mediaId: string) {
+  const db = getDb()
+  const row = db.prepare(`SELECT * FROM product_media WHERE id = ?`).get(mediaId)
+  return row ? mapProductMedia(row) : null
 }
 
 export function createProduct(input: ProductInput) {
@@ -169,6 +217,29 @@ export function updateProduct(id: string, patch: ProductUpdate) {
 export function deleteProduct(id: string) {
   const db = getDb()
   const result = db.prepare(`DELETE FROM products WHERE id = ?`).run(id)
+  return result.changes > 0
+}
+
+export function addProductMedia(input: { productId: string; url: string; alt: string | null; sortOrder?: number }) {
+  const db = getDb()
+  const row: ProductMediaRow = {
+    id: crypto.randomUUID(),
+    productId: input.productId,
+    url: input.url,
+    alt: input.alt ?? null,
+    sortOrder: input.sortOrder ?? 0,
+    createdAt: new Date().toISOString(),
+  }
+  db.prepare(
+    `INSERT INTO product_media (id, productId, url, alt, sortOrder, createdAt)
+     VALUES (@id, @productId, @url, @alt, @sortOrder, @createdAt)`
+  ).run(row)
+  return row
+}
+
+export function deleteProductMedia(productId: string, mediaId: string) {
+  const db = getDb()
+  const result = db.prepare(`DELETE FROM product_media WHERE id = ? AND productId = ?`).run(mediaId, productId)
   return result.changes > 0
 }
 

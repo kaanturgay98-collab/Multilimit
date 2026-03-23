@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProductById } from "@/lib/products-db";
+import { getProductById, listProductMedia } from "@/lib/products-db";
 
 export const runtime = "nodejs";
 
@@ -28,7 +28,7 @@ export async function GET(req: Request) {
       success: true,
       data: {
         ...product,
-        media: [],
+        media: listProductMedia(id).map((m) => ({ id: m.id, url: m.url, alt: m.alt })),
       },
     });
   } catch (error: any) {

@@ -2,7 +2,7 @@ import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
-import { listActiveProducts } from "@/lib/products-db"
+import { listActiveProducts, listProductMedia } from "@/lib/products-db"
 import { Button } from "@/components/ui/button"
 import { ProductImageSlider } from "@/components/public/product-image-slider"
 import db from "@/lib/puck-db"
@@ -32,7 +32,11 @@ export default async function ProductPage() {
       salePrice: p.salePrice,
       badge: p.badge,
       trendyolLink: p.trendyolLink,
-      media: []
+      media: listProductMedia(p.id).map((m) => ({
+        id: m.id,
+        url: m.url,
+        alt: m.alt,
+      })),
     }));
   } catch (error) {
     console.error("Failed to fetch products from db", error);
