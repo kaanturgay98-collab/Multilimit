@@ -5,16 +5,16 @@ export type ContactStatus = "new" | "read" | "replied"
 
 @Entity()
 export class ContactMessage extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   email!: string
 
   @Column({ type: "text", nullable: true })
   phone!: string | null
 
-  @Column()
+  @Column({ type: "varchar" })
   subject!: string
 
   @Column({ type: "text" })
@@ -23,4 +23,3 @@ export class ContactMessage extends BaseEntityWithTimestamps {
   @Column({ type: "varchar", default: "new" })
   status!: ContactStatus
 }
-

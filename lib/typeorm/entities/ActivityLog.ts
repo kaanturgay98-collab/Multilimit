@@ -8,7 +8,7 @@ export class ActivityLog extends BaseEntityWithTimestamps {
   @ManyToOne(() => require("./AdminUser").AdminUser, { nullable: true })
   adminUser!: AdminUser | null
 
-  @Column()
+  @Column({ type: "varchar" })
   action!: string
 
   @Column({ type: "text", nullable: true })

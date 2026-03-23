@@ -9,13 +9,12 @@ export abstract class BaseEntityWithTimestamps {
   @PrimaryGeneratedColumn("uuid")
   id!: string
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "datetime" })
   createdAt!: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "datetime" })
   updatedAt!: Date
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isActive!: boolean
 }
-

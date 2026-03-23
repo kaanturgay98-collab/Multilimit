@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
 @Entity()
 export class Testimonial extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
   @Column({ type: "integer", default: 5 })
@@ -12,7 +12,6 @@ export class Testimonial extends BaseEntityWithTimestamps {
   @Column({ type: "text" })
   content!: string
 
-  @Column({ default: false })
+  @Column({ type: "boolean", default: false })
   isFeatured!: boolean
 }
-

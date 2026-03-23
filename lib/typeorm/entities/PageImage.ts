@@ -15,13 +15,13 @@ export class PageImage {
   @PrimaryGeneratedColumn("uuid")
   id!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   pageId!: string
 
   @ManyToOne(() => require("./Page").Page, (page: any) => page.images, { onDelete: "CASCADE" })
   page!: Page
 
-  @Column()
+  @Column({ type: "varchar" })
   url!: string
 
   @Column({ type: "text", nullable: true })
@@ -30,10 +30,9 @@ export class PageImage {
   @Column({ type: "integer", default: 0 })
   sortOrder!: number
 
-  @CreateDateColumn()
+  @CreateDateColumn({ type: "datetime" })
   createdAt!: Date
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ type: "datetime" })
   updatedAt!: Date
 }
-

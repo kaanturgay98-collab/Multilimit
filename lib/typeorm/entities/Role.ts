@@ -9,7 +9,7 @@ export class Role extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   key!: RoleKey
 
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
   @Column({ type: "text", nullable: true })
@@ -18,4 +18,3 @@ export class Role extends BaseEntityWithTimestamps {
   @OneToMany(() => require("./AdminUser").AdminUser, (u: any) => u.role)
   adminUsers!: AdminUser[]
 }
-

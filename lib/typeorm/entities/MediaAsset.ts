@@ -6,7 +6,7 @@ import type { Page } from "@/lib/typeorm/entities/Page"
 @Entity()
 @Index(["collection"])
 export class MediaAsset extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   url!: string
 
   @Column({ type: "text", nullable: true })
@@ -24,4 +24,3 @@ export class MediaAsset extends BaseEntityWithTimestamps {
   @ManyToOne(() => require("./Page").Page, { nullable: true })
   page!: Page | null
 }
-

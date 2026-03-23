@@ -5,7 +5,7 @@ export type CouponType = "percentage" | "amount"
 
 @Entity()
 export class Coupon extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   code!: string
 
   @Column({ type: "text", nullable: true })
@@ -32,4 +32,3 @@ export class Coupon extends BaseEntityWithTimestamps {
   @Column({ type: "integer", default: 0 })
   usedCount!: number
 }
-

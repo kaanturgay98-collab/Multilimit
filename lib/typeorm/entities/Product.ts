@@ -8,13 +8,13 @@ export type ProductBadge = "premium" | "new" | "bestseller" | null
 
 @Entity()
 export class Product extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   slug!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   sku!: string
 
   @Column({ type: "text" })
@@ -32,7 +32,7 @@ export class Product extends BaseEntityWithTimestamps {
   @Column({ type: "integer", default: 0 })
   stock!: number
 
-  @Column({ default: false })
+  @Column({ type: "boolean", default: false })
   featured!: boolean
 
   @Column({ type: "varchar", nullable: true })

@@ -6,7 +6,7 @@ import type { Page } from "@/lib/typeorm/entities/Page"
 
 @Entity()
 export class SeoMeta extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   seoTitle!: string
 
   @Column({ type: "text" })
@@ -24,7 +24,7 @@ export class SeoMeta extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   ogImage!: string | null
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   indexable!: boolean
 
   @ManyToOne(() => require("./Product").Product, (p: any) => p.seoEntries, { nullable: true })
@@ -36,4 +36,3 @@ export class SeoMeta extends BaseEntityWithTimestamps {
   @ManyToOne(() => require("./Page").Page, (p: any) => p.seoEntries, { nullable: true })
   page!: Page | null
 }
-

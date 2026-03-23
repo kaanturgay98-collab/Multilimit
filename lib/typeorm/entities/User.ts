@@ -7,10 +7,10 @@ export type UserAuthProvider = "email" | "google" | "facebook" | "guest"
 @Entity()
 @Index(["email"], { unique: true })
 export class User extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   email!: string
 
   @Column({ type: "text", nullable: true })
@@ -19,10 +19,9 @@ export class User extends BaseEntityWithTimestamps {
   @Column({ type: "varchar", default: "email" })
   provider!: UserAuthProvider
 
-  @Column({ default: 0 })
+  @Column({ type: "integer", default: 0 })
   orderCount!: number
 
   @OneToMany(() => Order, (order) => order.user)
   orders!: Order[]
 }
-

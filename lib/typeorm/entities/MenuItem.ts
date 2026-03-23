@@ -7,13 +7,13 @@ export type FooterMenuGroup = "quick" | "product" | "legal"
 @Entity()
 @Index(["location", "sortOrder"])
 export class MenuItem extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   label!: string
 
   @Column({ type: "text", nullable: true })
   href!: string | null
 
-  @Column({ default: false })
+  @Column({ type: "boolean", default: false })
   external!: boolean
 
   @Column({ type: "varchar" })
@@ -28,10 +28,9 @@ export class MenuItem extends BaseEntityWithTimestamps {
   @Column({ type: "integer", default: 0 })
   sortOrder!: number
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isActive!: boolean
 
   @ManyToOne(() => MenuItem, { nullable: true })
   parent!: MenuItem | null
 }
-

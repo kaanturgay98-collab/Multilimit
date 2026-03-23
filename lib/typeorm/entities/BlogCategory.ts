@@ -4,10 +4,10 @@ import type { BlogPost } from "@/lib/typeorm/entities/BlogPost"
 
 @Entity()
 export class BlogCategory extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   slug!: string
 
   @Column({ type: "text", nullable: true })
@@ -16,4 +16,3 @@ export class BlogCategory extends BaseEntityWithTimestamps {
   @OneToMany(() => require("./BlogPost").BlogPost, (post: any) => post.category)
   posts!: BlogPost[]
 }
-

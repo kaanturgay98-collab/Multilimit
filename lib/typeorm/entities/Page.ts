@@ -7,10 +7,10 @@ import type { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 @Entity()
 export class Page extends BaseEntityWithTimestamps {
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   slug!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   title!: string
 
   @Column({ type: "simple-json" })
@@ -25,4 +25,3 @@ export class Page extends BaseEntityWithTimestamps {
   @OneToMany(() => require("./SeoMeta").SeoMeta, (seo: any) => seo.page)
   seoEntries!: SeoMeta[]
 }
-

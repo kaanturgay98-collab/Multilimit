@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
 @Entity()
 export class SiteSetting extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   siteName!: string
 
   @Column({ type: "text", nullable: true })
@@ -27,4 +27,3 @@ export class SiteSetting extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   copyright!: string | null
 }
-

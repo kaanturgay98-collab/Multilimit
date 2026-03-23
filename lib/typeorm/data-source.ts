@@ -94,8 +94,12 @@ export async function getDb() {
 
   if (!ds.isInitialized) {
     if (!global.__typeormInit) {
-      global.__typeormInit = ds.initialize().catch((err) => {
+      global.__typeormInit = ds.initialize().then((instance) => {
+        console.log(`TypeORM DataSource initialized. Entities: ${instance.entityMetadatas.map(m => m.name).join(", ")}`)
+        return instance
+      }).catch((err) => {
         global.__typeormInit = undefined
+        console.error("TypeORM initialization error:", err)
         throw err
       })
     }

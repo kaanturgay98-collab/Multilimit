@@ -111,7 +111,7 @@ export default function AdminProductEditPage() {
         })
         const data = (await res.json().catch(() => null)) as { ok: boolean; row?: Product; error?: string }
         if (data?.ok && data.row) {
-            router.replace(`/admin/products/${data.row.id}`)
+            router.replace("/admin/products")
             setTimeout(() => router.refresh(), 100)
         } else {
             alert("Hata: " + (data?.error || "Ürün oluşturulamadı."))
@@ -125,7 +125,8 @@ export default function AdminProductEditPage() {
         const data = (await res.json().catch(() => null)) as { ok: boolean; error?: string }
         if (data?.ok) {
             alert("Başarıyla kaydedildi!")
-            router.refresh()
+            router.replace("/admin/products")
+            setTimeout(() => router.refresh(), 100)
         } else {
             alert("Hata: " + (data?.error || "Güncelleme başarısız."))
         }

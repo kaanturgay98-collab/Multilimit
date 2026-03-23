@@ -19,7 +19,7 @@ export type PaymentStatus = "pending" | "paid" | "refunded" | "failed"
 @Index(["status"])
 export class Order extends BaseEntityWithTimestamps {
 
-  @Column({ unique: true })
+  @Column({ type: "varchar", unique: true })
   orderNo!: string
 
   // New naming for checkout pages (keep orderNo for backwards compatibility)
@@ -35,31 +35,31 @@ export class Order extends BaseEntityWithTimestamps {
   @Column({ type: "varchar", default: "pending" })
   paymentStatus!: PaymentStatus
 
-  @Column()
+  @Column({ type: "varchar" })
   firstName!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   lastName!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   email!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   phone!: string
 
-  @Column()
+  @Column({ type: "text" })
   address!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   city!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   district!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   postalCode!: string
 
-  @Column({ default: "TRY" })
+  @Column({ type: "varchar", default: "TRY" })
   currency!: string
 
   @Column({ type: "integer", default: 0 })

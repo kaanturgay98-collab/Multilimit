@@ -22,7 +22,7 @@ export default async function ProductPage() {
 
   try {
     const ds = await getDb();
-    const repo = ds.getRepository(Product);
+    const repo = ds.getRepository("Product");
     const rawProducts = await repo.find({
       where: { isActive: true },
       order: { createdAt: "DESC" },

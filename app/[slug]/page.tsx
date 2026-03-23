@@ -8,17 +8,19 @@ interface PageProps {
   }
 }
 
-export default async function DynamicPage({ params }: PageProps) {
+export default async function DynamicPage({ params }: { params: Promise<{ slug: string }> }) {
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
   let pageData = null;
 
   try {
     const stmt = db.prepare("SELECT * FROM pages WHERE slug = ?");
-    const page = stmt.get(params.slug) as any;
+    const page = stmt.get(slug) as any;
     if (page && page.content) {
       pageData = JSON.parse(page.content);
     }
   } catch (error) {
-    console.error(`Failed to fetch Puck page data for slug: ${params.slug}`, error);
+    console.error(`Failed to fetch Puck page data for slug: ${slug}`, error);
   }
 
   // Fallback if no data or fetch fails

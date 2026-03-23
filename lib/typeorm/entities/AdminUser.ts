@@ -4,13 +4,13 @@ import type { Role } from "@/lib/typeorm/entities/Role"
 
 @Entity()
 export class AdminUser extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   username!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   displayName!: string
 
-  @Column()
+  @Column({ type: "varchar" })
   email!: string
 
   @Column({ type: "datetime", nullable: true })
@@ -19,4 +19,3 @@ export class AdminUser extends BaseEntityWithTimestamps {
   @ManyToOne(() => require("./Role").Role, (role: any) => role.adminUsers, { nullable: true })
   role!: Role | null
 }
-

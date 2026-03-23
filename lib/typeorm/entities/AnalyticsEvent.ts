@@ -13,16 +13,15 @@ export class AnalyticsEvent extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   name!: string | null
 
-  @Column()
+  @Column({ type: "varchar" })
   path!: string
 
   @Column({ type: "text", nullable: true })
   referrer!: string | null
 
-  @Column()
+  @Column({ type: "varchar" })
   sessionId!: string
 
   @Column({ type: "text", nullable: true })
   userAgent!: string | null
 }
-

@@ -6,7 +6,7 @@ import type { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
 
 @Entity()
 export class OrderItem extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   productName!: string
 
   @Column({ type: "text", nullable: true })
@@ -30,4 +30,3 @@ export class OrderItem extends BaseEntityWithTimestamps {
   @ManyToOne(() => require("./ProductVariant").ProductVariant, { nullable: true })
   variant!: ProductVariant | null
 }
-

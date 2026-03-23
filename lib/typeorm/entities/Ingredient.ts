@@ -4,7 +4,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 @Entity()
 @Index(["sortOrder"])
 export class Ingredient extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
   @Column({ type: "text" })
@@ -19,4 +19,3 @@ export class Ingredient extends BaseEntityWithTimestamps {
   @Column({ type: "integer", default: 0 })
   sortOrder!: number
 }
-

@@ -4,7 +4,7 @@ import type { Product } from "@/lib/typeorm/entities/Product"
 
 @Entity()
 export class ProductVariant extends BaseEntityWithTimestamps {
-  @Column()
+  @Column({ type: "varchar" })
   name!: string
 
   @ManyToOne(() => require("./Product").Product, "variants", { onDelete: "CASCADE" })
@@ -25,10 +25,9 @@ export class ProductVariant extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   sachetInfo!: string | null
 
-  @Column({ default: true })
+  @Column({ type: "boolean", default: true })
   isOnSale!: boolean
 
-  @Column({ default: false })
+  @Column({ type: "boolean", default: false })
   isDefault!: boolean
 }
-
