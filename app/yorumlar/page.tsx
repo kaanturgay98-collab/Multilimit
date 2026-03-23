@@ -1,6 +1,5 @@
-import { Render } from "@measured/puck"
+import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
-import { config } from "@/lib/puck.config"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
 
@@ -44,9 +43,9 @@ export default async function TestimonialsPage() {
   }
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-screen bg-background text-foreground">
       <AdminOverlay slug={slug} />
-      <Render config={config} data={pageData} />
+      <PuckRender data={pageData} />
     </main>
   )
 }

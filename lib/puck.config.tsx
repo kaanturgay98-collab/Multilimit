@@ -49,28 +49,29 @@ type Props = {
 
 export const config: Config<Props> = {
   components: {
-    Hero: HeroConfig,
-    Benefits: BenefitsConfig,
-    Ingredients: IngredientsConfig,
-    WhyMultilimit: WhyMultilimitConfig,
-    HowItWorks: HowItWorksConfig,
-    TrustBadges: TrustBadgesConfig,
-    Testimonials: TestimonialsConfig,
-    FAQ: FAQConfig,
-    BlogPreview: BlogPreviewConfig,
-    WhatsappSupport: WhatsappSupportConfig,
+    Hero: { ...HeroConfig, label: "Hero" },
+    Benefits: { ...BenefitsConfig, label: "Avantajlar" },
+    Ingredients: { ...IngredientsConfig, label: "Bileşenler" },
+    WhyMultilimit: { ...WhyMultilimitConfig, label: "Neden Multilimit" },
+    HowItWorks: { ...HowItWorksConfig, label: "Nasıl Çalışır" },
+    TrustBadges: { ...TrustBadgesConfig, label: "Güven Rozetleri" },
+    Testimonials: { ...TestimonialsConfig, label: "Müşteri Yorumları" },
+    FAQ: { ...FAQConfig, label: "Sıkça Sorulan Sorular" },
+    BlogPreview: { ...BlogPreviewConfig, label: "Blog Yazıları" },
+    WhatsappSupport: { ...WhatsappSupportConfig, label: "WhatsApp Destek" },
     
-    Stats: StatsConfig,
-    BrandStory: BrandStoryConfig,
-    MissionVision: MissionVisionConfig,
-    QualityApproach: QualityApproachConfig,
-    Team: TeamConfig,
-    DetailedIngredients: DetailedIngredientsConfig,
-    FormulaSynergy: FormulaSynergyConfig,
-    ProductHero: ProductHeroConfig,
-    ProductFeatures: ProductFeaturesConfig,
+    Stats: { ...StatsConfig, label: "İstatistikler" },
+    BrandStory: { ...BrandStoryConfig, label: "Marka Hikayesi" },
+    MissionVision: { ...MissionVisionConfig, label: "Misyon ve Vizyon" },
+    QualityApproach: { ...QualityApproachConfig, label: "Kalite Yaklaşımı" },
+    Team: { ...TeamConfig, label: "Ekibimiz" },
+    DetailedIngredients: { ...DetailedIngredientsConfig, label: "Detaylı İçerikler" },
+    FormulaSynergy: { ...FormulaSynergyConfig, label: "Formül Sinerjisi" },
+    ProductHero: { ...ProductHeroConfig, label: "Ürün Tanıtımı" },
+    ProductFeatures: { ...ProductFeaturesConfig, label: "Ürün Özellikleri" },
 
     TextSection: {
+      label: "Metin Alanı",
       fields: {
         title: { type: "text" },
         content: { type: "textarea" },
@@ -89,16 +90,16 @@ export const config: Config<Props> = {
         align: "center",
       },
       render: ({ title, content, align }) => (
-        <section className={`py-16 px-6 lg:px-8 relative overflow-hidden ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}>
+        <section className={`py-16 px-6 lg:px-8 bg-background relative overflow-hidden ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}>
           <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-navy-light/20" />
           <div className="max-w-3xl mx-auto space-y-4 relative z-10">
             {title && (
-              <h2 className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
                 {title}
               </h2>
             )}
             {content && (
-              <p className="text-lg leading-8 text-slate-600">
+              <p className="text-lg leading-8 text-muted-foreground">
                 {content}
               </p>
             )}
@@ -108,6 +109,7 @@ export const config: Config<Props> = {
     },
 
     CTA: {
+      label: "CTA",
       fields: {
         title: { type: "text" },
         description: { type: "textarea" },
@@ -131,9 +133,9 @@ export const config: Config<Props> = {
       },
       render: ({ title, description, buttonText, buttonLink, theme }) => {
         const themeStyles = {
-          primary: "bg-primary text-white",
-          dark: "bg-slate-900 text-white",
-          light: "bg-slate-100 text-slate-900",
+          primary: "bg-primary text-primary-foreground",
+          dark: "bg-navy-dark text-white",
+          light: "bg-background text-foreground",
         };
 
         const buttonStyles = {
@@ -172,6 +174,7 @@ export const config: Config<Props> = {
     },
 
     Heading: {
+      label: "Başlık",
       fields: {
         title: { type: "text" },
         align: {
@@ -188,7 +191,7 @@ export const config: Config<Props> = {
         align: "left",
       },
       render: ({ title, align }) => (
-        <div className={`px-6 py-12 relative overflow-hidden ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}>
+        <div className={`px-6 py-12 bg-background relative overflow-hidden ${align === "center" ? "text-center" : align === "right" ? "text-right" : "text-left"}`}>
           <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
           <h2 className="text-4xl font-bold text-foreground tracking-tight relative z-10">{title}</h2>
         </div>

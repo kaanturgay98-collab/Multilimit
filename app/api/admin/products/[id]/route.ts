@@ -24,6 +24,7 @@ const UpdateSchema = z.object({
   featured: z.boolean().optional(),
   badge: z.string().nullable().optional(),
   isActive: z.boolean().optional(),
+  trendyolLink: z.string().nullable().optional(),
 })
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {

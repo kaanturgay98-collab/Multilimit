@@ -22,6 +22,7 @@ const CreateSchema = z.object({
   featured: z.boolean().optional(),
   badge: z.string().nullable().optional(),
   isActive: z.boolean().optional(),
+  trendyolLink: z.string().nullable().optional(),
 })
 
 export async function POST(req: Request) {
@@ -39,6 +40,7 @@ export async function POST(req: Request) {
       featured: parsed.data.featured ?? false,
       badge: (parsed.data.badge as any) ?? null,
       isActive: parsed.data.isActive ?? true,
+      trendyolLink: parsed.data.trendyolLink ?? null,
     } as any)
   )
 

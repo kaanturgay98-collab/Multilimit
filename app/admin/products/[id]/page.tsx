@@ -21,6 +21,7 @@ type Product = {
   featured: boolean
   badge: string | null
   isActive: boolean
+  trendyolLink: string | null
 }
 
 export default function AdminProductEditPage() {
@@ -43,6 +44,7 @@ export default function AdminProductEditPage() {
           featured: false,
           badge: null,
           isActive: true,
+          trendyolLink: null,
         }
       : null
   )
@@ -82,6 +84,7 @@ export default function AdminProductEditPage() {
         featured: row.featured,
         badge: row.badge,
         isActive: row.isActive,
+        trendyolLink: row.trendyolLink,
       }
 
       if (isNew) {
@@ -158,6 +161,10 @@ export default function AdminProductEditPage() {
             <div className="text-xs text-muted-foreground">Stok</div>
             <Input value={String(row.stock)} onChange={(e) => setRow({ ...row, stock: Number(e.target.value || 0) })} className="bg-background/60 border-border/60" />
           </div>
+        </div>
+        <div className="space-y-1 md:col-span-2">
+          <div className="text-xs text-muted-foreground">Trendyol Linki</div>
+          <Input value={row.trendyolLink || ""} onChange={(e) => setRow({ ...row, trendyolLink: e.target.value || null })} className="bg-background/60 border-border/60" placeholder="https://www.trendyol.com/..." />
         </div>
         <div className="space-y-1 md:col-span-2">
           <div className="text-xs text-muted-foreground">Kisa Aciklama</div>

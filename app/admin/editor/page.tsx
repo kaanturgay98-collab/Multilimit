@@ -127,8 +127,8 @@ function Editor() {
             />
           </div>
         ) : (
-          <div className="flex-1 p-0 overflow-auto">
-            <div className="w-full min-h-screen relative">
+          <div className="flex-1 p-0 overflow-auto bg-background">
+            <div className="w-full min-h-screen relative bg-background">
               {data.content.length === 0 ? (
                 <div className="h-full min-h-[400px] flex items-center justify-center text-slate-400">
                   Şu an gösterilecek içerik yok. Editör moduna geçip ekleyin.

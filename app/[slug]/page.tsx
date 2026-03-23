@@ -1,6 +1,5 @@
-import { Render } from "@measured/puck"
+import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
-import { config } from "@/lib/puck.config"
 
 interface PageProps {
   params: {
@@ -40,8 +39,8 @@ export default async function DynamicPage({ params }: PageProps) {
 
   // Render the Puck data
   return (
-    <main className="min-h-screen">
-      <Render config={config} data={pageData} />
+    <main className="min-h-screen bg-background text-foreground">
+      <PuckRender data={pageData} />
     </main>
   )
 }

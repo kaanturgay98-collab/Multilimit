@@ -47,6 +47,9 @@ export class Product extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   storageInfo!: string | null
 
+  @Column({ type: "varchar", nullable: true })
+  trendyolLink!: string | null
+
   @OneToMany("ProductVariant", "product")
   variants!: ProductVariant[]
 
