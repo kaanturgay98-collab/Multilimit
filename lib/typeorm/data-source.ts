@@ -79,9 +79,9 @@ export function getDataSource() {
       PaymentTransaction,
       Address,
     ],
-    synchronize: true, // dev: auto-create tables (later can switch to migrations)
+    synchronize: process.env.TYPEORM_SYNCHRONIZE === "true", // dev: auto-create tables
     dropSchema: false,
-    logging: false,
+    logging: process.env.TYPEORM_LOGGING === "true",
   })
 
   global.__typeorm = ds
