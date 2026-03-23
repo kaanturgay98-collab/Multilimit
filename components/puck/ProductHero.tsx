@@ -2,7 +2,7 @@
 
 import React, { useState } from "react"
 import type { ComponentConfig } from "@measured/puck"
-import { ShoppingCart, Star, Package, Minus, Plus, Truck, Shield, RefreshCw } from "lucide-react"
+import { Star, Package, Minus, Plus, Truck, Shield, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export type ProductPackage = {
@@ -21,6 +21,8 @@ export type ProductHeroProps = {
   rating: string
   reviews: string
   productID?: string
+  buttonText: string
+  buttonLink: string
   packages: ProductPackage[]
 }
 
@@ -31,6 +33,8 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
     rating: { type: "text" },
     reviews: { type: "text" },
     productID: { type: "text" },
+    buttonText: { type: "text" },
+    buttonLink: { type: "text" },
     packages: {
       type: "array",
       getItemSummary: (p) => p.name,
@@ -56,13 +60,15 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
     description: "Günlük yaşam temposuna destek veren premium formül.",
     rating: "4.9",
     reviews: "234",
+    buttonText: "Siparis Ver",
+    buttonLink: "/urun",
     packages: [
       { id: "small", name: "Küçük Paket", description: "30 Günlük", price: 599, originalPrice: 749, items: "30 Kapsül", popular: false },
       { id: "large", name: "Büyük Paket", description: "60 Günlük", price: 999, originalPrice: 1299, items: "60 Kapsül", popular: true },
     ],
     productID: "",
   },
-  render: ({ title, description, rating, reviews, packages, productID }) => {
+  render: ({ title, description, rating, reviews, packages, productID, buttonText, buttonLink }) => {
     // Note: Render must be pure-ish. Using local state for selection.
     const [selectedId, setSelectedId] = useState(packages[0]?.id)
     const [quantity, setQuantity] = useState(1)
@@ -179,9 +185,10 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
               </div>
 
               {/* CTA */}
-              <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button size="lg" className="flex-1 h-14 bg-primary text-white"><ShoppingCart className="mr-2" size={20}/> Sepete Ekle</Button>
-                <Button size="lg" variant="outline" className="flex-1 h-14 border-primary text-foreground">Hemen Satın Al</Button>
+              <div className="mb-8">
+                <Button asChild size="lg" className="w-full h-14 bg-primary text-white">
+                  <a href={buttonLink || "#"}>{buttonText || "Buton"}</a>
+                </Button>
               </div>
 
               {/* Trust */}
