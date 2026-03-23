@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import { Role } from "@/lib/typeorm/entities/Role"
+import type { Role } from "@/lib/typeorm/entities/Role"
 
 @Entity()
 export class AdminUser extends BaseEntityWithTimestamps {
@@ -16,7 +16,7 @@ export class AdminUser extends BaseEntityWithTimestamps {
   @Column({ type: "datetime", nullable: true })
   lastLoginAt!: Date | null
 
-  @ManyToOne(() => Role, (role) => role.adminUsers, { nullable: true })
+  @ManyToOne("Role", (role: any) => role.adminUsers, { nullable: true })
   role!: Role | null
 }
 

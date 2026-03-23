@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm"
-import { Page } from "@/lib/typeorm/entities/Page"
+import type { Page } from "@/lib/typeorm/entities/Page"
 
 @Entity()
 @Index(["pageId", "sortOrder"])
@@ -18,7 +18,7 @@ export class PageImage {
   @Column()
   pageId!: string
 
-  @ManyToOne(() => Page, (page) => page.images, { onDelete: "CASCADE" })
+  @ManyToOne("Page", (page: any) => page.images, { onDelete: "CASCADE" })
   page!: Page
 
   @Column()

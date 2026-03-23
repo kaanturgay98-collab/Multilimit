@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import { AdminUser } from "@/lib/typeorm/entities/AdminUser"
+import type { AdminUser } from "@/lib/typeorm/entities/AdminUser"
 
 export type RoleKey = "super_admin" | "editor" | "order_manager" | "content_manager"
 
@@ -15,7 +15,7 @@ export class Role extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   description!: string | null
 
-  @OneToMany(() => AdminUser, (u) => u.role)
+  @OneToMany("AdminUser", (u: any) => u.role)
   adminUsers!: AdminUser[]
 }
 
