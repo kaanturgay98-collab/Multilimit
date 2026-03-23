@@ -7,7 +7,7 @@ export class ProductVariant extends BaseEntityWithTimestamps {
   @Column()
   name!: string
 
-  @ManyToOne("Product", "variants", { onDelete: "CASCADE" })
+  @ManyToOne(() => require("./Product").Product, "variants", { onDelete: "CASCADE" })
   product!: Product
 
   @Column({ type: "integer" })

@@ -50,13 +50,13 @@ export class Product extends BaseEntityWithTimestamps {
   @Column({ type: "varchar", nullable: true })
   trendyolLink!: string | null
 
-  @OneToMany("ProductVariant", (variant: any) => variant.product)
+  @OneToMany(() => require("./ProductVariant").ProductVariant, (variant: any) => variant.product)
   variants!: ProductVariant[]
 
-  @OneToMany("MediaAsset", (asset: any) => asset.product)
+  @OneToMany(() => require("./MediaAsset").MediaAsset, (asset: any) => asset.product)
   media!: MediaAsset[]
 
-  @OneToMany("SeoMeta", (seo: any) => seo.product)
+  @OneToMany(() => require("./SeoMeta").SeoMeta, (seo: any) => seo.product)
   seoEntries!: SeoMeta[]
 }
 

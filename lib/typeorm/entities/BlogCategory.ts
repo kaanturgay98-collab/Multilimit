@@ -13,7 +13,7 @@ export class BlogCategory extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   description!: string | null
 
-  @OneToMany("BlogPost", (post: any) => post.category)
+  @OneToMany(() => require("./BlogPost").BlogPost, (post: any) => post.category)
   posts!: BlogPost[]
 }
 

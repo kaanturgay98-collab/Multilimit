@@ -22,7 +22,7 @@ export class BlogPost extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   coverImage!: string | null
 
-  @ManyToOne("BlogCategory", "posts", { nullable: true })
+  @ManyToOne(() => require("./BlogCategory").BlogCategory, "posts", { nullable: true })
   category!: BlogCategory | null
 
   @Column("simple-array", { nullable: true })
@@ -40,7 +40,7 @@ export class BlogPost extends BaseEntityWithTimestamps {
   @Column({ default: false })
   isFeatured!: boolean
 
-  @ManyToOne("SeoMeta", "blogPost", { nullable: true })
+  @ManyToOne(() => require("./SeoMeta").SeoMeta, "blogPost", { nullable: true })
   seoOverride!: SeoMeta | null
 }
 

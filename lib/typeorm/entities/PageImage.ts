@@ -18,7 +18,7 @@ export class PageImage {
   @Column()
   pageId!: string
 
-  @ManyToOne("Page", (page: any) => page.images, { onDelete: "CASCADE" })
+  @ManyToOne(() => require("./Page").Page, (page: any) => page.images, { onDelete: "CASCADE" })
   page!: Page
 
   @Column()

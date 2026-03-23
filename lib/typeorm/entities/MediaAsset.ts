@@ -18,10 +18,10 @@ export class MediaAsset extends BaseEntityWithTimestamps {
   @Column({ type: "integer", default: 0 })
   sortOrder!: number
 
-  @ManyToOne("Product", (product: any) => product.media, { nullable: true })
+  @ManyToOne(() => require("./Product").Product, (product: any) => product.media, { nullable: true })
   product!: Product | null
 
-  @ManyToOne("Page", { nullable: true })
+  @ManyToOne(() => require("./Page").Page, { nullable: true })
   page!: Page | null
 }
 
