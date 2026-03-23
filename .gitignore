@@ -16,3 +16,10 @@ node_modules/
 .next/
 .DS_Store
 /lib/generated/prisma
+
+# SQLite
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+*.sqlite
