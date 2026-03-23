@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server"
-import { getDb } from "@/lib/db"
 import { z } from "zod"
+import { deleteProduct, getProductById, normalizeSqliteError, updateProduct } from "@/lib/products-db"
 
 export const runtime = "nodejs"
 
-import { Product } from "@/lib/typeorm/entities/Product"
-
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const ds = await getDb()
-  const row = await ds.getRepository(Product).findOne({ where: { id }, relations: { variants: true, media: true } })
+  const row = getProductById(id)
   if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
-  return NextResponse.json({ ok: true, row })
+  return NextResponse.json({ ok: true, row: { ...row, variants: [], media: [] } })
 }
 
 const UpdateSchema = z.object({
@@ -30,24 +27,23 @@ const UpdateSchema = z.object({
 })
 
 export async function PUT(req: Request, { params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params
-  const json = await req.json().catch(() => null)
-  const parsed = UpdateSchema.safeParse(json)
-  if (!parsed.success) return NextResponse.json({ ok: false, error: "Invalid body" }, { status: 400 })
+  try {
+    const { id } = await params
+    const json = await req.json().catch(() => null)
+    const parsed = UpdateSchema.safeParse(json)
+    if (!parsed.success) return NextResponse.json({ ok: false, error: "Invalid body" }, { status: 400 })
 
-  const ds = await getDb()
-  const repo = ds.getRepository(Product)
-  const row = await repo.findOne({ where: { id } })
-  if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
-  Object.assign(row as any, parsed.data)
-  const saved = await repo.save(row)
-  return NextResponse.json({ ok: true, row: saved })
+    const row = updateProduct(id, parsed.data as any)
+    if (!row) return NextResponse.json({ ok: false, error: "Not found" }, { status: 404 })
+    return NextResponse.json({ ok: true, row })
+  } catch (error: any) {
+    return NextResponse.json({ ok: false, error: normalizeSqliteError(error) }, { status: 500 })
+  }
 }
 
 export async function DELETE(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const ds = await getDb()
-  await ds.getRepository(Product).delete({ id })
+  deleteProduct(id)
   return NextResponse.json({ ok: true })
 }
 

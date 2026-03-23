@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDb } from "@/lib/db";
+import { getProductById } from "@/lib/products-db";
 
 export const runtime = "nodejs";
 
@@ -15,11 +15,7 @@ export async function GET(req: Request) {
       );
     }
 
-    const ds = await getDb();
-    const product = await ds.getRepository("Product").findOne({
-      where: { id },
-      relations: { media: true },
-    });
+    const product = getProductById(id);
 
     if (!product) {
       return NextResponse.json({
@@ -30,7 +26,10 @@ export async function GET(req: Request) {
 
     return NextResponse.json({
       success: true,
-      data: product,
+      data: {
+        ...product,
+        media: [],
+      },
     });
   } catch (error: any) {
     console.error("DB Error:", error);

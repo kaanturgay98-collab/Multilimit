@@ -2,8 +2,7 @@ import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
-import { getDb } from "@/lib/db"
-import { Product } from "@/lib/typeorm/entities/Product"
+import { listActiveProducts } from "@/lib/products-db"
 import { Button } from "@/components/ui/button"
 import { ProductImageSlider } from "@/components/public/product-image-slider"
 import db from "@/lib/puck-db"
@@ -21,13 +20,7 @@ export default async function ProductPage() {
   let products: any[] = [];
 
   try {
-    const ds = await getDb();
-    const repo = ds.getRepository("Product");
-    const rawProducts = await repo.find({
-      where: { isActive: true },
-      order: { createdAt: "DESC" },
-      relations: { media: true }
-    });
+    const rawProducts = listActiveProducts()
     
     // Plain object transformation to avoid Date/Class objects in props
     products = rawProducts.map((p: any) => ({
@@ -39,11 +32,7 @@ export default async function ProductPage() {
       salePrice: p.salePrice,
       badge: p.badge,
       trendyolLink: p.trendyolLink,
-      media: (p.media || []).map((m: any) => ({
-        id: m.id,
-        url: m.url,
-        alt: m.alt
-      }))
+      media: []
     }));
   } catch (error) {
     console.error("Failed to fetch products from db", error);

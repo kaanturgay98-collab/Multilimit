@@ -1,14 +1,11 @@
 import { NextResponse } from "next/server"
-import { getDb } from "@/lib/db"
 import { z } from "zod"
+import { createProduct, listProducts, normalizeSqliteError } from "@/lib/products-db"
 
 export const runtime = "nodejs"
 
-import { Product } from "@/lib/typeorm/entities/Product"
-
 export async function GET() {
-  const ds = await getDb()
-  const rows = await ds.getRepository(Product).find({ order: { updatedAt: "DESC" }, take: 500 })
+  const rows = listProducts()
   return NextResponse.json({ ok: true, rows })
 }
 
@@ -30,19 +27,12 @@ const CreateSchema = z.object({
 export async function POST(req: Request) {
   try {
     const json = await req.json().catch(() => null)
-    console.log("Adding Product Payload:", JSON.stringify(json, null, 2)) // DEBUG
     const parsed = CreateSchema.safeParse(json)
     if (!parsed.success) {
       return NextResponse.json({ ok: false, error: "Validation failed", details: parsed.error.format() }, { status: 400 })
     }
 
-    const ds = await getDb()
-    console.log("DB Path:", (ds.options as any).database) // DEBUG
-
-    const repo = ds.getRepository(Product)
-    
-    // Create new entity instance
-    const product = repo.create({
+    const saved = createProduct({
       name: parsed.data.name,
       slug: parsed.data.slug,
       sku: parsed.data.sku,
@@ -56,17 +46,14 @@ export async function POST(req: Request) {
       isActive: parsed.data.isActive ?? true,
       trendyolLink: parsed.data.trendyolLink ?? null,
     })
-
-    const saved = await repo.save(product)
     return NextResponse.json({ ok: true, row: saved })
   } catch (error: any) {
     console.error("Product creation error full details:", {
       message: error.message,
       stack: error.stack,
-      query: error.query,
-      parameters: error.parameters
+      code: error.code,
     })
-    return NextResponse.json({ ok: false, error: error.message || "Server error" }, { status: 500 })
+    return NextResponse.json({ ok: false, error: normalizeSqliteError(error) }, { status: 500 })
   }
 }
 
