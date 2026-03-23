@@ -9,7 +9,9 @@ import { Shield, CreditCard, XCircle, CheckCircle2, Lock, Building2 } from "luci
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function MockPaymentPage() {
+import { Suspense } from "react"
+
+function MockPaymentContent() {
   const sp = useSearchParams()
   const sessionId = sp.get("session") ?? ""
   const amount = Number(sp.get("amount") ?? "0")
@@ -128,6 +130,14 @@ export default function MockPaymentPage() {
         </Card>
       </div>
     </main>
+  )
+}
+
+export default function MockPaymentPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <MockPaymentContent />
+    </Suspense>
   )
 }
 

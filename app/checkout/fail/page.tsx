@@ -5,7 +5,9 @@ import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { XCircle, MessageCircle, RefreshCw, ShieldAlert } from "lucide-react"
 
-export default function CheckoutFailPage() {
+import { Suspense } from "react"
+
+function CheckoutFailContent() {
   const sp = useSearchParams()
   const orderId = sp.get("order") ?? ""
   const orderNumber = sp.get("orderNumber") ?? ""
@@ -67,6 +69,14 @@ export default function CheckoutFailPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function CheckoutFailPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <CheckoutFailContent />
+    </Suspense>
   )
 }
 

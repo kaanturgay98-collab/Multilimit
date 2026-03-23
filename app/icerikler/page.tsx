@@ -8,6 +8,8 @@ export const metadata: Metadata = {
   description: 'Multilimit Premium Detoks Kompleksi içerikleri: Zeolit, L-Sistein ve Pirinç Kepeği hakkında detaylı bilgi.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function IngredientsPage() {
   const slug = "icerikler";
   let pageData = null;

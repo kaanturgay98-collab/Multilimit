@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'Multilimit markası ve premium detoks formülümüz hakkında bilgi edinin.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function AboutPage() {
   const slug = "about";
   let pageData = null;

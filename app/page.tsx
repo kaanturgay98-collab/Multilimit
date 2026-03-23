@@ -2,6 +2,8 @@ import { Render } from "@measured/puck"
 import "@measured/puck/puck.css"
 import { config } from "@/lib/puck.config"
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   let pageData = null;
 

@@ -9,7 +9,9 @@ import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
 import { setPublicSession } from "@/lib/public-session"
 
-export default function LoginPage() {
+import { Suspense } from "react"
+
+function LoginContent() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
@@ -124,5 +126,13 @@ export default function LoginPage() {
         </p>
       </div>
     </main>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <LoginContent />
+    </Suspense>
   )
 }

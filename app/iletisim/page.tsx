@@ -9,6 +9,8 @@ export const metadata: Metadata = {
   description: 'Multilimit Premium Detoks Kompleksi ile iletişime geçin.',
 }
 
+export const dynamic = "force-dynamic";
+
 export default async function ContactPage() {
   const slug = "iletisim";
   let pageData = null;

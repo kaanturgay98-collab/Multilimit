@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
-export default function AdminLoginPage() {
+import { Suspense } from "react"
+
+function AdminLoginContent() {
   const router = useRouter()
   const search = useSearchParams()
   const nextPath = search.get("next") || "/admin"
@@ -68,6 +70,14 @@ export default function AdminLoginPage() {
         </form>
       </Card>
     </main>
+  )
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <AdminLoginContent />
+    </Suspense>
   )
 }
 

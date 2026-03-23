@@ -5,7 +5,9 @@ import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { XCircle, MessageCircle } from "lucide-react"
 
-export default function CheckoutCancelPage() {
+import { Suspense } from "react"
+
+function CheckoutCancelContent() {
   const sp = useSearchParams()
   const orderId = sp.get("order") ?? ""
 
@@ -40,6 +42,14 @@ export default function CheckoutCancelPage() {
         </div>
       </div>
     </main>
+  )
+}
+
+export default function CheckoutCancelPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Yükleniyor...</div>}>
+      <CheckoutCancelContent />
+    </Suspense>
   )
 }
 
