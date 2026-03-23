@@ -1,5 +1,6 @@
 import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
+import db from "@/lib/puck-db"
 
 interface PageProps {
   params: {
@@ -11,14 +12,10 @@ export default async function DynamicPage({ params }: PageProps) {
   let pageData = null;
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${appUrl}/api/pages?slug=${params.slug}`, {
-      cache: "no-store", // to ensure dynamic rendering for editor updates
-    });
-
-    const json = await res.json();
-    if (json.success && json.data && json.data.content) {
-      pageData = json.data.content;
+    const stmt = db.prepare("SELECT * FROM pages WHERE slug = ?");
+    const page = stmt.get(params.slug) as any;
+    if (page && page.content) {
+      pageData = JSON.parse(page.content);
     }
   } catch (error) {
     console.error(`Failed to fetch Puck page data for slug: ${params.slug}`, error);

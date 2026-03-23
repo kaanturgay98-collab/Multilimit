@@ -2,6 +2,7 @@ import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
+import db from "@/lib/puck-db"
 
 export const metadata: Metadata = {
   title: 'İçerikler | Multilimit Premium Detoks Kompleksi',
@@ -15,14 +16,10 @@ export default async function IngredientsPage() {
   let pageData = null;
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${appUrl}/api/pages?slug=${slug}`, {
-      cache: "no-store",
-    });
-
-    const json = await res.json();
-    if (json.success && json.data && json.data.content) {
-      pageData = json.data.content;
+    const stmt = db.prepare("SELECT * FROM pages WHERE slug = ?");
+    const page = stmt.get(slug) as any;
+    if (page && page.content) {
+      pageData = JSON.parse(page.content);
     }
   } catch (error) {
     console.error(`Failed to fetch Puck page data for slug: ${slug}`, error);

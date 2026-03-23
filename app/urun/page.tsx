@@ -6,6 +6,7 @@ import { getDb } from "@/lib/db"
 import { Product } from "@/lib/typeorm/entities/Product"
 import { Button } from "@/components/ui/button"
 import { ProductImageSlider } from "@/components/public/product-image-slider"
+import db from "@/lib/puck-db"
 
 export const metadata: Metadata = {
   title: 'Ürünlerimiz | Multilimit Premium Detoks Kompleksi',
@@ -49,14 +50,10 @@ export default async function ProductPage() {
   }
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${appUrl}/api/pages?slug=${slug}`, {
-      cache: "no-store",
-    });
-
-    const json = await res.json();
-    if (json.success && json.data && json.data.content) {
-      pageData = json.data.content;
+    const stmt = db.prepare("SELECT * FROM pages WHERE slug = ?");
+    const page = stmt.get(slug) as any;
+    if (page && page.content) {
+      pageData = JSON.parse(page.content);
     }
   } catch (error) {
     console.error(`Failed to fetch Puck page data for slug: ${slug}`, error);

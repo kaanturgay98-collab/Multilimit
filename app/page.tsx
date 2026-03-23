@@ -1,6 +1,7 @@
 import { Render } from "@measured/puck"
 import "@measured/puck/puck.css"
 import { config } from "@/lib/puck.config"
+import db from "@/lib/puck-db"
 
 export const dynamic = "force-dynamic";
 
@@ -8,14 +9,10 @@ export default async function HomePage() {
   let pageData = null;
 
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    const res = await fetch(`${appUrl}/api/pages?slug=home`, {
-      cache: "no-store", // to ensure dynamic rendering for editor updates
-    });
-
-    const json = await res.json();
-    if (json.success && json.data && json.data.content) {
-      pageData = json.data.content;
+    const stmt = db.prepare("SELECT * FROM pages WHERE slug = ?");
+    const page = stmt.get("home") as any;
+    if (page && page.content) {
+      pageData = JSON.parse(page.content);
     }
   } catch (error) {
     console.error("Failed to fetch Puck page data:", error);
