@@ -26,24 +26,36 @@ const CreateSchema = z.object({
 })
 
 export async function POST(req: Request) {
-  const json = await req.json().catch(() => null)
-  const parsed = CreateSchema.safeParse(json)
-  if (!parsed.success) return NextResponse.json({ ok: false, error: "Invalid body" }, { status: 400 })
+  try {
+    const json = await req.json().catch(() => null)
+    const parsed = CreateSchema.safeParse(json)
+    if (!parsed.success) {
+      return NextResponse.json({ ok: false, error: "Validation failed", details: parsed.error.format() }, { status: 400 })
+    }
 
-  const ds = await getDb()
-  const repo = ds.getRepository("Product")
-  const saved = await repo.save(
-    repo.create({
-      ...parsed.data,
+    const ds = await getDb()
+    const repo = ds.getRepository("Product")
+    
+    const product = repo.create({
+      name: parsed.data.name,
+      slug: parsed.data.slug,
+      sku: parsed.data.sku,
+      shortDescription: parsed.data.shortDescription,
+      longDescription: parsed.data.longDescription,
+      price: parsed.data.price,
       salePrice: parsed.data.salePrice ?? null,
       stock: parsed.data.stock ?? 0,
       featured: parsed.data.featured ?? false,
       badge: (parsed.data.badge as any) ?? null,
       isActive: parsed.data.isActive ?? true,
       trendyolLink: parsed.data.trendyolLink ?? null,
-    } as any)
-  )
+    })
 
-  return NextResponse.json({ ok: true, row: saved })
+    const saved = await repo.save(product)
+    return NextResponse.json({ ok: true, row: saved })
+  } catch (error: any) {
+    console.error("Product creation error:", error)
+    return NextResponse.json({ ok: false, error: error.message || "Server error" }, { status: 500 })
+  }
 }
 

@@ -109,10 +109,12 @@ export default function AdminProductEditPage() {
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
         })
-        const data = (await res.json().catch(() => null)) as { ok: boolean; row?: Product }
+        const data = (await res.json().catch(() => null)) as { ok: boolean; row?: Product; error?: string }
         if (data?.ok && data.row) {
             router.replace(`/admin/products/${data.row.id}`)
-            router.refresh()
+            setTimeout(() => router.refresh(), 100)
+        } else {
+            alert("Hata: " + (data?.error || "Ürün oluşturulamadı."))
         }
       } else {
         const res = await fetch(`/api/admin/products/${encodeURIComponent(id)}`, {
@@ -120,17 +122,19 @@ export default function AdminProductEditPage() {
           headers: { "content-type": "application/json" },
           body: JSON.stringify(payload),
         })
-        const data = await res.json()
-        if (data.ok) {
-            alert("Kaydedildi!")
+        const data = (await res.json().catch(() => null)) as { ok: boolean; error?: string }
+        if (data?.ok) {
+            alert("Başarıyla kaydedildi!")
+            router.refresh()
+        } else {
+            alert("Hata: " + (data?.error || "Güncelleme başarısız."))
         }
       }
     } catch (e) {
         console.error("Save error", e)
-        alert("Kaydetme sırasında bir hata oluştu.")
+        alert("Bağlantı hatası: Kaydedilemedi.")
     } finally {
-      setSaving(true) // Keeps button in 'saving' state for a moment or toggle back
-      setTimeout(() => setSaving(false), 500)
+      setSaving(false)
     }
   }
 
