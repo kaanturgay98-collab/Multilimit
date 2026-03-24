@@ -62,7 +62,6 @@ const navSections: readonly NavSection[] = [
     href: "/admin/editor?slug=sss",
     items: [
       { href: "/admin/editor?slug=sss", label: "Sayfa Tasarımı (Puck)" },
-      { href: "/admin/faq", label: "Sık Sorulan Sorular" },
     ],
   },
   {
