@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { Product } from "@/lib/typeorm/entities/Product"
 import type { Page } from "@/lib/typeorm/entities/Page"
 
-@Entity()
+@Entity("MediaAsset")
 @Index(["collection"])
 export class MediaAsset extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })

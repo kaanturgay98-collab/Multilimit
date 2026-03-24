@@ -5,7 +5,7 @@ import type { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 
 export type BlogStatus = "draft" | "published"
 
-@Entity()
+@Entity("BlogPost")
 export class BlogPost extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   title!: string

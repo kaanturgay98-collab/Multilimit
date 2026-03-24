@@ -1,7 +1,7 @@
 import { Column, Entity } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
-@Entity()
+@Entity("SiteSetting")
 export class SiteSetting extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   siteName!: string
