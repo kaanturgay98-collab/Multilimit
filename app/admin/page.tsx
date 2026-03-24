@@ -53,8 +53,6 @@ export default function AdminDashboardPage() {
   }, [])
 
   const stats = [
-    { label: "Toplam Siparis", value: data?.kpis.totalOrders ?? 0 },
-    { label: "Bekleyen Siparis", value: data?.kpis.pendingOrders ?? 0 },
     { label: "Aktif Urun", value: data?.kpis.activeProducts ?? 0 },
     { label: "Yayinlanan Blog", value: data?.kpis.publishedBlogs ?? 0 },
     { label: "Okunmamis Mesaj", value: data?.kpis.unreadMessages ?? 0 },
@@ -69,12 +67,12 @@ export default function AdminDashboardPage() {
       <div className="flex flex-col gap-2">
         <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
         <p className="text-muted-foreground text-sm">
-          Icerik, urun ve siparislerin ozet gorunumu. Asagidaki hizli aksiyonlarla yonetime baslayabilirsin.
+          Icerik, urun ve ziyaret ozet gorunumu. Asagidaki hizli aksiyonlarla yonetime baslayabilirsin.
         </p>
       </div>
 
       {/* KPI cards */}
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-9">
+      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
         {stats.map((s) => (
           <Card key={s.label} className="border-border/70 bg-card/80">
             <CardHeader className="pb-2">
@@ -89,38 +87,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Recent activity */}
-      <div className="grid gap-6 lg:grid-cols-3">
-        <Card className="border-border/70 bg-card/80 lg:col-span-2">
-          <CardHeader>
-            <CardTitle>Son Siparisler</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {data?.recentOrders?.length ? (
-              <div className="space-y-2">
-                {data.recentOrders.map((o) => (
-                  <div key={o.id} className="flex items-center justify-between gap-3 text-sm">
-                    <div className="min-w-0">
-                      <div className="font-mono text-xs text-foreground">{o.orderNo}</div>
-                      <div className="text-xs text-muted-foreground">{new Date(o.createdAt).toLocaleString("tr-TR")}</div>
-                    </div>
-                    <div className="text-xs text-muted-foreground">{o.status}</div>
-                    <div className="font-semibold text-primary text-sm">
-                      {o.totalAmount.toLocaleString("tr-TR")} {o.currency}
-                    </div>
-                  </div>
-                ))}
-                <div className="pt-2">
-                  <Button asChild size="sm" variant="outline">
-                    <Link href="/admin/orders">Tum siparisler</Link>
-                  </Button>
-                </div>
-              </div>
-            ) : (
-              <div className="text-sm text-muted-foreground">Henuz siparis yok.</div>
-            )}
-          </CardContent>
-        </Card>
-
+      <div className="grid gap-6 lg:grid-cols-1">
         <Card className="border-border/70 bg-card/80">
           <CardHeader>
             <CardTitle>Son Mesajlar</CardTitle>

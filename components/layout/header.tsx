@@ -3,10 +3,9 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, ShoppingCart, MessageCircle } from 'lucide-react'
+import { Menu, X, MessageCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
-import { useCart } from '@/lib/cart-context'
 import { cn } from '@/lib/utils'
 import { trackClick } from '@/components/analytics/tracker'
 
@@ -24,7 +23,6 @@ const fallbackNavigation = [
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false)
-  const { totalItems, setIsOpen: setCartOpen } = useCart()
   const [menu, setMenu] = useState<{ label: string; href: string | null; external: boolean }[] | null>(null)
   const [settings, setSettings] = useState<any>(null)
   const pathname = usePathname()
@@ -136,37 +134,6 @@ export function Header() {
             </Button>
           </a>
 
-          {/* Cart Button */}
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative"
-            onClick={() => setCartOpen(true)}
-            asChild
-          >
-            <Link href="/sepet">
-              <ShoppingCart className="h-5 w-5" />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-medium">
-                  {totalItems}
-                </span>
-              )}
-              <span className="sr-only">Sepet</span>
-            </Link>
-          </Button>
-
-          {/* Order CTA - Desktop */}
-          <Button asChild className="hidden md:flex bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
-            <Link
-              href="/siparis"
-              onClick={() => {
-                trackClick("header_order_cta")
-              }}
-            >
-              Siparis Ver
-            </Link>
-          </Button>
-
           {/* Login Button - Desktop */}
           <Button asChild variant="ghost" className="hidden lg:flex text-muted-foreground hover:text-foreground">
             <Link href="/giris">
@@ -218,17 +185,6 @@ export function Header() {
                 </nav>
 
                 <div className="flex flex-col gap-3 pt-4 border-t border-border">
-                  <Button asChild className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-                    <Link
-                      href="/siparis"
-                      onClick={() => {
-                        setIsOpen(false)
-                        trackClick("header_order_cta")
-                      }}
-                    >
-                      Siparis Ver
-                    </Link>
-                  </Button>
                   <Button asChild variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                     <Link href="/giris" onClick={() => setIsOpen(false)}>
                       Giris Yap

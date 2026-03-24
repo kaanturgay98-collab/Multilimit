@@ -1,6 +1,5 @@
-import { Render } from "@measured/puck"
+import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
-import { config } from "@/lib/puck.config"
 import db from "@/lib/puck-db"
 
 export const dynamic = "force-dynamic";
@@ -18,8 +17,11 @@ export default async function HomePage() {
     console.error("Failed to fetch Puck page data:", error);
   }
 
+  // Check if data is valid and has content array
+  const hasValidContent = pageData && Array.isArray(pageData.content) && pageData.content.length > 0;
+
   // Fallback if no data or fetch fails
-  if (!pageData || pageData.content?.length === 0) {
+  if (!hasValidContent) {
     return (
       <main className="min-h-screen flex items-center justify-center p-8">
         <div className="text-center p-12 rounded-2xl shadow-sm border border-slate-100 max-w-lg">
@@ -33,7 +35,7 @@ export default async function HomePage() {
   // Render the Puck data
   return (
     <main className="min-h-screen ">
-      <Render config={config} data={pageData} />
+      <PuckRender data={pageData} />
     </main>
   )
 }

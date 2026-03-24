@@ -16,9 +16,12 @@ export async function adminFetchJson<T>(input: RequestInfo | URL, init?: FetchJs
     throw new Error(`Non-JSON response (${res.status}): ${text.slice(0, 120)}`)
   }
 
-  const json = (await res.json().catch(() => null)) as T | null
+  const json = (await res.json().catch(() => null)) as any
+  if (!res.ok) {
+    const errorMsg = json?.error || json?.message || `HTTP ${res.status}`;
+    throw new Error(errorMsg);
+  }
   if (!json) throw new Error(`Invalid JSON (${res.status})`)
-  if (!res.ok) throw new Error(`HTTP ${res.status}`)
-  return json
+  return json as T
 }
 

@@ -22,9 +22,6 @@ export class BlogPost extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   coverImage!: string | null
 
-  @ManyToOne(() => require("./BlogCategory").BlogCategory, "posts", { nullable: true })
-  category!: BlogCategory | null
-
   @Column("simple-array", { nullable: true })
   tags!: string[] | null
 

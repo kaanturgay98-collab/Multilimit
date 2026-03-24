@@ -125,10 +125,10 @@ export const config: Config<Props> = {
         },
       },
       defaultProps: {
-        title: "Hemen Sipariş Verin",
-        description: "İlk siparişinize özel %10 indirim fırsatını kaçırmayın. Stoklar tükenmeden harekete geçin.",
-        buttonText: "Sipariş Oluştur",
-        buttonLink: "/siparis",
+        title: "Hemen Trendyol'dan Satın Alın",
+        description: "Multilimit kalitesine Trendyol güvencesiyle sahip olun. Stoklar tükenmeden harekete geçin.",
+        buttonText: "Trendyol'da İncele",
+        buttonLink: "https://www.trendyol.com",
         theme: "primary",
       },
       render: ({ title, description, buttonText, buttonLink, theme }) => {
@@ -139,9 +139,9 @@ export const config: Config<Props> = {
         };
 
         const buttonStyles = {
-          primary: "border-primary/50 text-foreground hover:bg-primary/10",
-          dark: "bg-primary text-white hover:bg-primary/90",
-          light: "bg-primary text-white hover:bg-primary/90",
+          primary: "bg-[#f27a1a] text-white hover:bg-[#d66512] shadow-lg hover:shadow-[#f27a1a]/20",
+          dark: "bg-[#f27a1a] text-white hover:bg-[#d66512]",
+          light: "bg-[#f27a1a] text-white hover:bg-[#d66512]",
         };
 
         return (
@@ -153,16 +153,18 @@ export const config: Config<Props> = {
             </div>
 
             <div className="relative z-10 max-w-2xl mx-auto text-center space-y-6">
-              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-foreground">
                 {title}
               </h2>
-              <p className="text-lg opacity-90 leading-8">
+              <p className="text-lg opacity-90 leading-8 text-muted-foreground">
                 {description}
               </p>
               <div className="pt-4 flex justify-center">
                 <a
                   href={buttonLink}
-                  className={`inline-flex items-center justify-center px-8 py-3.5 text-sm font-semibold transition-all rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 ${buttonStyles[theme]}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center px-10 py-4 text-base font-bold transition-all rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 ${buttonStyles[theme]}`}
                 >
                   {buttonText}
                 </a>

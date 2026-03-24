@@ -1,5 +1,6 @@
 import Database from "better-sqlite3"
 import path from "path"
+import fs from "fs"
 
 export type ProductBadge = "premium" | "new" | "bestseller" | null
 
@@ -38,12 +39,34 @@ let dbInstance: Database.Database | null = null
 function getSqlitePath() {
   const raw = process.env.DATABASE_URL || "file:./app.db"
   const p = raw.startsWith("file:") ? raw.replace(/^file:/, "") : raw
-  return path.isAbsolute(p) ? p : path.join(process.cwd(), p)
+  const resolved = path.isAbsolute(p) ? p : path.join(process.cwd(), p)
+  console.log(`[ProductsDB] Resolving SQLite path: ${resolved} (via process.cwd: ${process.cwd()})`);
+  return resolved
 }
 
 function getDb() {
   if (dbInstance) return dbInstance
-  dbInstance = new Database(getSqlitePath())
+  
+  const dbPath = getSqlitePath()
+  const dir = path.dirname(dbPath)
+  
+  // Sadece eğer dizin mevcut değilse oluşturmaya çalış (ve hata fırlatma, sadece logla)
+  try {
+    if (!fs.existsSync(dir)) {
+      console.log(`[ProductsDB] Attempting to create directory: ${dir}`);
+      fs.mkdirSync(dir, { recursive: true });
+    }
+  } catch (err) {
+    console.warn(`[ProductsDB] Warning: Could not ensure directory exists: ${dir}`, err);
+    // Devam etmeyi dene, belki veritabanı dosyası zaten oradadır veya dizin salt-okunur ama mevcuttur.
+  }
+
+  try {
+    dbInstance = new Database(dbPath)
+  } catch (err) {
+    console.error(`[ProductsDB] Critical: Failed to open database at ${dbPath}`, err);
+    throw err;
+  }
   dbInstance.pragma("journal_mode = WAL")
   dbInstance.pragma("foreign_keys = ON")
   dbInstance.exec(`

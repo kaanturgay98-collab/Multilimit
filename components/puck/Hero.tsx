@@ -97,8 +97,8 @@ export const HeroConfig: ComponentConfig<HeroProps> = {
     titleHighlight: "Zinde",
     titleEnd: "Başlayın",
     description: "Günlük yaşam temposuna destek veren premium formül. Zeolit, L-Sistein ve Pirinç Kepeği içeren özel kompozisyonumuzla tanışın.",
-    primaryButtonText: "Sipariş Ver",
-    primaryButtonLink: "/siparis",
+    primaryButtonText: "Trendyol'dan Satın Al",
+    primaryButtonLink: "https://www.trendyol.com",
     secondaryButtonText: "Ürünü İncele",
     secondaryButtonLink: "/urun",
     stat1Value: "10.000+",
@@ -144,11 +144,11 @@ export const HeroConfig: ComponentConfig<HeroProps> = {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14 text-base glow-gold">
-                <Link href={props.primaryButtonLink || "#"}>
+              <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14 text-base shadow-lg hover:shadow-[#f27a1a]/20">
+                <a href={props.primaryButtonLink || "#"} target={props.primaryButtonLink?.startsWith('http') ? "_blank" : "_self"} rel="noopener noreferrer">
                   {props.primaryButtonText}
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary px-8 h-14 text-base">
                 <Link href={props.secondaryButtonLink || "#"}>

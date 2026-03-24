@@ -18,10 +18,10 @@ export default function AdminProductsPage() {
 
   useEffect(() => {
     let cancelled = false
-    ;(async () => {
-      const data = await adminFetchJson<{ ok: boolean; rows?: ProductRow[]; error?: string }>("/api/admin/products")
-      if (!cancelled && data?.ok) setRows(data.rows || [])
-    })()
+      ; (async () => {
+        const data = await adminFetchJson<{ ok: boolean; rows?: ProductRow[]; error?: string }>("/api/admin/products")
+        if (!cancelled && data?.ok) setRows(data.rows || [])
+      })()
     return () => {
       cancelled = true
     }
@@ -37,8 +37,8 @@ export default function AdminProductsPage() {
   })
 
   const columns: AdminTableColumn<ProductRow>[] = [
-    { 
-      key: "name", 
+    {
+      key: "name",
       header: "Ürün",
       render: (row) => (
         <span className="font-bold text-slate-900">{row.name}</span>

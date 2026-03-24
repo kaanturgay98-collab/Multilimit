@@ -69,9 +69,11 @@ declare global {
 }
 
 function getSqlitePath() {
-  const raw = process.env.DATABASE_URL || "file:./dev.db"
+  const raw = process.env.DATABASE_URL || "file:./app.db"
   const p = raw.startsWith("file:") ? raw.replace(/^file:/, "") : raw
-  return path.isAbsolute(p) ? p : path.join(process.cwd(), p)
+  const resolved = path.isAbsolute(p) ? p : path.join(process.cwd(), p)
+  console.log(`[Database] Resolving SQLite path: ${resolved} (via process.cwd: ${process.cwd()})`);
+  return resolved
 }
 
 export function getDataSource() {

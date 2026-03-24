@@ -1,6 +1,5 @@
-import { Render } from "@measured/puck"
+import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
-import { config } from "@/lib/puck.config"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
 import db from "@/lib/puck-db"
@@ -26,7 +25,9 @@ export default async function HowToUsePage() {
     console.error(`Failed to fetch Puck page data for slug: ${slug}`, error);
   }
 
-  if (!pageData || !pageData.content || pageData.content.length === 0) {
+  const hasValidContent = pageData && Array.isArray(pageData.content) && pageData.content.length > 0;
+
+  if (!hasValidContent) {
     return (
       <main className="min-h-screen flex flex-col items-center justify-center p-8 bg-slate-50">
         <AdminOverlay slug={slug} />
@@ -45,7 +46,7 @@ export default async function HowToUsePage() {
   return (
     <main className="min-h-screen">
       <AdminOverlay slug={slug} />
-      <Render config={config} data={pageData} />
+      <PuckRender data={pageData} />
     </main>
   )
 }

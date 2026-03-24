@@ -4,51 +4,70 @@ import { getDb } from "@/lib/db"
 export const runtime = "nodejs"
 
 export async function GET() {
-  const ds = await getDb()
-  const repo = ds.getRepository("BlogPost")
-  const rows = await repo.find({ relations: { category: true }, order: { createdAt: "DESC" } as any })
+  try {
+    const ds = await getDb()
+    const repo = ds.getRepository("BlogPost")
+    
+    const rows = await repo.find({ 
+      order: { createdAt: "DESC" } as any 
+    })
 
-  return NextResponse.json({
-    ok: true,
-    rows: rows.map((p: any) => ({
-      id: p.id,
-      title: p.title,
-      slug: p.slug,
-      category: p.category?.name ?? null,
-      status: p.status,
-      isFeatured: Boolean(p.isFeatured),
-      publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : null,
-      updatedAt: p.updatedAt ? new Date(p.updatedAt).toISOString() : null,
-    })),
-  })
+    return NextResponse.json({
+      ok: true,
+      rows: rows.map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        slug: p.slug,
+        excerpt: p.excerpt,
+        coverImage: p.coverImage,
+        status: p.status,
+        isFeatured: Boolean(p.isFeatured),
+        publishedAt: p.publishedAt ? new Date(p.publishedAt).toISOString() : null,
+        updatedAt: p.updatedAt ? new Date(p.updatedAt).toISOString() : null,
+      })),
+    })
+  } catch (error: any) {
+    console.error("[Blog API] GET Error:", error)
+    return NextResponse.json({ ok: false, error: "Blog yazıları listelenirken bir hata oluştu: " + error.message }, { status: 500 })
+  }
 }
 
 export async function POST(req: Request) {
-  const ds = await getDb()
-  const repo = ds.getRepository("BlogPost")
+  try {
+    const ds = await getDb()
+    const repo = ds.getRepository("BlogPost")
 
-  const body = (await req.json().catch(() => null)) as any
-  const title = String(body?.title ?? "").trim()
-  const slug = String(body?.slug ?? "").trim()
-  if (!title || !slug) return NextResponse.json({ ok: false, error: "title/slug required" }, { status: 400 })
+    const body = (await req.json().catch(() => null)) as any
+    const title = String(body?.title ?? "").trim()
+    const slug = String(body?.slug ?? "").trim()
+    
+    if (!title || !slug) {
+      return NextResponse.json({ ok: false, error: "Başlık ve Slug alanları zorunludur" }, { status: 400 })
+    }
 
-  const row = await repo.save(
-    repo.create({
-      title,
-      slug,
-      excerpt: String(body?.excerpt ?? ""),
-      content: String(body?.content ?? ""),
-      coverImage: body?.coverImage ? String(body.coverImage) : null,
-      category: null,
-      tags: Array.isArray(body?.tags) ? body.tags.map(String) : null,
-      authorName: String(body?.authorName ?? "Multilimit"),
-      publishedAt: null,
-      status: body?.status === "published" ? "published" : "draft",
-      isFeatured: Boolean(body?.isFeatured),
-      isActive: body?.isActive !== false,
-    } as any)
-  )
+    const row = await repo.save(
+      repo.create({
+        title,
+        slug,
+        excerpt: String(body?.excerpt ?? ""),
+        content: String(body?.content ?? ""),
+        coverImage: body?.coverImage ? String(body.coverImage) : null,
+        tags: Array.isArray(body?.tags) ? body.tags.map(String) : null,
+        authorName: String(body?.authorName ?? "Multilimit"),
+        publishedAt: null,
+        status: body?.status === "published" ? "published" : "draft",
+        isFeatured: Boolean(body?.isFeatured),
+        isActive: body?.isActive !== false,
+      })
+    )
 
-  return NextResponse.json({ ok: true, row: { id: (row as any).id } })
+    return NextResponse.json({ ok: true, row: { id: (row as any).id } })
+  } catch (error: any) {
+    console.error("[Blog API] POST Error:", error)
+    return NextResponse.json(
+      { ok: false, error: error.message || "Blog yazısı kaydedilirken bir hata oluştu" },
+      { status: 500 }
+    )
+  }
 }
 

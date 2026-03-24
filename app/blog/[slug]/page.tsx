@@ -2,47 +2,56 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { blogPosts, getBlogPost } from '@/lib/blog-data'
+import { getDb } from '@/lib/db'
 import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Facebook, Twitter, Linkedin } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>
 }
 
-export async function generateStaticParams() {
-  return blogPosts.map((post) => ({
-    slug: post.slug,
-  }))
+async function getPostFromDb(slug: string) {
+  const ds = await getDb()
+  const repo = ds.getRepository("BlogPost")
+  return await repo.findOne({ where: { slug, status: 'published' } as any })
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
-  const post = getBlogPost(slug)
+  const post: any = await getPostFromDb(slug)
   
   if (!post) {
     return {
-      title: 'Yazi Bulunamadi | Multilimit Blog',
+      title: 'Yazı Bulunamadı | Multilimit Blog',
     }
   }
 
   return {
     title: `${post.title} | Multilimit Blog`,
     description: post.excerpt,
-    keywords: post.tags.join(', '),
+    keywords: post.tags?.join(', ') || '',
   }
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  const post = getBlogPost(slug)
+  const post: any = await getPostFromDb(slug)
 
   if (!post) {
     notFound()
   }
 
-  const relatedPosts = blogPosts
-    .filter((p) => p.slug !== post.slug && p.category === post.category)
-    .slice(0, 2)
+  // Fetch related posts (simple approach: latest 2 published posts excluding current)
+  const ds = await getDb()
+  const repo = ds.getRepository("BlogPost")
+  const relatedPosts: any[] = await repo.find({
+    where: { status: 'published' } as any,
+    take: 2,
+    order: { createdAt: 'DESC' } as any
+  })
+
+  const filteredRelated = relatedPosts.filter(p => p.id !== post.id)
 
   return (
     <>
@@ -59,13 +68,8 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors mb-8"
             >
               <ArrowLeft className="w-4 h-4" />
-              Blog&apos;a Don
+              Blog'a Dön
             </Link>
-
-            {/* Category */}
-            <span className="inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs font-medium text-primary mb-4">
-              {post.category}
-            </span>
 
             {/* Title */}
             <h1 className="font-serif text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-6 leading-tight">
@@ -76,20 +80,26 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-8">
               <span className="flex items-center gap-2">
                 <User className="w-4 h-4" />
-                {post.author}
+                {post.authorName || 'Multilimit'}
               </span>
               <span className="flex items-center gap-2">
                 <Calendar className="w-4 h-4" />
-                {post.date}
-              </span>
-              <span className="flex items-center gap-2">
-                <Clock className="w-4 h-4" />
-                {post.readTime} okuma
+                {post.publishedAt ? new Date(post.publishedAt).toLocaleDateString('tr-TR') : new Date(post.createdAt).toLocaleDateString('tr-TR')}
               </span>
             </div>
 
-            {/* Featured Image Placeholder */}
-            <div className="aspect-[16/9] bg-gradient-to-br from-secondary to-navy-light rounded-2xl border border-border mb-8" />
+            {/* Featured Image */}
+            <div className="aspect-[16/9] bg-gradient-to-br from-secondary to-navy-light rounded-2xl border border-border mb-8 overflow-hidden">
+              {post.coverImage ? (
+                <img 
+                  src={post.coverImage} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover" 
+                />
+              ) : (
+                <div className="absolute inset-0 bg-primary/5 opacity-50" />
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -99,62 +109,59 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-3xl mx-auto">
             {/* Article Content */}
-            <article className="prose prose-invert prose-gold max-w-none">
-              <div 
-                className="text-muted-foreground leading-relaxed space-y-4"
-                dangerouslySetInnerHTML={{ 
-                  __html: post.content
-                    .replace(/^# (.+)$/gm, '<h1 class="font-serif text-3xl font-bold text-foreground mt-8 mb-4">$1</h1>')
-                    .replace(/^## (.+)$/gm, '<h2 class="font-serif text-2xl font-bold text-foreground mt-8 mb-4">$1</h2>')
-                    .replace(/^### (.+)$/gm, '<h3 class="font-semibold text-xl text-foreground mt-6 mb-3">$1</h3>')
-                    .replace(/^\*\*(.+)\*\*$/gm, '<strong class="text-foreground">$1</strong>')
-                    .replace(/^\- (.+)$/gm, '<li class="ml-4">$1</li>')
-                    .replace(/^(\d+)\. (.+)$/gm, '<li class="ml-4">$2</li>')
-                    .replace(/^---$/gm, '<hr class="my-8 border-border" />')
-                    .replace(/^\*(.+)\*$/gm, '<em class="text-muted-foreground italic">$1</em>')
-                    .replace(/\n\n/g, '</p><p class="text-muted-foreground leading-relaxed">')
-                }}
-              />
+            <article className="prose prose-invert prose-gold max-w-none 
+              prose-headings:font-serif prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-gold
+              prose-h1:text-5xl prose-h1:mb-8
+              prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b-2 prose-h2:border-gold/20
+              prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
+              prose-p:text-white prose-p:leading-relaxed prose-p:text-lg prose-p:mb-6
+              prose-li:text-white prose-li:mb-2 prose-strong:text-gold
+              prose-img:rounded-3xl prose-img:shadow-2xl prose-img:my-10
+              prose-a:text-gold prose-a:font-bold prose-a:no-underline hover:prose-a:underline">
+              <div className="space-y-6">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {post.content}
+                </ReactMarkdown>
+              </div>
             </article>
 
             {/* Tags */}
-            <div className="flex flex-wrap items-center gap-2 mt-12 pt-8 border-t border-border">
-              <Tag className="w-4 h-4 text-muted-foreground" />
-              {post.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="px-3 py-1 bg-secondary rounded-full text-xs text-muted-foreground"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
+            {post.tags && post.tags.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2 mt-12 pt-8 border-t border-border">
+                <Tag className="w-4 h-4 text-muted-foreground" />
+                {post.tags.map((tag: string) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1 bg-secondary rounded-full text-xs text-muted-foreground"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            )}
 
             {/* Share */}
             <div className="flex items-center gap-4 mt-8">
               <span className="text-muted-foreground text-sm flex items-center gap-2">
                 <Share2 className="w-4 h-4" />
-                Paylas:
+                Paylaş:
               </span>
               <div className="flex items-center gap-2">
                 <a
                   href="#"
                   className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
-                  aria-label="Facebook'ta paylas"
                 >
                   <Facebook className="w-4 h-4" />
                 </a>
                 <a
                   href="#"
                   className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
-                  aria-label="Twitter'da paylas"
                 >
                   <Twitter className="w-4 h-4" />
                 </a>
                 <a
                   href="#"
                   className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors"
-                  aria-label="LinkedIn'de paylas"
                 >
                   <Linkedin className="w-4 h-4" />
                 </a>
@@ -165,20 +172,20 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       </section>
 
       {/* Related Posts */}
-      {relatedPosts.length > 0 && (
+      {filteredRelated.length > 0 && (
         <section className="py-16 lg:py-20 bg-secondary/30">
           <div className="container mx-auto px-4 lg:px-8">
             <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground text-center mb-12">
-              Ilgili <span className="text-gradient-gold">Yazilar</span>
+              İlgili <span className="text-gradient-gold">Yazılar</span>
             </h2>
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
-              {relatedPosts.map((relatedPost) => (
+              {filteredRelated.map((relatedPost) => (
                 <Link
-                  key={relatedPost.slug}
+                  key={relatedPost.id}
                   href={`/blog/${relatedPost.slug}`}
                   className="group"
                 >
-                  <article className="bg-card border border-border rounded-2xl overflow-hidden card-hover">
+                  <article className="bg-card border border-border rounded-2xl overflow-hidden card-hover h-full flex flex-col">
                     <div className="aspect-[16/10] bg-gradient-to-br from-secondary to-navy-light relative overflow-hidden">
                       <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
                     </div>
@@ -202,14 +209,14 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       <section className="py-16 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8 text-center">
           <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground mb-4">
-            Premium Formulu <span className="text-gradient-gold">Deneyin</span>
+            Premium Formülü <span className="text-gradient-gold">Deneyin</span>
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Multilimit Premium Detoks Kompleksi ile gunluk rutininize destek verin.
+            Multilimit Premium Detoks Kompleksi ile günlük rutininize destek verin.
           </p>
           <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14">
             <Link href="/siparis">
-              Siparis Ver
+              Sipariş Ver
             </Link>
           </Button>
         </div>
