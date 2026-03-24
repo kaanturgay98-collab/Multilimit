@@ -1,4 +1,5 @@
 import { DataSource } from "typeorm"
+import { insertBlogPost } from "@/lib/blog-db"
 
 declare global {
   // eslint-disable-next-line no-var
@@ -11,7 +12,6 @@ export async function ensureAdminSeed(ds: DataSource) {
   const productRepo = ds.getRepository("Product")
   const variantRepo = ds.getRepository("ProductVariant")
   const blogCatRepo = ds.getRepository("BlogCategory")
-  const blogRepo = ds.getRepository("BlogPost")
   const faqRepo = ds.getRepository("Faq")
 
   const existing = await productRepo.count()
@@ -65,22 +65,20 @@ export async function ensureAdminSeed(ds: DataSource) {
 
   if ((await blogCatRepo.count()) === 0) {
     const cat = await blogCatRepo.save(blogCatRepo.create({ name: "Detoks", slug: "detoks", description: null, isActive: true }))
-    await blogRepo.save(
-      blogRepo.create({
-        title: "Detoks ve Gunluk Yasam Dengesi",
-        slug: "detoks-ve-gunluk-yasam-dengesi",
-        excerpt: "Modern yasamda denge kurmak icin ipuclari.",
-        content: "Bu alan admin panelden duzenlenecek.",
-        coverImage: null,
-        category: cat,
-        tags: ["detoks", "wellness"],
-        authorName: "Multilimit",
-        publishedAt: new Date(),
-        status: "published",
-        isFeatured: true,
-        isActive: true,
-      })
-    )
+    insertBlogPost({
+      title: "Detoks ve Gunluk Yasam Dengesi",
+      slug: "detoks-ve-gunluk-yasam-dengesi",
+      excerpt: "Modern yasamda denge kurmak icin ipuclari.",
+      content: "Bu alan admin panelden duzenlenecek.",
+      coverImage: null,
+      categoryId: cat.id,
+      tags: ["detoks", "wellness"],
+      authorName: "Multilimit",
+      publishedAt: new Date().toISOString(),
+      status: "published",
+      isFeatured: true,
+      isActive: true,
+    })
   }
 
   if ((await faqRepo.count()) === 0) {

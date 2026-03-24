@@ -1,6 +1,5 @@
-import { Column, Entity, OneToMany } from "typeorm"
+import { Column, Entity } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
-import type { BlogPost } from "@/lib/typeorm/entities/BlogPost"
 
 @Entity()
 export class BlogCategory extends BaseEntityWithTimestamps {
@@ -12,7 +11,4 @@ export class BlogCategory extends BaseEntityWithTimestamps {
 
   @Column({ type: "text", nullable: true })
   description!: string | null
-
-  @OneToMany(() => require("./BlogPost").BlogPost, (post: any) => post.category)
-  posts!: BlogPost[]
 }

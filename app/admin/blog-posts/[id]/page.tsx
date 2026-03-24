@@ -201,6 +201,16 @@ export default function AdminBlogPostEditPage() {
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700">Özet</label>
+                  <Textarea
+                    value={row.excerpt}
+                    onChange={(e) => setRow({ ...row, excerpt: e.target.value })}
+                    placeholder="Liste ve arama sonuçlarında görünecek kısa açıklama..."
+                    className="text-black min-h-28 border-gray-200 focus:border-gold focus:ring-gold/20 p-4"
+                  />
+                </div>
+
                 <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -235,23 +245,6 @@ export default function AdminBlogPostEditPage() {
                       </article>
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-none shadow-none bg-transparent pt-4 border-t border-gray-100">
-              <CardHeader className="px-0">
-                <CardTitle className="text-xl font-bold text-gold">SEO Ayarları</CardTitle>
-              </CardHeader>
-              <CardContent className="px-0 space-y-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Kısa Özet (Excerpt)</label>
-                  <Textarea
-                    value={row.excerpt}
-                    onChange={(e) => setRow({ ...row, excerpt: e.target.value })}
-                    placeholder="Arama sonuçlarında görünecek kısa açıklama..."
-                    className="text-black min-h-32 border-gray-200 focus:border-gold focus:ring-gold/20 p-4"
-                  />
                 </div>
               </CardContent>
             </Card>

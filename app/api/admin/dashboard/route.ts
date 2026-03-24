@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
+import { countPublishedBlogPosts } from "@/lib/blog-db"
 
 export const runtime = "nodejs"
 
@@ -8,17 +9,16 @@ export async function GET() {
 
   const orderRepo = ds.getRepository("Order")
   const productRepo = ds.getRepository("Product")
-  const blogRepo = ds.getRepository("BlogPost")
   const msgRepo = ds.getRepository("ContactMessage")
   const logRepo = ds.getRepository("ActivityLog")
 
-  const [totalOrders, pendingOrders, activeProducts, publishedBlogs, unreadMessages] = await Promise.all([
+  const [totalOrders, pendingOrders, activeProducts, unreadMessages] = await Promise.all([
     orderRepo.count(),
     orderRepo.count({ where: { status: "pending" as any } }),
     productRepo.count({ where: { isActive: true } }),
-    blogRepo.count({ where: { status: "published" as any } }),
     msgRepo.count({ where: { status: "new" as any } }),
   ])
+  const publishedBlogs = countPublishedBlogPosts()
 
   const [recentOrders, recentMessages, recentActivities] = await Promise.all([
     orderRepo.find({ order: { createdAt: "DESC" }, take: 5 }),

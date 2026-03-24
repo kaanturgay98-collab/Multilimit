@@ -2,8 +2,8 @@ import { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { getDb } from '@/lib/db'
-import { Calendar, Clock, ArrowLeft, User, Tag, Share2, Facebook, Twitter, Linkedin } from 'lucide-react'
+import { getBlogPostBySlugPublished, listLatestPublishedPosts } from '@/lib/blog-db'
+import { Calendar, ArrowLeft, User, Tag, Share2, Facebook, Twitter, Linkedin } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
@@ -11,15 +11,13 @@ interface BlogPostPageProps {
   params: Promise<{ slug: string }>
 }
 
-async function getPostFromDb(slug: string) {
-  const ds = await getDb()
-  const repo = ds.getRepository("BlogPost")
-  return await repo.findOne({ where: { slug, status: 'published' } as any })
+function getPostFromDb(slug: string) {
+  return getBlogPostBySlugPublished(slug)
 }
 
 export async function generateMetadata({ params }: BlogPostPageProps): Promise<Metadata> {
   const { slug } = await params
-  const post: any = await getPostFromDb(slug)
+  const post = getPostFromDb(slug)
   
   if (!post) {
     return {
@@ -30,28 +28,20 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
   return {
     title: `${post.title} | Multilimit Blog`,
     description: post.excerpt,
-    keywords: post.tags?.join(', ') || '',
+    keywords: (post.tags && post.tags.length > 0) ? post.tags.join(', ') : '',
   }
 }
 
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
-  const post: any = await getPostFromDb(slug)
+  const post = getPostFromDb(slug)
 
   if (!post) {
     notFound()
   }
 
-  // Fetch related posts (simple approach: latest 2 published posts excluding current)
-  const ds = await getDb()
-  const repo = ds.getRepository("BlogPost")
-  const relatedPosts: any[] = await repo.find({
-    where: { status: 'published' } as any,
-    take: 2,
-    order: { createdAt: 'DESC' } as any
-  })
-
-  const filteredRelated = relatedPosts.filter(p => p.id !== post.id)
+  const relatedPosts = listLatestPublishedPosts(4, post.id)
+  const filteredRelated = relatedPosts.slice(0, 2)
 
   return (
     <>
@@ -126,7 +116,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </article>
 
             {/* Tags */}
-            {post.tags && post.tags.length > 0 && (
+            {post.tags && post.tags.length > 0 ? (
               <div className="flex flex-wrap items-center gap-2 mt-12 pt-8 border-t border-border">
                 <Tag className="w-4 h-4 text-muted-foreground" />
                 {post.tags.map((tag: string) => (
@@ -138,7 +128,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
                   </span>
                 ))}
               </div>
-            )}
+            ) : null}
 
             {/* Share */}
             <div className="flex items-center gap-4 mt-8">

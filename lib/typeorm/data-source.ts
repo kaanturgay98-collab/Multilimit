@@ -9,7 +9,6 @@ import { PageSection } from "@/lib/typeorm/entities/PageSection"
 import { Product } from "@/lib/typeorm/entities/Product"
 import { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
 import { Ingredient } from "@/lib/typeorm/entities/Ingredient"
-import { BlogPost } from "@/lib/typeorm/entities/BlogPost"
 import { BlogCategory } from "@/lib/typeorm/entities/BlogCategory"
 import { Faq } from "@/lib/typeorm/entities/Faq"
 import { Testimonial } from "@/lib/typeorm/entities/Testimonial"
@@ -38,7 +37,6 @@ const entities = [
   Product,
   ProductVariant,
   Ingredient,
-  BlogPost,
   BlogCategory,
   Faq,
   Testimonial,

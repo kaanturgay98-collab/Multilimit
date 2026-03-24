@@ -1,20 +1,15 @@
 import { NextResponse } from "next/server"
-import { getDb } from "@/lib/db"
+import { insertBlogPost, listPostsForAdmin } from "@/lib/blog-db"
 
 export const runtime = "nodejs"
 
 export async function GET() {
   try {
-    const ds = await getDb()
-    const repo = ds.getRepository("BlogPost")
-    
-    const rows = await repo.find({ 
-      order: { createdAt: "DESC" } as any 
-    })
+    const rows = listPostsForAdmin()
 
     return NextResponse.json({
       ok: true,
-      rows: rows.map((p: any) => ({
+      rows: rows.map((p) => ({
         id: p.id,
         title: p.title,
         slug: p.slug,
@@ -34,34 +29,29 @@ export async function GET() {
 
 export async function POST(req: Request) {
   try {
-    const ds = await getDb()
-    const repo = ds.getRepository("BlogPost")
-
     const body = (await req.json().catch(() => null)) as any
     const title = String(body?.title ?? "").trim()
     const slug = String(body?.slug ?? "").trim()
-    
+
     if (!title || !slug) {
       return NextResponse.json({ ok: false, error: "Başlık ve Slug alanları zorunludur" }, { status: 400 })
     }
 
-    const row = await repo.save(
-      repo.create({
-        title,
-        slug,
-        excerpt: String(body?.excerpt ?? ""),
-        content: String(body?.content ?? ""),
-        coverImage: body?.coverImage ? String(body.coverImage) : null,
-        tags: Array.isArray(body?.tags) ? body.tags.map(String) : null,
-        authorName: String(body?.authorName ?? "Multilimit"),
-        publishedAt: null,
-        status: body?.status === "published" ? "published" : "draft",
-        isFeatured: Boolean(body?.isFeatured),
-        isActive: body?.isActive !== false,
-      })
-    )
+    const id = insertBlogPost({
+      title,
+      slug,
+      excerpt: String(body?.excerpt ?? ""),
+      content: String(body?.content ?? ""),
+      coverImage: body?.coverImage ? String(body.coverImage) : null,
+      tags: Array.isArray(body?.tags) ? body.tags.map(String) : null,
+      authorName: String(body?.authorName ?? "Multilimit"),
+      publishedAt: null,
+      status: body?.status === "published" ? "published" : "draft",
+      isFeatured: Boolean(body?.isFeatured),
+      isActive: body?.isActive !== false,
+    })
 
-    return NextResponse.json({ ok: true, row: { id: (row as any).id } })
+    return NextResponse.json({ ok: true, row: { id } })
   } catch (error: any) {
     console.error("[Blog API] POST Error:", error)
     return NextResponse.json(
@@ -70,4 +60,3 @@ export async function POST(req: Request) {
     )
   }
 }
-
