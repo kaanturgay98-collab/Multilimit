@@ -176,13 +176,13 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
                   )}
                 </>
               ) : (
-                <span className="font-serif text-4xl font-bold text-gradient-gold">PRODUCT IMAGE</span>
+                <span className="text-4xl font-bold text-gradient-gold">PRODUCT IMAGE</span>
               )}
             </Reveal>
 
             {/* Info */}
             <Reveal delayMs={120} y={18}>
-              <h1 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mb-3">{title}</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold text-foreground mb-3">{title}</h1>
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map(i => <Star key={i} size={16} className="fill-primary text-primary" />)}

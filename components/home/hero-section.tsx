@@ -30,7 +30,7 @@ export function HeroSection() {
 
             {/* Headline */}
             <Reveal delayMs={100}>
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
                 Sabah Daha{' '}
                 <span className="text-gradient-gold">Zinde</span>{' '}
                 Baslayin
@@ -103,7 +103,7 @@ export function HeroSection() {
                 
                 {/* Brand */}
                 <div className="text-center mb-6">
-                  <span className="font-serif text-3xl font-bold text-gradient-gold tracking-wide">MULTILIMIT</span>
+                  <span className="text-3xl font-bold text-gradient-gold tracking-wide">MULTILIMIT</span>
                 </div>
                 
                 {/* Product Name */}

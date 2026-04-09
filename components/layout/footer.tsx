@@ -117,7 +117,7 @@ export function Footer() {
         <div className="container mx-auto px-4 lg:px-8 py-12">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
-              <h3 className="font-serif text-2xl font-bold text-foreground mb-2">
+              <h3 className="text-2xl font-bold text-foreground mb-2">
                 E-Posta Bultenimize Kayit Olun
               </h3>
               <p className="text-muted-foreground">

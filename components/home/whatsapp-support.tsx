@@ -17,7 +17,7 @@ export function WhatsappSupport() {
                 <MessageCircle className="w-6 h-6 text-green-500" />
               </div>
               <div>
-                <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
+                <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
                   WhatsApp Destek Hatti
                 </h2>
                 <p className="text-muted-foreground text-sm">Sorularınız icin bize ulasin</p>

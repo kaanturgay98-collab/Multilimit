@@ -32,7 +32,7 @@ export const MissionVisionConfig: ComponentConfig<MissionVisionProps> = {
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
               <Target className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">{missionTitle}</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">{missionTitle}</h3>
             <p className="text-muted-foreground leading-relaxed">{missionText}</p>
           </Reveal>
 
@@ -41,7 +41,7 @@ export const MissionVisionConfig: ComponentConfig<MissionVisionProps> = {
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
               <Eye className="w-8 h-8 text-primary" />
             </div>
-            <h3 className="font-serif text-2xl font-bold text-foreground mb-4">{visionTitle}</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-4">{visionTitle}</h3>
             <p className="text-muted-foreground leading-relaxed">{visionText}</p>
           </Reveal>
         </div>

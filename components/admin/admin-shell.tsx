@@ -100,7 +100,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
   return (
     <div
       className="min-h-screen text-slate-900 flex flex-col selection:bg-primary/20"
-      style={{ fontFamily: 'var(--font-inter), sans-serif' }}
+      style={{ fontFamily: 'var(--font-dm-sans), sans-serif' }}
     >
       {/* Top Navbar */}
       <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80 shadow-sm">
@@ -108,7 +108,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
           <div className="flex h-16 items-center justify-between">
             {/* Logo */}
             <div className="flex items-center gap-8">
-              <Link href="/admin" className="font-serif text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+              <Link href="/admin" className="text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center text-white text-sm font-sans font-black">
                   M
                 </div>

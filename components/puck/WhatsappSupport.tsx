@@ -50,7 +50,7 @@ export const WhatsappSupportConfig: ComponentConfig<WhatsappSupportProps> = {
                   <MessageCircle className="w-6 h-6 text-green-500" />
                 </div>
                 <div>
-                  <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
+                  <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
                     {props.title}
                   </h2>
                   <p className="text-muted-foreground text-sm">{props.subtitle}</p>

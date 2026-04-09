@@ -41,7 +41,7 @@ export function WhyMultilimit() {
           {/* Content */}
           <Reveal y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">Neden Biz?</span>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               Neden <span className="text-gradient-gold">Multilimit</span> Tercih Etmelisiniz?
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">
@@ -74,7 +74,7 @@ export function WhyMultilimit() {
                 <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-sm font-semibold text-primary mb-4">
                   Multilimit Farki
                 </span>
-                <h3 className="font-serif text-2xl font-bold text-foreground">
+                <h3 className="text-2xl font-bold text-foreground">
                   Kalite Taahhutumuz
                 </h3>
               </div>

@@ -36,7 +36,7 @@ export const ProductFeaturesConfig: ComponentConfig<ProductFeaturesProps> = {
     <section className="py-12 lg:py-16 bg-secondary/30">
       <div className="container mx-auto px-4 lg:px-8">
         <Reveal>
-          <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground text-center mb-8">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground text-center mb-8">
           {title} <span className="text-gradient-gold">{titleHighlight}</span>
           </h2>
         </Reveal>

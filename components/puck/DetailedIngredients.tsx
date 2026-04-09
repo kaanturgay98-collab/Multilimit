@@ -76,7 +76,7 @@ export const DetailedIngredientsConfig: ComponentConfig<DetailedIngredientsProps
                       <div className="w-24 h-24 rounded-full bg-card border border-border flex items-center justify-center mb-6 text-primary">
                         <Icon size={48} />
                       </div>
-                      <span className="font-serif text-3xl font-bold text-foreground mb-2">{ingredient.name}</span>
+                      <span className="text-3xl font-bold text-foreground mb-2">{ingredient.name}</span>
                       <span className="text-primary font-medium">{ingredient.tagline}</span>
                     </div>
                   </div>
@@ -86,7 +86,7 @@ export const DetailedIngredientsConfig: ComponentConfig<DetailedIngredientsProps
                   <span className="inline-block px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs font-medium text-primary mb-4">
                     {ingredient.tagline}
                   </span>
-                  <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mb-4">{ingredient.name}</h2>
+                  <h2 className="text-3xl lg:text-4xl font-bold text-foreground mb-4">{ingredient.name}</h2>
                   <p className="text-muted-foreground text-lg leading-relaxed mb-6">{ingredient.description}</p>
                   
                   <div className="bg-secondary/50 rounded-2xl p-6 border border-border">

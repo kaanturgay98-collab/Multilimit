@@ -90,7 +90,7 @@ export default function WhoIsItForPage() {
             <span className="inline-block px-4 py-2 rounded-full bg-secondary border border-border text-sm font-medium text-primary mb-6">
               Hedef Kitle
             </span>
-            <h1 className="font-serif text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6">
               Kimler Icin <span className="text-gradient-gold">Uygun?</span>
             </h1>
             <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
@@ -105,7 +105,7 @@ export default function WhoIsItForPage() {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">Ideal Kullanicilar</span>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
               <span className="text-gradient-gold">Sizin Icin</span> Uygun mu?
             </h2>
           </div>
@@ -147,7 +147,7 @@ export default function WhoIsItForPage() {
                   <UserCheck className="w-7 h-7 text-green-500" />
                 </div>
                 <div>
-                  <h2 className="font-serif text-2xl font-bold text-foreground">Uygun Kullanicilar</h2>
+                  <h2 className="text-2xl font-bold text-foreground">Uygun Kullanicilar</h2>
                   <p className="text-muted-foreground text-sm">Guvenle kullanilabilir</p>
                 </div>
               </div>
@@ -169,7 +169,7 @@ export default function WhoIsItForPage() {
                   <AlertTriangle className="w-7 h-7 text-amber-500" />
                 </div>
                 <div>
-                  <h2 className="font-serif text-2xl font-bold text-foreground">Uzmana Danisin</h2>
+                  <h2 className="text-2xl font-bold text-foreground">Uzmana Danisin</h2>
                   <p className="text-muted-foreground text-sm">Once doktorunuza sorun</p>
                 </div>
               </div>
@@ -205,7 +205,7 @@ export default function WhoIsItForPage() {
       {/* CTA */}
       <section className="py-16 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
             Siz de <span className="text-gradient-gold">Baslayin</span>
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">

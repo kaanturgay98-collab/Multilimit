@@ -46,7 +46,7 @@ export const QualityApproachConfig: ComponentConfig<QualityApproachProps> = {
 
           <Reveal className="order-1 lg:order-2" y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{tagline}</span>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               {titleHighlight} <span className="text-gradient-gold">{titleEnd}</span>
             </h2>
             <div className="space-y-4 text-muted-foreground leading-relaxed">

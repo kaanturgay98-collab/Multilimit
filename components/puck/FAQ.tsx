@@ -35,7 +35,7 @@ function FAQRenderer(props: FAQProps) {
           {/* Content */}
           <Reveal className="lg:sticky lg:top-24" y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
               {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span>
             </h2>
             <p className="text-muted-foreground text-lg mb-8 leading-relaxed">

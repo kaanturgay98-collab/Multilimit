@@ -135,7 +135,7 @@ export const HeroConfig: ComponentConfig<HeroProps> = {
 
             {/* Headline */}
             <Reveal delayMs={100}>
-              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
                 {props.titleLight}{' '}
                 <span className="text-gradient-gold">{props.titleHighlight}</span>{' '}
                 {props.titleEnd}
@@ -200,7 +200,7 @@ export const HeroConfig: ComponentConfig<HeroProps> = {
                 </div>
                 
                 <div className="text-center mb-6">
-                  <span className="font-serif text-3xl font-bold text-gradient-gold tracking-wide">{props.productBrand}</span>
+                  <span className="text-3xl font-bold text-gradient-gold tracking-wide">{props.productBrand}</span>
                 </div>
                 
                 <div className="text-center mb-8">

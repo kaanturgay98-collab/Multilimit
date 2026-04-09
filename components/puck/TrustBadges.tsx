@@ -56,7 +56,7 @@ export const TrustBadgesConfig: ComponentConfig<TrustBadgesProps> = {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
         <Reveal className="text-center mb-12">
-          <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
             {props.titleStart} <span className="text-gradient-gold">{props.titleHighlight}</span>
           </h2>
         </Reveal>

@@ -61,7 +61,7 @@ export default async function ProductPage() {
         <section className="py-16 lg:py-24 bg-background">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="text-center mb-12">
-              <h1 className="font-serif text-3xl lg:text-4xl font-bold mb-4">Ürünlerimiz</h1>
+              <h1 className="text-3xl lg:text-4xl font-bold mb-4">Ürünlerimiz</h1>
               <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
             </div>
             
@@ -79,7 +79,7 @@ export default async function ProductPage() {
                     {product.media && product.media.length > 0 ? (
                       <ProductImageSlider images={product.media} title={product.name} />
                     ) : (
-                      <span className="font-serif text-2xl font-bold text-gradient-gold opacity-50">{product.name}</span>
+                      <span className="text-2xl font-bold text-gradient-gold opacity-50">{product.name}</span>
                     )}
                   </div>
                   

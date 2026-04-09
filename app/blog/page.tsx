@@ -53,7 +53,7 @@ export default function BlogPage() {
             <span className="inline-block px-4 py-2 rounded-full bg-secondary border border-border text-sm font-medium text-primary mb-6">
               Blog
             </span>
-            <h1 className="font-serif text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-foreground mb-6">
               Sağlıklı Yaşam <span className="text-gradient-gold">Rehberi</span>
             </h1>
             <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
@@ -142,7 +142,7 @@ export default function BlogPage() {
       <section className="py-16 lg:py-20 bg-secondary/30">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground mb-4">
+            <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
               Yeni İçeriklerden <span className="text-gradient-gold">Haberdar Olun</span>
             </h2>
             <p className="text-muted-foreground mb-8">

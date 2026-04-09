@@ -40,7 +40,7 @@ export function TrustBadges() {
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
         <Reveal className="text-center mb-12">
-          <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground">
             Guven & <span className="text-gradient-gold">Kalite</span>
           </h2>
         </Reveal>

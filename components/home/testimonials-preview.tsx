@@ -45,7 +45,7 @@ export function TestimonialsPreview() {
         {/* Section Header */}
         <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Kullanici Yorumlari</span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             Kullanicılarimiz <span className="text-gradient-gold">Ne Diyor?</span>
           </h2>
           <p className="text-muted-foreground text-lg">

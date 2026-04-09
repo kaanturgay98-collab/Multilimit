@@ -34,7 +34,7 @@ export function HowItWorks() {
         {/* Section Header */}
         <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Nasil Calisir?</span>
-          <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
+          <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             <span className="text-gradient-gold">3 Kolay</span> Adimda Baslayin
           </h2>
           <p className="text-muted-foreground text-lg">
@@ -56,7 +56,7 @@ export function HowItWorks() {
                 <div className="relative inline-flex items-center justify-center w-24 h-24 mb-6">
                   <div className="absolute inset-0 bg-primary/10 rounded-full animate-pulse-gold" />
                   <div className="relative w-20 h-20 rounded-full bg-gradient-to-br from-primary to-gold-dark flex items-center justify-center">
-                    <span className="font-serif text-2xl font-bold text-primary-foreground">{step.number}</span>
+                    <span className="text-2xl font-bold text-primary-foreground">{step.number}</span>
                   </div>
                 </div>
 

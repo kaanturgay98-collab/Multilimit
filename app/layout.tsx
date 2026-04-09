@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from 'next'
-import { Playfair_Display, Inter } from 'next/font/google'
+import { DM_Sans } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { Header } from '@/components/layout/header'
@@ -8,16 +8,11 @@ import { ChatbotWidget } from '@/components/chatbot-widget'
 import { AnalyticsTracker } from '@/components/analytics/tracker'
 import { Toaster } from '@/components/ui/toaster'
 
-const playfair = Playfair_Display({ 
-  subsets: ['latin'],
-  variable: '--font-playfair',
+const dmSans = DM_Sans({
+  subsets: ['latin', 'latin-ext'],
   display: 'swap',
-})
-
-const inter = Inter({ 
-  subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-dm-sans',
 })
 
 export const metadata: Metadata = {
@@ -62,7 +57,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="tr" className={`${playfair.variable} ${inter.variable}`}>
+    <html lang="tr" className={dmSans.variable}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <AnalyticsTracker />
         <Toaster />

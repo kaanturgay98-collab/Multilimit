@@ -62,7 +62,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
             </Link>
 
             {/* Title */}
-            <h1 className="font-serif text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-6 leading-tight">
+            <h1 className="text-3xl lg:text-4xl xl:text-5xl font-bold text-foreground mb-6 leading-tight">
               {post.title}
             </h1>
 
@@ -100,7 +100,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <div className="max-w-3xl mx-auto">
             {/* Article Content */}
             <article className="prose prose-invert prose-gold max-w-none 
-              prose-headings:font-serif prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-gold
+              prose-headings:font-sans prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-gold
               prose-h1:text-5xl prose-h1:mb-8
               prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-3 prose-h2:border-b-2 prose-h2:border-gold/20
               prose-h3:text-2xl prose-h3:mt-8 prose-h3:mb-4
@@ -165,7 +165,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {filteredRelated.length > 0 && (
         <section className="py-16 lg:py-20 bg-secondary/30">
           <div className="container mx-auto px-4 lg:px-8">
-            <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground text-center mb-12">
+            <h2 className="text-2xl lg:text-3xl font-bold text-foreground text-center mb-12">
               İlgili <span className="text-gradient-gold">Yazılar</span>
             </h2>
             <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
@@ -198,7 +198,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {/* CTA */}
       <section className="py-16 lg:py-20">
         <div className="container mx-auto px-4 lg:px-8 text-center">
-          <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground mb-4">
+          <h2 className="text-2xl lg:text-3xl font-bold text-foreground mb-4">
             Premium Formülü <span className="text-gradient-gold">Deneyin</span>
           </h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">

@@ -65,7 +65,7 @@ export const BlogPreviewConfig: ComponentConfig<BlogPreviewProps> = {
         <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
-            <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3">
+            <h2 className="text-3xl lg:text-4xl font-bold text-foreground mt-3">
               {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span>
             </h2>
           </div>
