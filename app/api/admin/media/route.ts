@@ -1,8 +1,11 @@
 import { NextResponse } from "next/server"
-import { getDb } from "@/lib/db"
-import { MediaAsset } from "@/lib/typeorm/entities/MediaAsset"
 import path from "path"
 import { mkdir, writeFile } from "fs/promises"
+import {
+  insertLibraryMedia,
+  listLibraryMedia,
+  normalizeMediaDbError,
+} from "@/lib/media-db"
 
 export const runtime = "nodejs"
 
@@ -15,9 +18,13 @@ function safeFilename(input: string) {
 }
 
 export async function GET() {
-  const ds = await getDb()
-  const assets = await ds.getRepository(MediaAsset).find({ order: { createdAt: "DESC" }, take: 200 })
-  return NextResponse.json({ ok: true, assets })
+  try {
+    const assets = listLibraryMedia(200)
+    return NextResponse.json({ ok: true, assets })
+  } catch (error: unknown) {
+    console.error("[Media API] GET Error:", error)
+    return NextResponse.json({ ok: false, error: normalizeMediaDbError(error) }, { status: 500 })
+  }
 }
 
 export async function POST(req: Request) {
@@ -42,21 +49,16 @@ export async function POST(req: Request) {
     await mkdir(dirFs, { recursive: true })
     await writeFile(fileFs, bytes)
 
-    const ds = await getDb()
-    const repo = ds.getRepository("MediaAsset")
-    const saved = await repo.save(
-      repo.create({
-        url: urlPath,
-        alt: alt?.trim() || null,
-        collection: collection?.trim() || "general",
-        sortOrder: 0,
-      })
-    )
+    const saved = insertLibraryMedia({
+      url: urlPath,
+      alt: alt?.trim() || null,
+      collection: collection?.trim() || "general",
+      sortOrder: 0,
+    })
 
     return NextResponse.json({ ok: true, asset: saved })
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("[Media API] POST Error:", error)
-    return NextResponse.json({ ok: false, error: error.message || "Upload failed" }, { status: 500 })
+    return NextResponse.json({ ok: false, error: normalizeMediaDbError(error) }, { status: 500 })
   }
 }
-

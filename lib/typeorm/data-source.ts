@@ -18,7 +18,6 @@ import { Coupon } from "@/lib/typeorm/entities/Coupon"
 import { ContactMessage } from "@/lib/typeorm/entities/ContactMessage"
 import { MenuItem } from "@/lib/typeorm/entities/MenuItem"
 import { SiteSetting } from "@/lib/typeorm/entities/SiteSetting"
-import { MediaAsset } from "@/lib/typeorm/entities/MediaAsset"
 import { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 import { ActivityLog } from "@/lib/typeorm/entities/ActivityLog"
 import { User } from "@/lib/typeorm/entities/User"
@@ -46,7 +45,6 @@ const entities = [
   ContactMessage,
   MenuItem,
   SiteSetting,
-  MediaAsset,
   SeoMeta,
   ActivityLog,
   User,

@@ -1,7 +1,6 @@
 import { Column, Entity, OneToMany } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
-import type { MediaAsset } from "@/lib/typeorm/entities/MediaAsset"
 import type { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 
 export type ProductBadge = "premium" | "new" | "bestseller" | null
@@ -52,9 +51,6 @@ export class Product extends BaseEntityWithTimestamps {
 
   @OneToMany(() => require("./ProductVariant").ProductVariant, (variant: any) => variant.product)
   variants!: ProductVariant[]
-
-  @OneToMany(() => require("./MediaAsset").MediaAsset, (asset: any) => asset.product)
-  media!: MediaAsset[]
 
   @OneToMany(() => require("./SeoMeta").SeoMeta, (seo: any) => seo.product)
   seoEntries!: SeoMeta[]

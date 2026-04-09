@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input"
 import { AdminPageHeader } from "@/components/admin/admin-page-header"
 import { adminFetchJson } from "@/lib/admin/admin-fetch"
 
-type MediaAsset = { id: string; url: string; alt: string | null; collection: string | null; createdAt: string }
+type LibraryMediaRow = { id: string; url: string; alt: string | null; collection: string | null; createdAt: string }
 
 export default function AdminMediaPage() {
-  const [rows, setRows] = useState<MediaAsset[]>([])
+  const [rows, setRows] = useState<LibraryMediaRow[]>([])
   const [loading, setLoading] = useState(true)
   const [collection, setCollection] = useState("general")
   const [alt, setAlt] = useState("")
@@ -19,7 +19,7 @@ export default function AdminMediaPage() {
   async function refresh() {
     setLoading(true)
     try {
-      const data = await adminFetchJson<{ ok: boolean; assets?: MediaAsset[]; error?: string }>("/api/admin/media")
+      const data = await adminFetchJson<{ ok: boolean; assets?: LibraryMediaRow[]; error?: string }>("/api/admin/media")
       if (data.ok) setRows(data.assets || [])
     } finally {
       setLoading(false)
