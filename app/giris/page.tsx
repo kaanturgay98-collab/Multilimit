@@ -25,13 +25,13 @@ function LoginContent() {
     e.preventDefault()
     setIsLoading(true)
     await new Promise((resolve) => setTimeout(resolve, 600))
-    // Mock "logged-in" public session (for checkout prefilling)
+    // Mock public session for post-login navigation.
     setPublicSession({
       firstName: "Musteri",
       lastName: "Kullanici",
       email: formData.email.trim(),
     })
-    const next = sp.get("next") || "/checkout"
+    const next = sp.get("next") || "/siparis"
     router.push(next)
   }
 

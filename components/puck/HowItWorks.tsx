@@ -1,5 +1,4 @@
 import React from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
@@ -43,8 +42,8 @@ export const HowItWorksConfig: ComponentConfig<HowItWorksProps> = {
     titleHighlight: "3 Kolay",
     titleEnd: "Adımda Başlayın",
     description: "Multilimit Premium Detoks Kompleksi ile tanışmak çok kolay.",
-    buttonText: "Hemen Başlayın",
-    buttonLink: "/siparis",
+    buttonText: "Trendyol'da Incele",
+    buttonLink: "https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513",
     steps: [
       { number: "01", title: "Siparişinizi Verin", description: "Size uygun paketi seçin ve güvenli ödeme ile siparişinizi tamamlayın." },
       { number: "02", title: "Hızlı Teslimat", description: "Siparişiniz özenle paketlenir ve en kısa sürede adresinize ulaştırılır." },
@@ -106,10 +105,10 @@ export const HowItWorksConfig: ComponentConfig<HowItWorksProps> = {
         {props.buttonText && props.buttonLink && (
           <div className="text-center">
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14">
-              <Link href={props.buttonLink || "#"}>
+              <a href={props.buttonLink || "#"} target={props.buttonLink?.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer">
                 {props.buttonText}
                 <ArrowRight className="ml-2 h-5 w-5" />
-              </Link>
+              </a>
             </Button>
           </div>
         )}

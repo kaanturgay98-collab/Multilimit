@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 const quickActions = [
   { label: 'Urunu Kesfet', href: '/urun', icon: Package },
-  { label: 'Siparise Gec', href: '/siparis', icon: ShoppingCart },
+  { label: "Trendyol'da Siparis", href: 'https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513', icon: ShoppingCart, external: true },
   { label: 'WhatsApp Destek', href: 'https://wa.me/905551234567?text=Merhaba%2C%20Multilimit%20Premium%20Detoks%20Kompleksi%20hakkinda%20bilgi%20almak%20istiyorum.', icon: MessageCircle, external: true },
   { label: 'Sik Sorulan Sorular', href: '/sss', icon: HelpCircle },
 ]

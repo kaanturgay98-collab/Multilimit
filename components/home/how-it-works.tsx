@@ -1,6 +1,5 @@
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ExternalLink } from 'lucide-react'
 
 const steps = [
   {
@@ -74,11 +73,12 @@ export function HowItWorks() {
 
         {/* CTA */}
         <div className="text-center">
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14">
-            <Link href="/siparis">
-              Hemen Baslayin
+          <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14">
+            <a href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513" target="_blank" rel="noopener noreferrer">
+              Trendyol'da Incele
               <ArrowRight className="ml-2 h-5 w-5" />
-            </Link>
+              <ExternalLink className="ml-2 h-5 w-5" />
+            </a>
           </Button>
         </div>
       </div>

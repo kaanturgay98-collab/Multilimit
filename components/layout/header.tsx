@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import { Menu, MessageCircle, ShoppingBag } from 'lucide-react'
+import { FaInstagram, FaFacebookF, FaWhatsapp } from 'react-icons/fa'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
@@ -56,7 +57,7 @@ export function Header() {
   }, [])
 
   const whatsappLink = useMemo(() => {
-    const num = settings?.whatsapp || "905551234567"
+    const num = settings?.whatsapp || "905444575629"
     const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
     return `https://wa.me/${num}?text=${msg}`
   }, [settings])
@@ -69,6 +70,30 @@ export function Header() {
     }
     return fallbackNavigation.map((m) => ({ ...m, external: false }))
   }, [menu])
+
+  const socialLinks = useMemo(
+    () => [
+      {
+        name: 'Instagram',
+        href: 'https://www.instagram.com/multi.limit/',
+        icon: FaInstagram,
+        colorClass: '!text-[#E4405F] hover:!text-[#E4405F] focus-visible:!text-[#E4405F]',
+      },
+      {
+        name: 'Facebook',
+        href: 'https://www.facebook.com/multi.limit/',
+        icon: FaFacebookF,
+        colorClass: '!text-[#1877F2] hover:!text-[#1877F2] focus-visible:!text-[#1877F2]',
+      },
+      {
+        name: 'WhatsApp',
+        href: whatsappLink,
+        icon: FaWhatsapp,
+        colorClass: '!text-[#25D366] hover:!text-[#25D366] focus-visible:!text-[#25D366]',
+      },
+    ],
+    [whatsappLink]
+  )
 
   if (pathname?.startsWith('/admin')) {
     return null
@@ -120,26 +145,34 @@ export function Header() {
 
         {/* Actions */}
         <div className="flex items-center gap-2">
-          {/* WhatsApp Button - Desktop */}
-          <a
-            href={whatsappLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => trackClick("header_whatsapp")}
-            className="hidden md:flex"
-          >
-            <Button variant="ghost" size="icon" className="text-green-500 hover:text-green-400 hover:bg-green-500/10">
-              <MessageCircle className="h-5 w-5" />
-              <span className="sr-only">WhatsApp Destek</span>
-            </Button>
-          </a>
-
-          {/* Login Button - Desktop */}
-          <Button asChild variant="ghost" className="hidden lg:flex text-muted-foreground hover:text-foreground">
-            <Link href="/giris">
-              Giris Yap
-            </Link>
-          </Button>
+          {/* Social + Trendyol - Desktop */}
+          <div className="hidden lg:flex items-center gap-1">
+            {socialLinks.map((social) => (
+              <a
+                key={social.name}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex"
+                aria-label={social.name}
+              >
+                <Button variant="ghost" size="icon" className={cn('hover:bg-secondary/80', social.colorClass)}>
+                  <social.icon className="h-4 w-4" />
+                  <span className="sr-only">{social.name}</span>
+                </Button>
+              </a>
+            ))}
+            <a
+              href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ml-1 inline-flex items-center gap-1 rounded-md bg-[#F27A1A] px-2.5 py-1.5 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
+              aria-label="Trendyol'da Siparis Ver"
+            >
+              <ShoppingBag className="h-3.5 w-3.5" />
+              Trendyol
+            </a>
+          </div>
 
           {/* Mobile Menu */}
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -185,11 +218,33 @@ export function Header() {
                 </nav>
 
                 <div className="flex flex-col gap-3 pt-4 border-t border-border">
-                  <Button asChild variant="outline" className="w-full border-primary text-primary hover:bg-primary hover:text-primary-foreground">
-                    <Link href="/giris" onClick={() => setIsOpen(false)}>
-                      Giris Yap
-                    </Link>
-                  </Button>
+                  <div className="flex items-center justify-center gap-2">
+                    {socialLinks.map((social) => (
+                      <a
+                        key={social.name}
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsOpen(false)}
+                        aria-label={social.name}
+                      >
+                        <Button variant="ghost" size="icon" className={cn('hover:bg-secondary/80', social.colorClass)}>
+                          <social.icon className="h-4 w-4" />
+                          <span className="sr-only">{social.name}</span>
+                        </Button>
+                      </a>
+                    ))}
+                  </div>
+                  <a
+                    href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setIsOpen(false)}
+                    className="flex items-center justify-center gap-2 px-4 py-2 bg-[#F27A1A] hover:opacity-90 text-white rounded-lg transition-opacity font-semibold"
+                  >
+                    <ShoppingBag className="h-5 w-5" />
+                    Trendyol'da Siparis Ver
+                  </a>
                   <a
                     href={whatsappLink}
                     target="_blank"

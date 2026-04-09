@@ -5,7 +5,6 @@ import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { ChatbotWidget } from '@/components/chatbot-widget'
-import { CartProvider } from '@/lib/cart-context'
 import { AnalyticsTracker } from '@/components/analytics/tracker'
 import { Toaster } from '@/components/ui/toaster'
 
@@ -60,16 +59,14 @@ export default function RootLayout({
   return (
     <html lang="tr" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
-        <CartProvider>
-          <AnalyticsTracker />
-          <Toaster />
-          <Header />
-          <main className="flex-1">
-            {children}
-          </main>
-          <Footer />
-          <ChatbotWidget />
-        </CartProvider>
+        <AnalyticsTracker />
+        <Toaster />
+        <Header />
+        <main className="flex-1">
+          {children}
+        </main>
+        <Footer />
+        <ChatbotWidget />
         <Analytics />
       </body>
     </html>

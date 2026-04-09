@@ -204,10 +204,10 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
             Multilimit Premium Detoks Kompleksi ile günlük rutininize destek verin.
           </p>
-          <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14">
-            <Link href="/siparis">
-              Sipariş Ver
-            </Link>
+          <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14">
+            <a href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513" target="_blank" rel="noopener noreferrer">
+              Trendyol'dan Siparis Ver
+            </a>
           </Button>
         </div>
       </section>

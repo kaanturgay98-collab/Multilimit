@@ -1,8 +1,6 @@
-"use client"
-
-import CheckoutPage from "@/app/odeme/page"
+import { redirect } from "next/navigation"
 
 export default function CheckoutAliasPage() {
-  return <CheckoutPage />
+  redirect("/siparis")
 }
 

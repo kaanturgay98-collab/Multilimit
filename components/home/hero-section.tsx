@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Sparkles } from 'lucide-react'
+import { ArrowRight, ExternalLink, Sparkles } from 'lucide-react'
 import { MultilimitHeroBackground } from '@/components/hero/multilimit-hero-background'
 import { trackClick } from '@/components/analytics/tracker'
 
@@ -39,11 +39,12 @@ export function HeroSection() {
 
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14 text-base glow-gold">
-                <Link href="/siparis">
-                  Siparis Ver
+              <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14 text-base">
+                <a href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513" target="_blank" rel="noopener noreferrer">
+                  Trendyol'dan Al
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
+                  <ExternalLink className="ml-2 h-5 w-5" />
+                </a>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary px-8 h-14 text-base">
                 <Link

@@ -128,7 +128,7 @@ export const config: Config<Props> = {
         title: "Hemen Trendyol'dan Satın Alın",
         description: "Multilimit kalitesine Trendyol güvencesiyle sahip olun. Stoklar tükenmeden harekete geçin.",
         buttonText: "Trendyol'da İncele",
-        buttonLink: "https://www.trendyol.com",
+        buttonLink: "https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513",
         theme: "primary",
       },
       render: ({ title, description, buttonText, buttonLink, theme }) => {
