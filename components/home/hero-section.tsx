@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, ExternalLink, Sparkles } from 'lucide-react'
 import { MultilimitHeroBackground } from '@/components/hero/multilimit-hero-background'
 import { trackClick } from '@/components/analytics/tracker'
+import { Reveal } from '@/components/ui/reveal'
 
 export function HeroSection() {
   return (
@@ -20,25 +21,32 @@ export function HeroSection() {
           {/* Content */}
           <div className="text-center lg:text-left order-2 lg:order-1">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-medium text-foreground">Premium Detoks Formulu</span>
-            </div>
+            <Reveal>
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-6">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-medium text-foreground">Premium Detoks Formulu</span>
+              </div>
+            </Reveal>
 
             {/* Headline */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
-              Sabah Daha{' '}
-              <span className="text-gradient-gold">Zinde</span>{' '}
-              Baslayin
-            </h1>
+            <Reveal delayMs={100}>
+              <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-foreground leading-tight mb-6">
+                Sabah Daha{' '}
+                <span className="text-gradient-gold">Zinde</span>{' '}
+                Baslayin
+              </h1>
+            </Reveal>
 
             {/* Subheadline */}
-            <p className="text-lg lg:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
-              Gunluk yasam temposuna destek veren premium formul. Zeolit, L-Sistein ve Pirinc Kepegi iceren ozel kompozisyonumuzla tanisın.
-            </p>
+            <Reveal delayMs={180}>
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+                Gunluk yasam temposuna destek veren premium formul. Zeolit, L-Sistein ve Pirinc Kepegi iceren ozel kompozisyonumuzla tanisın.
+              </p>
+            </Reveal>
 
             {/* CTAs */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+            <Reveal delayMs={260}>
+              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
               <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14 text-base">
                 <a href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513" target="_blank" rel="noopener noreferrer">
                   Trendyol'dan Al
@@ -56,10 +64,12 @@ export function HeroSection() {
                   Urunu Incele
                 </Link>
               </Button>
-            </div>
+              </div>
+            </Reveal>
 
             {/* Trust Indicators */}
-            <div className="flex items-center gap-8 mt-10 justify-center lg:justify-start">
+            <Reveal delayMs={340}>
+              <div className="flex items-center gap-8 mt-10 justify-center lg:justify-start">
               <div className="text-center">
                 <p className="text-2xl font-bold text-primary">10.000+</p>
                 <p className="text-sm text-muted-foreground">Mutlu Musteri</p>
@@ -74,11 +84,12 @@ export function HeroSection() {
                 <p className="text-2xl font-bold text-primary">%100</p>
                 <p className="text-sm text-muted-foreground">Dogal Icerik</p>
               </div>
-            </div>
+              </div>
+            </Reveal>
           </div>
 
           {/* Product Visual */}
-          <div className="relative order-1 lg:order-2 flex justify-center">
+          <Reveal delayMs={200} durationMs={700} y={22} className="relative order-1 lg:order-2 flex justify-center">
             <div className="relative">
               {/* Glow Effect Behind Product */}
               <div className="absolute inset-0 bg-primary/30 rounded-full blur-[80px] scale-75" />
@@ -130,7 +141,7 @@ export function HeroSection() {
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

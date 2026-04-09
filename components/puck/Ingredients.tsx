@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Atom, Droplets, Wheat, Sun, Shield, Leaf, Zap, Award, Beaker, Heart, Clock } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 const ICON_MAP = {
   Sun, Shield, Leaf, Zap, Atom, Droplets, Wheat, Award, Beaker, Heart, Clock
@@ -67,7 +68,7 @@ export const IngredientsConfig: ComponentConfig<IngredientsProps> = {
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             <span className="text-gradient-gold">{props.titleHighlight}</span> {props.titleEnd}
@@ -75,15 +76,16 @@ export const IngredientsConfig: ComponentConfig<IngredientsProps> = {
           <p className="text-muted-foreground text-lg">
             {props.description}
           </p>
-        </div>
+        </Reveal>
 
         {/* Ingredients Cards */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {props.items?.map((ingredient, index) => {
             const IconComponent = ICON_MAP[ingredient.icon] || Atom;
             return (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 100}
                 className="group relative bg-card border border-border rounded-2xl p-8 card-hover text-center shadow-sm"
               >
                 {/* Highlight Badge */}
@@ -103,21 +105,21 @@ export const IngredientsConfig: ComponentConfig<IngredientsProps> = {
                 <p className="text-muted-foreground text-sm leading-relaxed">
                   {ingredient.description}
                 </p>
-              </div>
+              </Reveal>
             );
           })}
         </div>
 
         {/* CTA */}
         {props.buttonText && props.buttonLink && (
-          <div className="text-center">
+          <Reveal className="text-center" delayMs={170}>
             <Button asChild variant="outline" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary">
               <Link href={props.buttonLink || "#"}>
                 {props.buttonText}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

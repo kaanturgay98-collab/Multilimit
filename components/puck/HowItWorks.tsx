@@ -2,6 +2,7 @@ import React from "react"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 export type StepItem = {
   number: string;
@@ -61,7 +62,7 @@ export const HowItWorksConfig: ComponentConfig<HowItWorksProps> = {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             <span className="text-gradient-gold">{props.titleHighlight}</span> {props.titleEnd}
@@ -69,12 +70,12 @@ export const HowItWorksConfig: ComponentConfig<HowItWorksProps> = {
           <p className="text-muted-foreground text-lg">
             {props.description}
           </p>
-        </div>
+        </Reveal>
 
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-12">
           {props.steps?.map((step, index) => (
-            <div key={index} className="relative">
+            <Reveal key={index} className="relative" delayMs={index * 120}>
               {/* Connector Line */}
               {index < props.steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-[calc(50%+60px)] w-[calc(100%-120px)] h-px bg-gradient-to-r from-primary/50 to-primary/10" />
@@ -97,20 +98,20 @@ export const HowItWorksConfig: ComponentConfig<HowItWorksProps> = {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         {/* CTA */}
         {props.buttonText && props.buttonLink && (
-          <div className="text-center">
+          <Reveal className="text-center" delayMs={180}>
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold px-8 h-14">
               <a href={props.buttonLink || "#"} target={props.buttonLink?.startsWith("http") ? "_blank" : "_self"} rel="noopener noreferrer">
                 {props.buttonText}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </a>
             </Button>
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

@@ -1,6 +1,7 @@
 import React from "react"
 import type { ComponentConfig } from "@measured/puck"
 import { Target, Eye } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 export type MissionVisionProps = {
   missionTitle: string
@@ -27,22 +28,22 @@ export const MissionVisionConfig: ComponentConfig<MissionVisionProps> = {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Mission */}
-          <div className="bg-card border border-border rounded-3xl p-8 lg:p-10">
+          <Reveal className="bg-card border border-border rounded-3xl p-8 lg:p-10" y={18}>
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
               <Target className="w-8 h-8 text-primary" />
             </div>
             <h3 className="font-serif text-2xl font-bold text-foreground mb-4">{missionTitle}</h3>
             <p className="text-muted-foreground leading-relaxed">{missionText}</p>
-          </div>
+          </Reveal>
 
           {/* Vision */}
-          <div className="bg-card border border-border rounded-3xl p-8 lg:p-10">
+          <Reveal className="bg-card border border-border rounded-3xl p-8 lg:p-10" delayMs={120} y={18}>
             <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6">
               <Eye className="w-8 h-8 text-primary" />
             </div>
             <h3 className="font-serif text-2xl font-bold text-foreground mb-4">{visionTitle}</h3>
             <p className="text-muted-foreground leading-relaxed">{visionText}</p>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

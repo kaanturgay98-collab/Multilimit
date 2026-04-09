@@ -1,6 +1,7 @@
 import React from "react"
 import type { ComponentConfig } from "@measured/puck"
 import { Building } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 export type BrandStoryProps = {
   tagline: string
@@ -41,7 +42,7 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
     <section className="py-16 lg:py-24 bg-secondary/30">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div>
+          <Reveal y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{tagline}</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               {titleHighlight} <span className="text-gradient-gold">{titleEnd}</span>
@@ -51,9 +52,9 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
                 <p key={i}>{p.text}</p>
               ))}
             </div>
-          </div>
+          </Reveal>
           
-          <div className="relative">
+          <Reveal className="relative" delayMs={140} y={18}>
             <div className="aspect-[4/3] bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Building className="w-24 h-24 text-primary/30" />
@@ -63,7 +64,7 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
               <p className="text-3xl font-bold text-primary">{experienceValue}</p>
               <p className="text-sm text-muted-foreground">{experienceLabel}</p>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

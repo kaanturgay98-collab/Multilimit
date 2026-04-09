@@ -1,6 +1,7 @@
 import React from "react"
 import type { ComponentConfig } from "@measured/puck"
 import { Atom, Droplets, Wheat, Sparkles } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 const ICON_MAP = {
   Atom, Droplets, Wheat, Sparkles
@@ -62,8 +63,9 @@ export const DetailedIngredientsConfig: ComponentConfig<DetailedIngredientsProps
           {ingredients.map((ingredient, index) => {
             const Icon = ICON_MAP[ingredient.icon] || Atom
             return (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 120}
                 className={`grid lg:grid-cols-2 gap-8 lg:gap-16 items-center ${
                   index % 2 === 1 ? 'lg:grid-flow-dense' : ''
                 }`}
@@ -99,7 +101,7 @@ export const DetailedIngredientsConfig: ComponentConfig<DetailedIngredientsProps
                     </ul>
                   </div>
                 </div>
-              </div>
+              </Reveal>
             )
           })}
         </div>

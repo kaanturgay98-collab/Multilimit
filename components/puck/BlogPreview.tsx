@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Calendar, Clock } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 export type BlogPostItem = {
   slug: string;
@@ -61,7 +62,7 @@ export const BlogPreviewConfig: ComponentConfig<BlogPreviewProps> = {
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+        <Reveal className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3">
@@ -76,13 +77,13 @@ export const BlogPreviewConfig: ComponentConfig<BlogPreviewProps> = {
               </Link>
             </Button>
           )}
-        </div>
+        </Reveal>
 
         {/* Blog Grid */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {props.items?.map((post) => (
-            <Link
-              key={post.slug}
+          {props.items?.map((post, index) => (
+            <Reveal key={post.slug} delayMs={index * 90}>
+              <Link
               href={`/blog/${post.slug}`}
               className="group"
             >
@@ -117,7 +118,8 @@ export const BlogPreviewConfig: ComponentConfig<BlogPreviewProps> = {
                   </div>
                 </div>
               </article>
-            </Link>
+              </Link>
+            </Reveal>
           ))}
         </div>
       </div>

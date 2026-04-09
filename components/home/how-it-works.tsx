@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { ArrowRight, ExternalLink } from 'lucide-react'
+import { Reveal } from '@/components/ui/reveal'
 
 const steps = [
   {
@@ -31,7 +32,7 @@ export function HowItWorks() {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Nasil Calisir?</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             <span className="text-gradient-gold">3 Kolay</span> Adimda Baslayin
@@ -39,12 +40,12 @@ export function HowItWorks() {
           <p className="text-muted-foreground text-lg">
             Multilimit Premium Detoks Kompleksi ile tanismak cok kolay.
           </p>
-        </div>
+        </Reveal>
 
         {/* Steps */}
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12 mb-12">
           {steps.map((step, index) => (
-            <div key={step.number} className="relative">
+            <Reveal key={step.number} className="relative" delayMs={index * 120}>
               {/* Connector Line */}
               {index < steps.length - 1 && (
                 <div className="hidden md:block absolute top-12 left-[calc(50%+60px)] w-[calc(100%-120px)] h-px bg-gradient-to-r from-primary/50 to-primary/10" />
@@ -67,12 +68,12 @@ export function HowItWorks() {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center">
+        <Reveal className="text-center" delayMs={180}>
           <Button asChild size="lg" className="bg-[#f27a1a] hover:bg-[#d66512] text-white font-semibold px-8 h-14">
             <a href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513" target="_blank" rel="noopener noreferrer">
               Trendyol'da Incele
@@ -80,7 +81,7 @@ export function HowItWorks() {
               <ExternalLink className="ml-2 h-5 w-5" />
             </a>
           </Button>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

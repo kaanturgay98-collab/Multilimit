@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react"
+import { Reveal } from "@/components/ui/reveal"
 
 type Page = { data: unknown }
 
@@ -34,9 +35,9 @@ export function AdminOverlay({ slug }: { slug: string }) {
 
   return (
     <section className="container mx-auto px-4 lg:px-8 mt-6">
-      <div className="bg-card border border-border rounded-2xl p-5">
+      <Reveal className="bg-card border border-border rounded-2xl p-5" y={16}>
         <div className="prose prose-sm max-w-none dark:prose-invert" dangerouslySetInnerHTML={{ __html: html }} />
-      </div>
+      </Reveal>
     </section>
   )
 }

@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Plus, Minus } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 export type FAQItem = {
   question: string;
@@ -32,7 +33,7 @@ function FAQRenderer(props: FAQProps) {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Content */}
-          <div className="lg:sticky lg:top-24">
+          <Reveal className="lg:sticky lg:top-24" y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
               {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span>
@@ -48,13 +49,14 @@ function FAQRenderer(props: FAQProps) {
                 </Link>
               </Button>
             )}
-          </div>
+          </Reveal>
 
           {/* FAQ Accordion */}
           <div className="space-y-4">
             {props.items?.map((faq, index) => (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 80}
                 className="bg-card border border-border rounded-xl overflow-hidden"
               >
                 <button
@@ -79,7 +81,7 @@ function FAQRenderer(props: FAQProps) {
                     {faq.answer}
                   </p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

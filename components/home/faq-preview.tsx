@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Plus, Minus } from 'lucide-react'
 import { useState } from 'react'
+import { Reveal } from '@/components/ui/reveal'
 
 const faqs = [
   {
@@ -32,7 +33,7 @@ export function FaqPreview() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Content */}
-          <div className="lg:sticky lg:top-24">
+          <Reveal className="lg:sticky lg:top-24" y={20}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">SSS</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
               Sik Sorulan <span className="text-gradient-gold">Sorular</span>
@@ -46,13 +47,14 @@ export function FaqPreview() {
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-          </div>
+          </Reveal>
 
           {/* FAQ Accordion */}
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 80}
                 className="bg-card border border-border rounded-xl overflow-hidden"
               >
                 <button
@@ -77,7 +79,7 @@ export function FaqPreview() {
                     {faq.answer}
                   </p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React from "react"
 import type { ComponentConfig } from "@measured/puck"
 import { Award, Shield } from "lucide-react"
+import { Reveal } from "@/components/ui/reveal"
 
 export type QualityApproachProps = {
   tagline: string
@@ -35,15 +36,15 @@ export const QualityApproachConfig: ComponentConfig<QualityApproachProps> = {
     <section className="py-16 lg:py-24 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          <div className="relative order-2 lg:order-1">
+          <Reveal className="relative order-2 lg:order-1" delayMs={120} y={18}>
             <div className="aspect-[4/3] bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border overflow-hidden">
               <div className="absolute inset-0 flex items-center justify-center">
                 <Award className="w-24 h-24 text-primary/30" />
               </div>
             </div>
-          </div>
+          </Reveal>
 
-          <div className="order-1 lg:order-2">
+          <Reveal className="order-1 lg:order-2" y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{tagline}</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               {titleHighlight} <span className="text-gradient-gold">{titleEnd}</span>
@@ -63,7 +64,7 @@ export const QualityApproachConfig: ComponentConfig<QualityApproachProps> = {
                 <span className="text-sm font-medium text-foreground">{badge2}</span>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

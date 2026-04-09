@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Star, Quote } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 export type TestimonialItem = {
   name: string;
@@ -74,7 +75,7 @@ export const TestimonialsConfig: ComponentConfig<TestimonialsProps> = {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span>
@@ -82,13 +83,14 @@ export const TestimonialsConfig: ComponentConfig<TestimonialsProps> = {
           <p className="text-muted-foreground text-lg">
             {props.description}
           </p>
-        </div>
+        </Reveal>
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {props.items?.map((testimonial, index) => (
-            <div
+            <Reveal
               key={index}
+              delayMs={index * 90}
               className="bg-card border border-border rounded-2xl p-6 lg:p-8 card-hover shadow-sm"
             >
               {/* Rating */}
@@ -114,20 +116,20 @@ export const TestimonialsConfig: ComponentConfig<TestimonialsProps> = {
                 </div>
                 <span className="text-xs text-muted-foreground">{testimonial.date}</span>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         {/* CTA */}
         {props.buttonText && props.buttonLink && (
-          <div className="text-center">
+          <Reveal className="text-center" delayMs={160}>
             <Button asChild variant="outline" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary">
               <Link href={props.buttonLink || "#"}>
                 {props.buttonText}
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>
-          </div>
+          </Reveal>
         )}
       </div>
     </section>

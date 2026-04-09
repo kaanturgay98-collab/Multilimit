@@ -1,68 +1,125 @@
 import { NextResponse } from "next/server"
 import { getDb } from "@/lib/db"
-import { SiteSetting } from "@/lib/typeorm/entities/SiteSetting"
 
 export const runtime = "nodejs"
 
-export async function GET() {
+type SiteSettingRow = {
+  id: string
+  createdAt: string
+  updatedAt: string
+  isActive: number
+  siteName: string
+  logoUrl: string | null
+  faviconUrl: string | null
+  phone: string | null
+  email: string | null
+  whatsapp: string | null
+  footerText: string | null
+  copyright: string | null
+}
+
+async function ensureSiteSettingTable() {
   const ds = await getDb()
-  const repo = ds.getRepository(SiteSetting)
-  let setting = await repo.findOne({ where: {} })
-  
-  if (!setting) {
-    // Return a default object if none exists, or empty
-    return NextResponse.json({ 
-      ok: true, 
-      row: {
-        siteName: "Multilimit",
-        logoUrl: "",
-        faviconUrl: "",
-        phone: "",
-        email: "",
-        whatsapp: "",
-        footerText: "",
-        copyright: ""
-      } 
-    })
+  await ds.query(`
+    CREATE TABLE IF NOT EXISTS "SiteSetting" (
+      "id" varchar PRIMARY KEY NOT NULL,
+      "createdAt" datetime NOT NULL DEFAULT (datetime('now')),
+      "updatedAt" datetime NOT NULL DEFAULT (datetime('now')),
+      "isActive" boolean NOT NULL DEFAULT (1),
+      "siteName" varchar NOT NULL,
+      "logoUrl" text,
+      "faviconUrl" text,
+      "phone" text,
+      "email" text,
+      "whatsapp" text,
+      "footerText" text,
+      "copyright" text
+    )
+  `)
+  return ds
+}
+
+function toClientRow(row: SiteSettingRow | null) {
+  if (!row) {
+    return {
+      siteName: "Multilimit",
+      logoUrl: "/multilimit-logo.png",
+      faviconUrl: "/mltlimit-favicon.ico",
+      phone: "",
+      email: "",
+      whatsapp: "",
+      footerText: "",
+      copyright: "",
+    }
   }
-  
-  return NextResponse.json({ ok: true, row: setting })
+
+  return {
+    ...row,
+    isActive: Boolean(row.isActive),
+  }
+}
+
+export async function GET() {
+  const ds = await ensureSiteSettingTable()
+  const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+  return NextResponse.json({ ok: true, row: toClientRow(rows[0] ?? null) })
 }
 
 export async function POST(req: Request) {
   const json = await req.json().catch(() => null)
   if (!json) return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 })
 
-  const ds = await getDb()
-  const repo = ds.getRepository(SiteSetting)
-  let setting = await repo.findOne({ where: {} })
+  const ds = await ensureSiteSettingTable()
+  const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+  const current = rows[0] ?? null
 
-  if (setting) {
-    // Explicitly update only the target fields to avoid potential issues with updatedAt/createdAt
-    // if SiteSetting has they defined as non-nullable class properties
-    setting.siteName = json.siteName ?? setting.siteName
-    setting.logoUrl = json.logoUrl ?? setting.logoUrl
-    setting.faviconUrl = json.faviconUrl ?? setting.faviconUrl
-    setting.phone = json.phone ?? setting.phone
-    setting.email = json.email ?? setting.email
-    setting.whatsapp = json.whatsapp ?? setting.whatsapp
-    setting.footerText = json.footerText ?? setting.footerText
-    setting.copyright = json.copyright ?? setting.copyright
-    
-    await repo.save(setting)
-  } else {
-    setting = repo.create({
-      siteName: json.siteName || "Multilimit",
-      logoUrl: json.logoUrl || null,
-      faviconUrl: json.faviconUrl || null,
-      phone: json.phone || null,
-      email: json.email || null,
-      whatsapp: json.whatsapp || null,
-      footerText: json.footerText || null,
-      copyright: json.copyright || null
-    })
-    await repo.save(setting)
+  const next = {
+    siteName: json.siteName ?? current?.siteName ?? "Multilimit",
+    logoUrl: json.logoUrl ?? current?.logoUrl ?? null,
+    faviconUrl: json.faviconUrl ?? current?.faviconUrl ?? null,
+    phone: json.phone ?? current?.phone ?? null,
+    email: json.email ?? current?.email ?? null,
+    whatsapp: json.whatsapp ?? current?.whatsapp ?? null,
+    footerText: json.footerText ?? current?.footerText ?? null,
+    copyright: json.copyright ?? current?.copyright ?? null,
   }
 
-  return NextResponse.json({ ok: true, row: setting })
+  if (current) {
+    await ds.query(
+      `UPDATE "SiteSetting"
+       SET "siteName" = ?, "logoUrl" = ?, "faviconUrl" = ?, "phone" = ?, "email" = ?, "whatsapp" = ?, "footerText" = ?, "copyright" = ?, "updatedAt" = datetime('now')
+       WHERE "id" = ?`,
+      [
+        next.siteName,
+        next.logoUrl,
+        next.faviconUrl,
+        next.phone,
+        next.email,
+        next.whatsapp,
+        next.footerText,
+        next.copyright,
+        current.id,
+      ],
+    )
+  } else {
+    await ds.query(
+      `INSERT INTO "SiteSetting"
+       ("id", "createdAt", "updatedAt", "isActive", "siteName", "logoUrl", "faviconUrl", "phone", "email", "whatsapp", "footerText", "copyright")
+       VALUES (?, datetime('now'), datetime('now'), 1, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        crypto.randomUUID(),
+        next.siteName,
+        next.logoUrl,
+        next.faviconUrl,
+        next.phone,
+        next.email,
+        next.whatsapp,
+        next.footerText,
+        next.copyright,
+      ],
+    )
+  }
+
+  const updatedRows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+  return NextResponse.json({ ok: true, row: toClientRow(updatedRows[0] ?? null) })
 }

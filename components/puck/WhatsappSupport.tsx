@@ -1,6 +1,7 @@
 import React from "react"
 import { MessageCircle, Phone, Mail, Clock } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 export type WhatsappSupportProps = {
   title: string;
@@ -43,7 +44,7 @@ export const WhatsappSupportConfig: ComponentConfig<WhatsappSupportProps> = {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             {/* Content */}
-            <div className="text-center lg:text-left">
+            <Reveal className="text-center lg:text-left" y={18}>
               <div className="flex items-center gap-3 justify-center lg:justify-start mb-4">
                 <div className="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
                   <MessageCircle className="w-6 h-6 text-green-500" />
@@ -70,10 +71,11 @@ export const WhatsappSupportConfig: ComponentConfig<WhatsappSupportProps> = {
                   {props.email}
                 </span>
               </div>
-            </div>
+            </Reveal>
 
             {/* CTA */}
-            <a
+            <Reveal delayMs={120} y={18}>
+              <a
               href={whatsappLink}
               target="_blank"
               rel="noopener noreferrer"
@@ -81,7 +83,8 @@ export const WhatsappSupportConfig: ComponentConfig<WhatsappSupportProps> = {
             >
               <MessageCircle className="w-6 h-6" />
               {props.buttonText}
-            </a>
+              </a>
+            </Reveal>
           </div>
         </div>
       </section>

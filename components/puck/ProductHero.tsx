@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import type { ComponentConfig } from "@measured/puck"
 import { Star, Package, Minus, Plus, Truck, Shield, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Reveal } from "@/components/ui/reveal"
 
 export type ProductPackage = {
   id: string
@@ -135,7 +136,7 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
         <div className="container mx-auto px-4 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
             {/* Gallery / Slider */}
-            <div className="relative aspect-square bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border flex items-center justify-center overflow-hidden group">
+            <Reveal className="relative aspect-square bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border flex items-center justify-center overflow-hidden group" y={18}>
               {customImage ? (
                 <img
                   src={customImage}
@@ -177,10 +178,10 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
               ) : (
                 <span className="font-serif text-4xl font-bold text-gradient-gold">PRODUCT IMAGE</span>
               )}
-            </div>
+            </Reveal>
 
             {/* Info */}
-            <div>
+            <Reveal delayMs={120} y={18}>
               <h1 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mb-3">{title}</h1>
               <div className="flex items-center gap-4 mb-6">
                 <div className="flex items-center gap-1">
@@ -227,7 +228,7 @@ export const ProductHeroConfig: ComponentConfig<ProductHeroProps> = {
                 <div className="text-center"><Shield size={24} className="mx-auto text-primary mb-2" /><p className="text-xs">Güvenli Ödeme</p></div>
                 <div className="text-center"><RefreshCw size={24} className="mx-auto text-primary mb-2" /><p className="text-xs">Kolay İade</p></div>
               </div>
-            </div>
+            </Reveal>
           </div>
         </div>
       </section>

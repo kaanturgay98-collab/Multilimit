@@ -1,6 +1,7 @@
 import React from "react"
 import { Sun, Shield, Leaf, Zap, Atom, Droplets, Wheat, Award, Beaker, Heart, Clock } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 const ICON_MAP = {
   Sun, Shield, Leaf, Zap, Atom, Droplets, Wheat, Award, Beaker, Heart, Clock
@@ -61,7 +62,7 @@ export const BenefitsConfig: ComponentConfig<BenefitsProps> = {
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span> {props.titleEnd}
@@ -69,15 +70,16 @@ export const BenefitsConfig: ComponentConfig<BenefitsProps> = {
           <p className="text-muted-foreground text-lg">
             {props.description}
           </p>
-        </div>
+        </Reveal>
 
         {/* Benefits Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
           {props.items?.map((benefit, index) => {
             const IconComponent = ICON_MAP[benefit.icon] || Sun;
             return (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 90}
                 className="group relative bg-card border border-border rounded-2xl p-6 lg:p-8 card-hover"
               >
                 {/* Icon */}
@@ -97,7 +99,7 @@ export const BenefitsConfig: ComponentConfig<BenefitsProps> = {
                 <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity">
                   <div className="absolute top-4 right-4 w-2 h-2 bg-primary rounded-full" />
                 </div>
-              </div>
+              </Reveal>
             );
           })}
         </div>

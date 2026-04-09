@@ -150,18 +150,11 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block mb-4">
-              {settings?.logoUrl ? (
-                <img src={settings.logoUrl} alt={settings.siteName || "Logo"} className="h-10 lg:h-12 w-auto object-contain brightness-0 invert" />
-              ) : (
-                <>
-                  <span className="font-serif text-2xl font-bold text-gradient-gold tracking-wide">
-                    {settings?.siteName || "MULTILIMIT"}
-                  </span>
-                  <span className="block text-xs text-muted-foreground tracking-widest uppercase mt-1">
-                    Premium Detoks Kompleksi
-                  </span>
-                </>
-              )}
+              <img
+                src={settings?.logoUrl || "/multilimit-logo.png"}
+                alt={settings?.siteName || "Multilimit"}
+                className="h-10 lg:h-12 w-auto object-contain"
+              />
             </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
               {settings?.footerText || "Günlük yaşam temposuna destek veren premium formül ile sabah daha zinde başlayın."}

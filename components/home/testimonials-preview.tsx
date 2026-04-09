@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { ArrowRight, Star, Quote } from 'lucide-react'
+import { Reveal } from '@/components/ui/reveal'
 
 const testimonials = [
   {
@@ -42,7 +43,7 @@ export function TestimonialsPreview() {
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
+        <Reveal className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-sm font-semibold text-primary uppercase tracking-wider">Kullanici Yorumlari</span>
           <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-4">
             Kullanicılarimiz <span className="text-gradient-gold">Ne Diyor?</span>
@@ -50,13 +51,14 @@ export function TestimonialsPreview() {
           <p className="text-muted-foreground text-lg">
             Binlerce kullanicimizin deneyimleri ve gorusleri.
           </p>
-        </div>
+        </Reveal>
 
         {/* Testimonials Grid */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8 mb-12">
           {testimonials.map((testimonial, index) => (
-            <div
+            <Reveal
               key={testimonial.name}
+              delayMs={index * 100}
               className="bg-card border border-border rounded-2xl p-6 lg:p-8 card-hover"
             >
               {/* Rating */}
@@ -82,19 +84,19 @@ export function TestimonialsPreview() {
                 </div>
                 <span className="text-xs text-muted-foreground">{testimonial.date}</span>
               </div>
-            </div>
+            </Reveal>
           ))}
         </div>
 
         {/* CTA */}
-        <div className="text-center">
+        <Reveal className="text-center" delayMs={180}>
           <Button asChild variant="outline" className="border-primary/50 text-foreground hover:bg-primary/10 hover:border-primary">
             <Link href="/yorumlar">
               Tum Yorumlari Gor
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>
-        </div>
+        </Reveal>
       </div>
     </section>
   )

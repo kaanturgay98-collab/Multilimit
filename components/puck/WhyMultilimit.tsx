@@ -1,6 +1,7 @@
 import React from "react"
 import { Check, Sun, Shield, Leaf, Zap, Atom, Droplets, Wheat, Award, Beaker, Heart, Clock } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 const ICON_MAP = {
   Sun, Shield, Leaf, Zap, Atom, Droplets, Wheat, Award, Beaker, Heart, Clock
@@ -84,7 +85,7 @@ export const WhyMultilimitConfig: ComponentConfig<WhyMultilimitProps> = {
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Content */}
-          <div>
+          <Reveal y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">{props.badge}</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               {props.titleLight} <span className="text-gradient-gold">{props.titleHighlight}</span> {props.titleEnd}
@@ -98,7 +99,7 @@ export const WhyMultilimitConfig: ComponentConfig<WhyMultilimitProps> = {
               {props.features?.map((feature, index) => {
                 const IconComponent = ICON_MAP[feature.icon] || Award;
                 return (
-                  <div key={index} className="flex gap-4">
+                  <Reveal key={index} className="flex gap-4" delayMs={index * 80}>
                     <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                       <IconComponent className="w-6 h-6 text-primary" />
                     </div>
@@ -106,14 +107,14 @@ export const WhyMultilimitConfig: ComponentConfig<WhyMultilimitProps> = {
                       <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
                       <p className="text-sm text-muted-foreground">{feature.description}</p>
                     </div>
-                  </div>
+                  </Reveal>
                 );
               })}
             </div>
-          </div>
+          </Reveal>
 
           {/* Highlights Card */}
-          <div className="relative">
+          <Reveal className="relative" delayMs={140} y={18}>
             {/* Background Glow */}
             <div className="absolute inset-0 bg-primary/10 rounded-3xl blur-[60px]" />
             
@@ -141,7 +142,7 @@ export const WhyMultilimitConfig: ComponentConfig<WhyMultilimitProps> = {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

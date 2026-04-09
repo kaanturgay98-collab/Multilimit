@@ -1,6 +1,7 @@
 import React from "react"
 import { ShieldCheck, Award, Factory, Leaf, Truck, Headphones, CheckCircle, Zap } from "lucide-react"
 import type { ComponentConfig } from "@measured/puck"
+import { Reveal } from "@/components/ui/reveal"
 
 const ICON_MAP = {
   ShieldCheck, Award, Factory, Leaf, Truck, Headphones, CheckCircle, Zap
@@ -54,19 +55,20 @@ export const TrustBadgesConfig: ComponentConfig<TrustBadgesProps> = {
       
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <Reveal className="text-center mb-12">
           <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
             {props.titleStart} <span className="text-gradient-gold">{props.titleHighlight}</span>
           </h2>
-        </div>
+        </Reveal>
 
         {/* Badges Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10">
           {props.badges?.map((badge, index) => {
             const IconComponent = ICON_MAP[badge.icon] || ShieldCheck;
             return (
-              <div
+              <Reveal
                 key={index}
+                delayMs={index * 70}
                 className="group text-center"
               >
                 <div className="w-16 h-16 mx-auto rounded-2xl bg-card border border-border flex items-center justify-center mb-3 group-hover:border-primary/50 group-hover:bg-primary/5 transition-colors shadow-sm">
@@ -78,7 +80,7 @@ export const TrustBadgesConfig: ComponentConfig<TrustBadgesProps> = {
                 <p className="text-xs text-muted-foreground">
                   {badge.description}
                 </p>
-              </div>
+              </Reveal>
             );
           })}
         </div>

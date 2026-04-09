@@ -104,18 +104,11 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
-          {settings?.logoUrl ? (
-            <img src={settings.logoUrl} alt={settings.siteName || "Multilimit"} className="h-10 lg:h-12 w-auto object-contain" />
-          ) : (
-            <div className="relative">
-              <span className="font-serif text-xl font-bold text-gradient-gold tracking-wide">
-                {settings?.siteName || "MULTILIMIT"}
-              </span>
-              <span className="block text-[10px] text-muted-foreground tracking-widest uppercase">
-                Premium Detoks
-              </span>
-            </div>
-          )}
+          <img
+            src={settings?.logoUrl || "/multilimit-logo.png"}
+            alt={settings?.siteName || "Multilimit"}
+            className="h-24 lg:h-28 w-auto max-w-[400px] object-contain"
+          />
         </Link>
 
         {/* Desktop Navigation */}
@@ -127,7 +120,7 @@ export function Header() {
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="px-3 py-2 text-sm font-semibold text-white/90 hover:text-white transition-colors"
               >
                 {item.name}
               </a>
@@ -135,7 +128,7 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                className="px-3 py-2 text-sm font-medium text-white/90 hover:text-white transition-colors"
               >
                 {item.name}
               </Link>
@@ -186,9 +179,11 @@ export function Header() {
               <SheetTitle className="sr-only">Navigasyon Menusu</SheetTitle>
               <div className="flex flex-col gap-6 mt-8">
                 <Link href="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-                  <span className="font-serif text-xl font-bold text-gradient-gold">
-                    MULTILIMIT
-                  </span>
+                  <img
+                    src={settings?.logoUrl || "/multilimit-logo.png"}
+                    alt={settings?.siteName || "Multilimit"}
+                    className="h-12 w-auto max-w-[220px] object-contain"
+                  />
                 </Link>
                 
                 <nav className="flex flex-col gap-1">
@@ -200,7 +195,7 @@ export function Header() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => setIsOpen(false)}
-                        className="px-3 py-3 text-base font-medium text-foreground hover:text-primary hover:bg-secondary rounded-lg transition-colors"
+                        className="px-3 py-3 text-base font-medium text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                       >
                         {item.name}
                       </a>
@@ -209,7 +204,7 @@ export function Header() {
                         key={item.name}
                         href={item.href}
                         onClick={() => setIsOpen(false)}
-                        className="px-3 py-3 text-base font-medium text-foreground hover:text-primary hover:bg-secondary rounded-lg transition-colors"
+                        className="px-3 py-3 text-base font-medium text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
                       >
                         {item.name}
                       </Link>

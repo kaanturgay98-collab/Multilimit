@@ -176,6 +176,24 @@
   animation: pulse-gold 2s ease-in-out infinite;
 }
 
+/* Reusable reveal-on-scroll animation */
+.reveal-base {
+  transition:
+    opacity var(--reveal-duration, 600ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform var(--reveal-duration, 600ms) cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-hidden {
+  opacity: 0;
+  transform: translate3d(0, var(--reveal-y, 16px), 0);
+}
+
+.reveal-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
 /* Multilimit premium hero background (CSS + SVG layers) */
 :root {
   --ml-navy: #0D255C;
@@ -255,6 +273,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .reveal-base {
+    transition: none !important;
+  }
+
+  .reveal-hidden,
+  .reveal-visible {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
   .ml-hero-bg__waveGroup,
   .ml-hero-bg__streaks,
   .ml-hero-bg__particles {

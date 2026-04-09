@@ -1,4 +1,5 @@
 import { Check, Award, Beaker, Heart, Clock } from 'lucide-react'
+import { Reveal } from '@/components/ui/reveal'
 
 const features = [
   {
@@ -38,7 +39,7 @@ export function WhyMultilimit() {
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Content */}
-          <div>
+          <Reveal y={18}>
             <span className="text-sm font-semibold text-primary uppercase tracking-wider">Neden Biz?</span>
             <h2 className="font-serif text-3xl lg:text-4xl font-bold text-foreground mt-3 mb-6">
               Neden <span className="text-gradient-gold">Multilimit</span> Tercih Etmelisiniz?
@@ -49,8 +50,8 @@ export function WhyMultilimit() {
 
             {/* Features Grid */}
             <div className="grid sm:grid-cols-2 gap-6">
-              {features.map((feature) => (
-                <div key={feature.title} className="flex gap-4">
+              {features.map((feature, index) => (
+                <Reveal key={feature.title} className="flex gap-4" delayMs={index * 80}>
                   <div className="flex-shrink-0 w-12 h-12 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                     <feature.icon className="w-6 h-6 text-primary" />
                   </div>
@@ -58,13 +59,13 @@ export function WhyMultilimit() {
                     <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
                     <p className="text-sm text-muted-foreground">{feature.description}</p>
                   </div>
-                </div>
+                </Reveal>
               ))}
             </div>
-          </div>
+          </Reveal>
 
           {/* Highlights Card */}
-          <div className="relative">
+          <Reveal className="relative" delayMs={140} y={18}>
             {/* Background Glow */}
             <div className="absolute inset-0 bg-primary/10 rounded-3xl blur-[60px]" />
             
@@ -92,7 +93,7 @@ export function WhyMultilimit() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

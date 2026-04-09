@@ -1,4 +1,5 @@
 import { ShieldCheck, Award, Factory, Leaf, Truck, Headphones } from 'lucide-react'
+import { Reveal } from '@/components/ui/reveal'
 
 const badges = [
   {
@@ -38,17 +39,18 @@ export function TrustBadges() {
     <section className="py-16 lg:py-20 bg-secondary/50 border-y border-border">
       <div className="container mx-auto px-4 lg:px-8">
         {/* Section Header */}
-        <div className="text-center mb-12">
+        <Reveal className="text-center mb-12">
           <h2 className="font-serif text-2xl lg:text-3xl font-bold text-foreground">
             Guven & <span className="text-gradient-gold">Kalite</span>
           </h2>
-        </div>
+        </Reveal>
 
         {/* Badges Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-          {badges.map((badge) => (
-            <div
+          {badges.map((badge, index) => (
+            <Reveal
               key={badge.title}
+              delayMs={index * 70}
               className="text-center group"
             >
               <div className="w-16 h-16 mx-auto rounded-2xl bg-card border border-border flex items-center justify-center mb-3 group-hover:border-primary/50 group-hover:bg-primary/5 transition-colors">
@@ -60,7 +62,7 @@ export function TrustBadges() {
               <p className="text-xs text-muted-foreground">
                 {badge.description}
               </p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
