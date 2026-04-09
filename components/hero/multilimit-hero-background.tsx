@@ -1,23 +1,29 @@
 import React from "react"
 
-export function MultilimitHeroBackground({ bgImageUrl }: { bgImageUrl?: string }) {
-  const bgImage = bgImageUrl || "/multilimit-hero-bg.png";
-  const isCustomImage = !!bgImageUrl && bgImageUrl !== "/multilimit-hero-bg.png";
-  
+type MultilimitHeroBackgroundProps = {
+  bgImageUrl?: string
+  /** Sabit ürün vitrini kullanıldığında sol metin okunurluğu için overlay */
+  withFixedProduct?: boolean
+}
+
+export function MultilimitHeroBackground({
+  bgImageUrl,
+  withFixedProduct,
+}: MultilimitHeroBackgroundProps) {
+  const bgImage = bgImageUrl || "/multilimit-hero-bg.png"
+  const isCustomImage = !!bgImageUrl && bgImageUrl !== "/multilimit-hero-bg.png"
+
   return (
     <div className="ml-hero-bg absolute inset-0 -z-10 overflow-hidden pointer-events-none">
-      {/* Base deep navy gradient */}
       <div className="ml-hero-bg__base absolute inset-0" />
 
-      {/* Blurred photo background (on top of navy, still behind effects/text) */}
       <img
         src={bgImage}
-        alt="Hero Background"
+        alt=""
         className="ml-hero-bg__photo absolute inset-0 w-full h-full object-cover object-[70%_80%]"
-        style={isCustomImage ? { filter: 'blur(0px) saturate(1.1)', opacity: 0.8 } : {}}
+        style={isCustomImage ? { filter: "blur(0px) saturate(1.1)", opacity: 0.8 } : {}}
       />
 
-      {/* Metallic energy waves (SVG) */}
       <svg
         className="ml-hero-bg__waves absolute inset-x-0 bottom-[-8%] h-[70%] w-full opacity-70"
         viewBox="0 0 1440 420"
@@ -67,13 +73,16 @@ export function MultilimitHeroBackground({ bgImageUrl }: { bgImageUrl?: string }
         </g>
       </svg>
 
-      {/* Light streaks + particles (pure CSS) */}
       <div className="ml-hero-bg__streaks absolute inset-0" />
       <div className="ml-hero-bg__particles absolute inset-0" />
 
-      {/* Dark overlay for text readability */}
-      <div className="ml-hero-bg__overlay absolute inset-0" />
+      <div
+        className={
+          withFixedProduct
+            ? "ml-hero-bg__overlay ml-hero-bg__overlay--product absolute inset-0"
+            : "ml-hero-bg__overlay absolute inset-0"
+        }
+      />
     </div>
   )
 }
-
