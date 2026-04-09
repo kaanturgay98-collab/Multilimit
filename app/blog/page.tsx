@@ -13,7 +13,6 @@ type BlogPost = {
   slug: string
   excerpt: string
   coverImage: string | null
-  status: string
   isFeatured: boolean
   publishedAt: string | null
 }
@@ -24,15 +23,14 @@ export default function BlogPage() {
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
-    fetch("/api/admin/blog-posts")
-      .then(r => r.json())
-      .then(data => {
-        if (data?.ok) {
-          // Only show published posts for public view
-          setRows((data.rows || []).filter((p: any) => p.status === 'published'))
+    fetch("/api/blog")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.ok && Array.isArray(data.posts)) {
+          setRows(data.posts)
         }
       })
-      .catch(err => console.error("Fetch error:", err))
+      .catch((err) => console.error("Fetch error:", err))
       .finally(() => setLoading(false))
   }, [])
 

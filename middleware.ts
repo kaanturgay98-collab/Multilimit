@@ -21,6 +21,11 @@ export async function middleware(req: NextRequest) {
   const isAdminApi = pathname.startsWith("/api/admin/")
   if (!isAdminPage && !isAdminApi) return res
 
+  // Public GET: site settings (logo, iletisim — header/footer tum ziyaretciler icin)
+  if (isAdminApi && pathname === "/api/admin/site-settings" && req.method === "GET") {
+    return res
+  }
+
   // Allow unauthenticated access to login + auth endpoints
   if (pathname === "/admin/login") return res
   if (pathname.startsWith("/api/admin/auth/")) return res
