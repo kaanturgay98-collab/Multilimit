@@ -1,6 +1,6 @@
 import { Metadata } from "next"
-import { getDb } from "@/lib/db"
 import { Mail, MessageCircle, Phone, ArrowUpRight, Sparkles } from "lucide-react"
+import { headers } from "next/headers"
 
 export const metadata: Metadata = {
   title: "İletişim | Multilimit Premium Detoks Kompleksi",
@@ -10,24 +10,26 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic"
 
 export default async function ContactPage() {
-  type SiteSettings = {
-    phone: string | null
-    email: string | null
-    whatsapp: string | null
-    instagramUrl: string | null
-    facebookUrl: string | null
-    youtubeUrl: string | null
-    xUrl: string | null
-  }
-
   try {
-    const ds = await getDb()
-    const rows = (await ds.query(
-      `SELECT phone, email, whatsapp, instagramUrl, facebookUrl, youtubeUrl, xUrl
-       FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`
-    )) as SiteSettings[]
+    type SiteSettings = {
+      phone: string | null
+      email: string | null
+      whatsapp: string | null
+      instagramUrl: string | null
+      facebookUrl: string | null
+      youtubeUrl: string | null
+      xUrl: string | null
+    }
 
-    const settings = rows[0] ?? null
+    const h = await headers()
+    const host = h.get("x-forwarded-host") ?? h.get("host")
+    const proto = h.get("x-forwarded-proto") ?? "https"
+    const origin = host ? `${proto}://${host}` : ""
+
+    const res = await fetch(`${origin}/api/admin/site-settings`, { cache: "no-store" })
+    const json = (await res.json().catch(() => null)) as { ok?: boolean; row?: any; error?: string } | null
+    const settings = (json?.ok && json.row ? (json.row as SiteSettings) : null) satisfies SiteSettings | null
+
     const socialLinks = [
       { label: "Instagram", href: settings?.instagramUrl || null },
       { label: "Facebook", href: settings?.facebookUrl || null },
