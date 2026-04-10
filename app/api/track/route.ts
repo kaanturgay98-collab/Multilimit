@@ -13,27 +13,33 @@ const BodySchema = z.object({
 })
 
 export async function POST(req: Request) {
-  const json = await req.json().catch(() => null)
-  const parsed = BodySchema.safeParse(json)
-  if (!parsed.success) return NextResponse.json({ ok: false }, { status: 400 })
+  try {
+    const json = await req.json().catch(() => null)
+    const parsed = BodySchema.safeParse(json)
+    if (!parsed.success) return NextResponse.json({ ok: false }, { status: 400 })
 
-  const jar = await cookies()
-  const sessionId = jar.get("ml_sid")?.value ?? "unknown"
+    const jar = await cookies()
+    const sessionId = jar.get("ml_sid")?.value ?? "unknown"
 
-  const ds = await getDb()
-  const repo = ds.getRepository("AnalyticsEvent")
-  await repo.save(
-    repo.create({
-      type: parsed.data.type,
-      path: parsed.data.path,
-      name: parsed.data.name ?? null,
-      referrer: parsed.data.referrer ?? null,
-      sessionId,
-      userAgent: req.headers.get("user-agent"),
-      isActive: true,
-    })
-  )
+    const ds = await getDb()
+    const repo = ds.getRepository("AnalyticsEvent")
+    await repo.save(
+      repo.create({
+        type: parsed.data.type,
+        path: parsed.data.path,
+        name: parsed.data.name ?? null,
+        referrer: parsed.data.referrer ?? null,
+        sessionId,
+        userAgent: req.headers.get("user-agent"),
+        isActive: true,
+      })
+    )
 
-  return NextResponse.json({ ok: true })
+    return NextResponse.json({ ok: true })
+  } catch (error) {
+    console.error("Track API error:", error)
+    // Analytics should never break the page UX.
+    return NextResponse.json({ ok: true })
+  }
 }
 

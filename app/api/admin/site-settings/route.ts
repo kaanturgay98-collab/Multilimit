@@ -80,9 +80,15 @@ function toClientRow(row: SiteSettingRow | null) {
 }
 
 export async function GET() {
-  const ds = await ensureSiteSettingTable()
-  const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
-  return NextResponse.json({ ok: true, row: toClientRow(rows[0] ?? null) })
+  try {
+    const ds = await ensureSiteSettingTable()
+    const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+    return NextResponse.json({ ok: true, row: toClientRow(rows[0] ?? null) })
+  } catch (error) {
+    console.error("Site settings GET error:", error)
+    // Public endpoint (header/footer/contact) must always return a usable payload.
+    return NextResponse.json({ ok: true, row: toClientRow(null) })
+  }
 }
 
 export async function POST(req: Request) {
