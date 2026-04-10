@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { useEffect, useMemo, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { trackClick } from '@/components/analytics/tracker'
+import { MOCK_SITE_SETTINGS } from '@/lib/mock-site-settings'
 
 const quickLinks = [
   { name: 'Ana Sayfa', href: '/' },
@@ -38,10 +39,10 @@ export function Footer() {
 
   const socialLinks = useMemo(() => {
     return [
-      { name: 'Instagram', href: settings?.instagramUrl || '#', icon: Instagram },
-      { name: 'Facebook', href: settings?.facebookUrl || '#', icon: Facebook },
-      { name: 'Twitter', href: settings?.xUrl || '#', icon: Twitter },
-      { name: 'YouTube', href: settings?.youtubeUrl || '#', icon: Youtube },
+      { name: 'Instagram', href: settings?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl, icon: Instagram },
+      { name: 'Facebook', href: settings?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl, icon: Facebook },
+      { name: 'Twitter', href: settings?.xUrl || MOCK_SITE_SETTINGS.xUrl, icon: Twitter },
+      { name: 'YouTube', href: settings?.youtubeUrl || MOCK_SITE_SETTINGS.youtubeUrl, icon: Youtube },
     ].filter((s) => s.href && s.href !== '#')
   }, [settings])
 
@@ -80,7 +81,7 @@ export function Footer() {
   }, [])
 
   const whatsappLink = useMemo(() => {
-    const num = settings?.whatsapp || "905551234567"
+    const num = settings?.whatsapp || MOCK_SITE_SETTINGS.whatsapp
     const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
     return `https://wa.me/${num}?text=${msg}`
   }, [settings])

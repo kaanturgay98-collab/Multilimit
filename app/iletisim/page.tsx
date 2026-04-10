@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import { Mail, MessageCircle, Phone, ArrowUpRight, Sparkles } from "lucide-react"
 import { headers } from "next/headers"
+import { MOCK_SITE_SETTINGS } from "@/lib/mock-site-settings"
 
 export const metadata: Metadata = {
   title: "İletişim | Multilimit Premium Detoks Kompleksi",
@@ -28,13 +29,22 @@ export default async function ContactPage() {
 
     const res = await fetch(`${origin}/api/admin/site-settings`, { cache: "no-store" })
     const json = (await res.json().catch(() => null)) as { ok?: boolean; row?: any; error?: string } | null
-    const settings = (json?.ok && json.row ? (json.row as SiteSettings) : null) satisfies SiteSettings | null
+    const fetched = (json?.ok && json.row ? (json.row as SiteSettings) : null) satisfies SiteSettings | null
+    const settings: SiteSettings = {
+      phone: fetched?.phone || MOCK_SITE_SETTINGS.phone,
+      email: fetched?.email || MOCK_SITE_SETTINGS.email,
+      whatsapp: fetched?.whatsapp || MOCK_SITE_SETTINGS.whatsapp,
+      instagramUrl: fetched?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl,
+      facebookUrl: fetched?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl,
+      youtubeUrl: fetched?.youtubeUrl || MOCK_SITE_SETTINGS.youtubeUrl,
+      xUrl: fetched?.xUrl || MOCK_SITE_SETTINGS.xUrl,
+    }
 
     const socialLinks = [
-      { label: "Instagram", href: settings?.instagramUrl || null },
-      { label: "Facebook", href: settings?.facebookUrl || null },
-      { label: "YouTube", href: settings?.youtubeUrl || null },
-      { label: "X", href: settings?.xUrl || null },
+      { label: "Instagram", href: settings.instagramUrl || null },
+      { label: "Facebook", href: settings.facebookUrl || null },
+      { label: "YouTube", href: settings.youtubeUrl || null },
+      { label: "X", href: settings.xUrl || null },
     ].filter((s) => !!s.href)
 
     return (

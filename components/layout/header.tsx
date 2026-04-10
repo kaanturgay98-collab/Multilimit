@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
 import { cn } from '@/lib/utils'
 import { trackClick } from '@/components/analytics/tracker'
+import { MOCK_SITE_SETTINGS } from '@/lib/mock-site-settings'
 
 const fallbackNavigation = [
   { name: 'Ana Sayfa', href: '/' },
@@ -57,7 +58,7 @@ export function Header() {
   }, [])
 
   const whatsappLink = useMemo(() => {
-    const num = settings?.whatsapp || "905444575629"
+    const num = settings?.whatsapp || MOCK_SITE_SETTINGS.whatsapp
     const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
     return `https://wa.me/${num}?text=${msg}`
   }, [settings])
@@ -75,13 +76,13 @@ export function Header() {
     () => [
       {
         name: 'Instagram',
-        href: settings?.instagramUrl || 'https://www.instagram.com/multi.limit/',
+        href: settings?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl,
         icon: FaInstagram,
         colorClass: '!text-[#E4405F] hover:!text-[#E4405F] focus-visible:!text-[#E4405F]',
       },
       {
         name: 'Facebook',
-        href: settings?.facebookUrl || 'https://www.facebook.com/multi.limit/',
+        href: settings?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl,
         icon: FaFacebookF,
         colorClass: '!text-[#1877F2] hover:!text-[#1877F2] focus-visible:!text-[#1877F2]',
       },
