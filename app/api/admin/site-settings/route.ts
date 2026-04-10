@@ -92,72 +92,79 @@ export async function GET() {
 }
 
 export async function POST(req: Request) {
-  const json = await req.json().catch(() => null)
-  if (!json) return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 })
+  try {
+    const json = await req.json().catch(() => null)
+    if (!json) return NextResponse.json({ ok: false, error: "Invalid JSON" }, { status: 400 })
 
-  const ds = await ensureSiteSettingTable()
-  const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
-  const current = rows[0] ?? null
+    const ds = await ensureSiteSettingTable()
+    const rows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+    const current = rows[0] ?? null
 
-  const next = {
-    siteName: json.siteName ?? current?.siteName ?? "Multilimit",
-    logoUrl: json.logoUrl ?? current?.logoUrl ?? null,
-    faviconUrl: json.faviconUrl ?? current?.faviconUrl ?? null,
-    phone: json.phone ?? current?.phone ?? null,
-    email: json.email ?? current?.email ?? null,
-    whatsapp: json.whatsapp ?? current?.whatsapp ?? null,
-    instagramUrl: json.instagramUrl ?? current?.instagramUrl ?? null,
-    facebookUrl: json.facebookUrl ?? current?.facebookUrl ?? null,
-    youtubeUrl: json.youtubeUrl ?? current?.youtubeUrl ?? null,
-    xUrl: json.xUrl ?? current?.xUrl ?? null,
-    footerText: json.footerText ?? current?.footerText ?? null,
-    copyright: json.copyright ?? current?.copyright ?? null,
+    const next = {
+      siteName: json.siteName ?? current?.siteName ?? "Multilimit",
+      logoUrl: json.logoUrl ?? current?.logoUrl ?? null,
+      faviconUrl: json.faviconUrl ?? current?.faviconUrl ?? null,
+      phone: json.phone ?? current?.phone ?? null,
+      email: json.email ?? current?.email ?? null,
+      whatsapp: json.whatsapp ?? current?.whatsapp ?? null,
+      instagramUrl: json.instagramUrl ?? current?.instagramUrl ?? null,
+      facebookUrl: json.facebookUrl ?? current?.facebookUrl ?? null,
+      youtubeUrl: json.youtubeUrl ?? current?.youtubeUrl ?? null,
+      xUrl: json.xUrl ?? current?.xUrl ?? null,
+      footerText: json.footerText ?? current?.footerText ?? null,
+      copyright: json.copyright ?? current?.copyright ?? null,
+    }
+
+    if (current) {
+      await ds.query(
+        `UPDATE "SiteSetting"
+         SET "siteName" = ?, "logoUrl" = ?, "faviconUrl" = ?, "phone" = ?, "email" = ?, "whatsapp" = ?, "instagramUrl" = ?, "facebookUrl" = ?, "youtubeUrl" = ?, "xUrl" = ?, "footerText" = ?, "copyright" = ?, "updatedAt" = datetime('now')
+         WHERE "id" = ?`,
+        [
+          next.siteName,
+          next.logoUrl,
+          next.faviconUrl,
+          next.phone,
+          next.email,
+          next.whatsapp,
+          next.instagramUrl,
+          next.facebookUrl,
+          next.youtubeUrl,
+          next.xUrl,
+          next.footerText,
+          next.copyright,
+          current.id,
+        ],
+      )
+    } else {
+      await ds.query(
+        `INSERT INTO "SiteSetting"
+         ("id", "createdAt", "updatedAt", "isActive", "siteName", "logoUrl", "faviconUrl", "phone", "email", "whatsapp", "instagramUrl", "facebookUrl", "youtubeUrl", "xUrl", "footerText", "copyright")
+         VALUES (?, datetime('now'), datetime('now'), 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          crypto.randomUUID(),
+          next.siteName,
+          next.logoUrl,
+          next.faviconUrl,
+          next.phone,
+          next.email,
+          next.whatsapp,
+          next.instagramUrl,
+          next.facebookUrl,
+          next.youtubeUrl,
+          next.xUrl,
+          next.footerText,
+          next.copyright,
+        ],
+      )
+    }
+
+    const updatedRows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
+    return NextResponse.json({ ok: true, row: toClientRow(updatedRows[0] ?? null) })
+  } catch (error: any) {
+    console.error("Site settings POST error:", error)
+    // Surface the actual reason in JSON so the admin UI can show it.
+    const msg = String(error?.message || error || "Failed to save site settings")
+    return NextResponse.json({ ok: false, error: msg }, { status: 500 })
   }
-
-  if (current) {
-    await ds.query(
-      `UPDATE "SiteSetting"
-       SET "siteName" = ?, "logoUrl" = ?, "faviconUrl" = ?, "phone" = ?, "email" = ?, "whatsapp" = ?, "instagramUrl" = ?, "facebookUrl" = ?, "youtubeUrl" = ?, "xUrl" = ?, "footerText" = ?, "copyright" = ?, "updatedAt" = datetime('now')
-       WHERE "id" = ?`,
-      [
-        next.siteName,
-        next.logoUrl,
-        next.faviconUrl,
-        next.phone,
-        next.email,
-        next.whatsapp,
-        next.instagramUrl,
-        next.facebookUrl,
-        next.youtubeUrl,
-        next.xUrl,
-        next.footerText,
-        next.copyright,
-        current.id,
-      ],
-    )
-  } else {
-    await ds.query(
-      `INSERT INTO "SiteSetting"
-       ("id", "createdAt", "updatedAt", "isActive", "siteName", "logoUrl", "faviconUrl", "phone", "email", "whatsapp", "instagramUrl", "facebookUrl", "youtubeUrl", "xUrl", "footerText", "copyright")
-       VALUES (?, datetime('now'), datetime('now'), 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      [
-        crypto.randomUUID(),
-        next.siteName,
-        next.logoUrl,
-        next.faviconUrl,
-        next.phone,
-        next.email,
-        next.whatsapp,
-        next.instagramUrl,
-        next.facebookUrl,
-        next.youtubeUrl,
-        next.xUrl,
-        next.footerText,
-        next.copyright,
-      ],
-    )
-  }
-
-  const updatedRows = (await ds.query(`SELECT * FROM "SiteSetting" ORDER BY "createdAt" ASC LIMIT 1`)) as SiteSettingRow[]
-  return NextResponse.json({ ok: true, row: toClientRow(updatedRows[0] ?? null) })
 }

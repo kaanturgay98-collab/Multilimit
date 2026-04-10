@@ -1,7 +1,7 @@
 import React from "react"
 
 /** Hero sağdaki ürün görseli — `public/paket multilimit.png` */
-const PACK_SRC = "/paket%20multilimit.png"
+const PACK_SRC = "/paket-multilimit.webp"
 
 /**
  * Genişlik hero’daki sağ grid sütununa bağlıdır (50/50 iken üstteki dev max-w işe yaramaz).
