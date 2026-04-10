@@ -16,12 +16,12 @@ export class Page extends BaseEntityWithTimestamps {
   @Column({ type: "simple-json" })
   data!: unknown
 
-  @OneToMany(() => require("./PageImage").PageImage, (image: any) => image.page, { cascade: ["insert", "update"] })
+  @OneToMany("PageImage", (image: any) => image.page, { cascade: ["insert", "update"] })
   images!: PageImage[]
 
-  @OneToMany(() => require("./PageSection").PageSection, (section: any) => section.page, { cascade: ["insert", "update"] })
+  @OneToMany("PageSection", (section: any) => section.page, { cascade: ["insert", "update"] })
   sections!: PageSection[]
 
-  @OneToMany(() => require("./SeoMeta").SeoMeta, (seo: any) => seo.page)
+  @OneToMany("SeoMeta", (seo: any) => seo.page)
   seoEntries!: SeoMeta[]
 }

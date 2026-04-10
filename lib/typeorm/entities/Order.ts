@@ -87,10 +87,10 @@ export class Order extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   notes!: string | null
 
-  @ManyToOne(() => require("./User").User, (user: any) => user.orders, { nullable: true })
+  @ManyToOne("User", (user: any) => user.orders, { nullable: true })
   user!: User | null
 
-  @OneToMany(() => require("./OrderItem").OrderItem, (item: any) => item.order, { cascade: ["insert"] })
+  @OneToMany("OrderItem", (item: any) => item.order, { cascade: ["insert"] })
   orderItems!: OrderItem[]
 }
 

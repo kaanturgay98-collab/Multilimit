@@ -22,6 +22,18 @@ export class SiteSetting extends BaseEntityWithTimestamps {
   whatsapp!: string | null
 
   @Column({ type: "text", nullable: true })
+  instagramUrl!: string | null
+
+  @Column({ type: "text", nullable: true })
+  facebookUrl!: string | null
+
+  @Column({ type: "text", nullable: true })
+  youtubeUrl!: string | null
+
+  @Column({ type: "text", nullable: true })
+  xUrl!: string | null
+
+  @Column({ type: "text", nullable: true })
   footerText!: string | null
 
   @Column({ type: "text", nullable: true })

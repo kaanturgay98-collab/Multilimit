@@ -17,7 +17,7 @@ export function HeroSection() {
       <div className="absolute bottom-1/4 left-1/4 h-64 w-64 rounded-full bg-primary/10 blur-[96px]" />
 
       <div className="container relative z-10 mx-auto w-full px-4 lg:px-8">
-        <div className="grid w-full min-w-0 items-center gap-10 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:gap-10 xl:gap-14">
+        <div className="grid w-full min-w-0 items-center gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
           <div className="min-w-0 text-center lg:max-w-2xl lg:text-left">
             <Reveal>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-border bg-secondary px-4 py-2 lg:mb-3">
@@ -96,7 +96,7 @@ export function HeroSection() {
             </Reveal>
           </div>
 
-          <div className="flex min-h-0 w-full min-w-0 items-center justify-center overflow-visible lg:justify-end lg:self-center">
+          <div className="flex min-h-0 w-full min-w-0 items-center justify-center overflow-visible lg:self-center lg:justify-end lg:pl-10 xl:pl-14 2xl:pl-16">
             <HeroProductShowcase />
           </div>
         </div>

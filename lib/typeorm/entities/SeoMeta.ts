@@ -26,9 +26,9 @@ export class SeoMeta extends BaseEntityWithTimestamps {
   @Column({ type: "boolean", default: true })
   indexable!: boolean
 
-  @ManyToOne(() => require("./Product").Product, (p: any) => p.seoEntries, { nullable: true })
+  @ManyToOne("Product", (p: any) => p.seoEntries, { nullable: true })
   product!: Product | null
 
-  @ManyToOne(() => require("./Page").Page, (p: any) => p.seoEntries, { nullable: true })
+  @ManyToOne("Page", (p: any) => p.seoEntries, { nullable: true })
   page!: Page | null
 }

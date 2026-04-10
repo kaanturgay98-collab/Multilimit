@@ -15,6 +15,6 @@ export class Role extends BaseEntityWithTimestamps {
   @Column({ type: "text", nullable: true })
   description!: string | null
 
-  @OneToMany(() => require("./AdminUser").AdminUser, (u: any) => u.role)
+  @OneToMany("AdminUser", (u: any) => u.role)
   adminUsers!: AdminUser[]
 }

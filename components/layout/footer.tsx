@@ -31,17 +31,19 @@ const legalLinks = [
   { name: 'Kullanim Kosullari', href: '/kullanim-kosullari' },
 ]
 
-const socialLinks = [
-  { name: 'Instagram', href: '#', icon: Instagram },
-  { name: 'Facebook', href: '#', icon: Facebook },
-  { name: 'Twitter', href: '#', icon: Twitter },
-  { name: 'YouTube', href: '#', icon: Youtube },
-]
-
 export function Footer() {
   const [footer, setFooter] = useState<{ label: string; href: string | null; external: boolean; group: string | null }[] | null>(null)
   const [settings, setSettings] = useState<any>(null)
   const pathname = usePathname()
+
+  const socialLinks = useMemo(() => {
+    return [
+      { name: 'Instagram', href: settings?.instagramUrl || '#', icon: Instagram },
+      { name: 'Facebook', href: settings?.facebookUrl || '#', icon: Facebook },
+      { name: 'Twitter', href: settings?.xUrl || '#', icon: Twitter },
+      { name: 'YouTube', href: settings?.youtubeUrl || '#', icon: Youtube },
+    ].filter((s) => s.href && s.href !== '#')
+  }, [settings])
 
   useEffect(() => {
     let cancelled = false

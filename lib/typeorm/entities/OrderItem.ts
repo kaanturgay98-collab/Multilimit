@@ -21,12 +21,12 @@ export class OrderItem extends BaseEntityWithTimestamps {
   @Column({ type: "integer" })
   lineTotal!: number
 
-  @ManyToOne(() => require("./Order").Order, (order: any) => order.orderItems, { onDelete: "CASCADE" })
+  @ManyToOne("Order", (order: any) => order.orderItems, { onDelete: "CASCADE" })
   order!: Order
 
-  @ManyToOne(() => require("./Product").Product, { nullable: true })
+  @ManyToOne("Product", { nullable: true })
   product!: Product | null
 
-  @ManyToOne(() => require("./ProductVariant").ProductVariant, { nullable: true })
+  @ManyToOne("ProductVariant", { nullable: true })
   variant!: ProductVariant | null
 }

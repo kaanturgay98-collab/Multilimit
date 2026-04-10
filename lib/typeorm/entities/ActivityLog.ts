@@ -5,7 +5,7 @@ import type { AdminUser } from "@/lib/typeorm/entities/AdminUser"
 @Entity()
 @Index(["createdAt"])
 export class ActivityLog extends BaseEntityWithTimestamps {
-  @ManyToOne(() => require("./AdminUser").AdminUser, { nullable: true })
+  @ManyToOne("AdminUser", { nullable: true })
   adminUser!: AdminUser | null
 
   @Column({ type: "varchar" })

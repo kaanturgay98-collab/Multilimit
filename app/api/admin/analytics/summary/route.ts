@@ -15,20 +15,20 @@ export async function GET() {
     const pv24 = await repo
       .createQueryBuilder("e")
       .where("e.type = :t", { t: "page_view" })
-      .andWhere("e.createdAt >= :d", { d: since24h.toISOString() })
+      .andWhere("e.createdAt >= :d", { d: since24h })
       .getCount()
 
     const pv7 = await repo
       .createQueryBuilder("e")
       .where("e.type = :t", { t: "page_view" })
-      .andWhere("e.createdAt >= :d", { d: since7d.toISOString() })
+      .andWhere("e.createdAt >= :d", { d: since7d })
       .getCount()
 
     const uniq24 = await repo
       .createQueryBuilder("e")
       .select("COUNT(DISTINCT e.sessionId)", "c")
       .where("e.type = :t", { t: "page_view" })
-      .andWhere("e.createdAt >= :d", { d: since24h.toISOString() })
+      .andWhere("e.createdAt >= :d", { d: since24h })
       .getRawOne<{ c: string | number }>()
 
     // CTR example: hero primary CTA clicks / home page views over last 7d
@@ -36,14 +36,14 @@ export async function GET() {
       .createQueryBuilder("e")
       .where("e.type = :t", { t: "page_view" })
       .andWhere("e.path = :p", { p: "/" })
-      .andWhere("e.createdAt >= :d", { d: since7d.toISOString() })
+      .andWhere("e.createdAt >= :d", { d: since7d })
       .getCount()
 
     const heroClicks7 = await repo
       .createQueryBuilder("e")
       .where("e.type = :t", { t: "click" })
       .andWhere("e.name = :n", { n: "hero_primary_cta" })
-      .andWhere("e.createdAt >= :d", { d: since7d.toISOString() })
+      .andWhere("e.createdAt >= :d", { d: since7d })
       .getCount()
 
     const ctrHeroPrimary = homePv7 > 0 ? heroClicks7 / homePv7 : 0

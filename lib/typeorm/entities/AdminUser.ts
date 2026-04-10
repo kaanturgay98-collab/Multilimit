@@ -16,6 +16,6 @@ export class AdminUser extends BaseEntityWithTimestamps {
   @Column({ type: "datetime", nullable: true })
   lastLoginAt!: Date | null
 
-  @ManyToOne(() => require("./Role").Role, (role: any) => role.adminUsers, { nullable: true })
+  @ManyToOne("Role", (role: any) => role.adminUsers, { nullable: true })
   role!: Role | null
 }

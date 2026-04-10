@@ -75,13 +75,13 @@ export function Header() {
     () => [
       {
         name: 'Instagram',
-        href: 'https://www.instagram.com/multi.limit/',
+        href: settings?.instagramUrl || 'https://www.instagram.com/multi.limit/',
         icon: FaInstagram,
         colorClass: '!text-[#E4405F] hover:!text-[#E4405F] focus-visible:!text-[#E4405F]',
       },
       {
         name: 'Facebook',
-        href: 'https://www.facebook.com/multi.limit/',
+        href: settings?.facebookUrl || 'https://www.facebook.com/multi.limit/',
         icon: FaFacebookF,
         colorClass: '!text-[#1877F2] hover:!text-[#1877F2] focus-visible:!text-[#1877F2]',
       },
@@ -92,7 +92,7 @@ export function Header() {
         colorClass: '!text-[#25D366] hover:!text-[#25D366] focus-visible:!text-[#25D366]',
       },
     ],
-    [whatsappLink]
+    [settings, whatsappLink]
   )
 
   if (pathname?.startsWith('/admin')) {

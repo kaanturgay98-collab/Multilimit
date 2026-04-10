@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useToast } from "@/hooks/use-toast"
 import { Save, Phone, Mail, MessageCircle, Globe, Copyright, UploadCloud, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { adminFetchJson } from "@/lib/admin/admin-fetch"
 
 type SiteSettings = {
   siteName: string
@@ -17,6 +18,10 @@ type SiteSettings = {
   phone: string | null
   email: string | null
   whatsapp: string | null
+  instagramUrl: string | null
+  facebookUrl: string | null
+  youtubeUrl: string | null
+  xUrl: string | null
   footerText: string | null
   copyright: string | null
 }
@@ -35,6 +40,10 @@ export default function AdminSiteSettingsPage() {
     phone: "",
     email: "",
     whatsapp: "",
+    instagramUrl: "",
+    facebookUrl: "",
+    youtubeUrl: "",
+    xUrl: "",
     footerText: "",
     copyright: ""
   })
@@ -42,8 +51,7 @@ export default function AdminSiteSettingsPage() {
   useEffect(() => {
     async function fetchSettings() {
       try {
-        const res = await fetch("/api/admin/site-settings")
-        const data = await res.json()
+        const data = await adminFetchJson<{ ok: boolean; row?: SiteSettings; error?: string }>("/api/admin/site-settings")
         if (data.ok && data.row) {
           setSettings(data.row)
         }
@@ -59,12 +67,11 @@ export default function AdminSiteSettingsPage() {
   async function handleSave() {
     setSaving(true)
     try {
-      const res = await fetch("/api/admin/site-settings", {
+      const data = await adminFetchJson<{ ok: boolean; row?: SiteSettings; error?: string }>("/api/admin/site-settings", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(settings),
       })
-      const data = await res.json()
       if (data.ok) {
         toast({
             title: "Başarılı",
@@ -96,11 +103,10 @@ export default function AdminSiteSettingsPage() {
       formData.append("file", file)
       formData.append("collection", "site-assets")
 
-      const res = await fetch("/api/admin/media", {
+      const data = await adminFetchJson<any>("/api/admin/media", {
         method: "POST",
         body: formData,
       })
-      const data = await res.json()
 
       if (data.ok && data.asset) {
         setSettings(prev => ({
@@ -277,6 +283,46 @@ export default function AdminSiteSettingsPage() {
                     />
                 </div>
                 <p className="text-[10px] text-slate-400 italic">Ülke koduyla beraber (Örn: 90555...)</p>
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Instagram URL</label>
+                <Input
+                    value={settings.instagramUrl || ""}
+                    onChange={(e) => setSettings({ ...settings, instagramUrl: e.target.value })}
+                    placeholder="https://instagram.com/..."
+                    className="bg-white border-slate-300 text-slate-900"
+                />
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Facebook URL</label>
+                <Input
+                    value={settings.facebookUrl || ""}
+                    onChange={(e) => setSettings({ ...settings, facebookUrl: e.target.value })}
+                    placeholder="https://facebook.com/..."
+                    className="bg-white border-slate-300 text-slate-900"
+                />
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">YouTube URL</label>
+                <Input
+                    value={settings.youtubeUrl || ""}
+                    onChange={(e) => setSettings({ ...settings, youtubeUrl: e.target.value })}
+                    placeholder="https://youtube.com/..."
+                    className="bg-white border-slate-300 text-slate-900"
+                />
+            </div>
+
+            <div className="space-y-2">
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">X URL</label>
+                <Input
+                    value={settings.xUrl || ""}
+                    onChange={(e) => setSettings({ ...settings, xUrl: e.target.value })}
+                    placeholder="https://x.com/..."
+                    className="bg-white border-slate-300 text-slate-900"
+                />
             </div>
           </div>
         </Card>

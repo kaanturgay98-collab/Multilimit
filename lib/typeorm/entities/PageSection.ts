@@ -13,7 +13,7 @@ export type PageSectionType =
 
 @Entity()
 export class PageSection extends BaseEntityWithTimestamps {
-  @ManyToOne(() => require("./Page").Page, (page: any) => page.sections, { onDelete: "CASCADE" })
+  @ManyToOne("Page", (page: any) => page.sections, { onDelete: "CASCADE" })
   page!: Page
 
   @Column({ type: "varchar" })

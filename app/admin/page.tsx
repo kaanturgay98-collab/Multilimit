@@ -29,12 +29,17 @@ type AnalyticsSummary = {
 export default function AdminDashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null)
   const [analytics, setAnalytics] = useState<AnalyticsSummary | null>(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const json = await adminFetchJson<any>("/api/admin/dashboard")
-      if (!cancelled && json?.ok) setData(json)
+      try {
+        const json = await adminFetchJson<any>("/api/admin/dashboard")
+        if (!cancelled && json?.ok) setData(json)
+      } catch (e: any) {
+        if (!cancelled) setError(e?.message || "Veri yuklenirken hata olustu")
+      }
     })()
     return () => {
       cancelled = true
@@ -44,8 +49,12 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     let cancelled = false
     ;(async () => {
-      const json = await adminFetchJson<any>("/api/admin/analytics/summary")
-      if (!cancelled && json?.ok) setAnalytics(json)
+      try {
+        const json = await adminFetchJson<any>("/api/admin/analytics/summary")
+        if (!cancelled && json?.ok) setAnalytics(json)
+      } catch (e: any) {
+        if (!cancelled) setError(e?.message || "Veri yuklenirken hata olustu")
+      }
     })()
     return () => {
       cancelled = true
@@ -70,6 +79,17 @@ export default function AdminDashboardPage() {
           Icerik, urun ve ziyaret ozet gorunumu. Asagidaki hizli aksiyonlarla yonetime baslayabilirsin.
         </p>
       </div>
+
+      {error ? (
+        <Card className="border-border/70 bg-card/80">
+          <CardHeader>
+            <CardTitle>Veri yuklenirken hata</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-sm text-muted-foreground break-words">{error}</div>
+          </CardContent>
+        </Card>
+      ) : null}
 
       {/* KPI cards */}
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-7">
