@@ -1,12 +1,17 @@
 import type { Metadata, Viewport } from 'next'
 import { DM_Sans } from 'next/font/google'
+import Script from 'next/script'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
 import { ChatbotWidget } from '@/components/chatbot-widget'
 import { AnalyticsTracker } from '@/components/analytics/tracker'
+import { MetaPixelPageViews } from '@/components/analytics/meta-pixel-pageviews'
 import { Toaster } from '@/components/ui/toaster'
+
+const META_PIXEL_ID =
+  process.env.NEXT_PUBLIC_META_PIXEL_ID ?? '35100142942932601'
 
 const dmSans = DM_Sans({
   subsets: ['latin', 'latin-ext'],
@@ -59,7 +64,31 @@ export default function RootLayout({
   return (
     <html lang="tr" className={dmSans.variable}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
+        <Script id="meta-pixel" strategy="afterInteractive">
+          {`
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', ${JSON.stringify(META_PIXEL_ID)});
+fbq('track', 'PageView');
+`}
+        </Script>
+        <noscript>
+          <img
+            height={1}
+            width={1}
+            style={{ display: 'none' }}
+            src={`https://www.facebook.com/tr?id=${encodeURIComponent(META_PIXEL_ID)}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
         <AnalyticsTracker />
+        <MetaPixelPageViews />
         <Toaster />
         <Header />
         <main className="flex-1">
