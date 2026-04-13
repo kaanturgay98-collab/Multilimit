@@ -2,12 +2,12 @@ import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { Product } from "@/lib/typeorm/entities/Product"
 
-@Entity()
+@Entity("ProductVariant")
 export class ProductVariant extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   name!: string
 
-  @ManyToOne("Product", "variants", { onDelete: "CASCADE" })
+  @ManyToOne("Product", (product: any) => product.variants, { onDelete: "CASCADE" })
   product!: Product
 
   @Column({ type: "integer" })

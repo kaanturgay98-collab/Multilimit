@@ -10,6 +10,8 @@ import { AnalyticsTracker } from '@/components/analytics/tracker'
 import { MetaPixelPageViews } from '@/components/analytics/meta-pixel-pageviews'
 import { Toaster } from '@/components/ui/toaster'
 
+const isVercelDeployment = process.env.VERCEL === '1'
+
 const dmSans = DM_Sans({
   subsets: ['latin', 'latin-ext'],
   display: 'swap',
@@ -95,7 +97,7 @@ fbq('track', 'PageView');
         </main>
         <Footer />
         <ChatbotWidget />
-        <Analytics />
+        {isVercelDeployment ? <Analytics /> : null}
       </body>
     </html>
   )
