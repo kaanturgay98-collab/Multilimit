@@ -10,6 +10,8 @@ export type BrandStoryProps = {
   paragraphs: { text: string }[]
   experienceValue: string
   experienceLabel: string
+  rightImage?: string
+  rightImageAlt?: string
 }
 
 export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
@@ -26,6 +28,34 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
     },
     experienceValue: { type: "text" },
     experienceLabel: { type: "text" },
+    rightImage: {
+      type: "custom",
+      render: ({ value, onChange }) => (
+        <div className="flex flex-col gap-3">
+          <label className="text-sm font-medium">Sağ Görsel (Hakkımızda)</label>
+          <input
+            type="text"
+            className="w-full px-3 py-2 border border-slate-200 rounded-md text-sm"
+            value={value || ""}
+            onChange={(e) => onChange(e.target.value)}
+            placeholder="Görsel URL'si..."
+          />
+          <input
+            type="file"
+            accept="image/*"
+            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20 cursor-pointer text-slate-500"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (!file) return
+              const reader = new FileReader()
+              reader.onloadend = () => onChange(reader.result as string)
+              reader.readAsDataURL(file)
+            }}
+          />
+        </div>
+      ),
+    },
+    rightImageAlt: { type: "text" },
   },
   defaultProps: {
     tagline: "Hikayemiz",
@@ -37,8 +67,10 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
     ],
     experienceValue: "2+ Yıl",
     experienceLabel: "Kaliteli Hizmet",
+    rightImage: "",
+    rightImageAlt: "Hakkımızda görseli",
   },
-  render: ({ tagline, titleHighlight, titleEnd, paragraphs, experienceValue, experienceLabel }) => (
+  render: ({ tagline, titleHighlight, titleEnd, paragraphs, experienceValue, experienceLabel, rightImage, rightImageAlt }) => (
     <section className="py-16 lg:py-24 bg-secondary/30">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -56,9 +88,17 @@ export const BrandStoryConfig: ComponentConfig<BrandStoryProps> = {
           
           <Reveal className="relative" delayMs={140} y={18}>
             <div className="aspect-[4/3] bg-gradient-to-br from-navy-light to-secondary rounded-3xl border border-border overflow-hidden">
-              <div className="absolute inset-0 flex items-center justify-center">
-                <Building className="w-24 h-24 text-primary/30" />
-              </div>
+              {rightImage ? (
+                <img
+                  src={rightImage}
+                  alt={rightImageAlt || "Hakkımızda görseli"}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Building className="w-24 h-24 text-primary/30" />
+                </div>
+              )}
             </div>
             <div className="absolute -bottom-6 -left-6 bg-card border border-border rounded-2xl p-6 shadow-xl">
               <p className="text-3xl font-bold text-primary">{experienceValue}</p>
