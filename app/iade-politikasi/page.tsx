@@ -112,11 +112,11 @@ export default function ReturnPolicyPage() {
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span>Kredi karti iadeleri bankaniza bagli olarak 2-7 gun icinde hesabiniza yansir</span>
+                    <span>Kredi karti iadeleri bankanıza baglı olarak 2-7 gun icinde hesabiniza yansır</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <Check className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
-                    <span>Kapida odeme ile alinan siparislerde banka havalesi ile iade yapilir</span>
+                    <span>Kapida odeme ile alinan siparislerde banka havalesi ile iade yapılır</span>
                   </li>
                 </ul>
               </div>
@@ -124,7 +124,7 @@ export default function ReturnPolicyPage() {
               <div className="bg-background border border-border rounded-xl p-6">
                 <h3 className="font-semibold text-foreground mb-3">Degisim</h3>
                 <p className="text-muted-foreground mb-4">
-                  Urun degisimi yapilmamaktadir. Farkli bir urun istiyorsaniz, mevcut urunu iade edip yeni siparis verebilirsiniz.
+                  Urun değişimi yapılmamaktadır. Farklı bir ürün istiyorsanız, mevcut ürünü iade edip yeni sipariş verebilirsiniz.
                 </p>
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function ReturnPolicyPage() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl font-bold text-foreground mb-8">Sikca Sorulan Sorular</h2>
+            <h2 className="text-3xl font-bold text-foreground mb-8">Sıkça Sorulan Sorular</h2>
 
             <div className="space-y-4">
               {[
@@ -170,20 +170,20 @@ export default function ReturnPolicyPage() {
       {/* CTA */}
       <section className="py-16 bg-primary/5">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-4">Iade Talebi Olusturun</h2>
+          <h2 className="text-3xl font-bold text-foreground mb-4">Iade Talebi Oluşturun</h2>
           <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-            Iade sureci hakkinda sorulariniz mi var veya iade talebinde bulunmak mi istiyorsunuz?
+            Iade sureci hakkinda sorularınız  mı var veya iade talebinde bulunmak mı istiyorsunuz?
             Musteri hizmetlerimiz size yardimci olmaya hazir.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="bg-green-600 hover:bg-green-700 text-white">
               <Link href="https://wa.me/905321234567">
                 <MessageCircle className="mr-2 h-5 w-5" />
-                WhatsApp ile Iletisime Gec
+                WhatsApp ile İletişime Geç
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline">
-              <Link href="/iletisim">Iletisim Formu</Link>
+              <Link href="/iletisim">İletişim Formu</Link>
             </Button>
           </div>
         </div>

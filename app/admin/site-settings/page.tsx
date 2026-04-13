@@ -26,6 +26,21 @@ type SiteSettings = {
   copyright: string | null
 }
 
+function toReadableAdminError(error: unknown) {
+  const raw = String((error as any)?.message || error || "Bir hata oluştu")
+  const lower = raw.toLowerCase()
+
+  if (
+    lower.includes("read-only") ||
+    lower.includes("readonly") ||
+    lower.includes("sqlite_readonly")
+  ) {
+    return "Canlı ortam veritabanı yazmaya kapalı görünüyor. Sunucuda DATABASE_URL ve dosya izinlerini kontrol edin."
+  }
+
+  return raw
+}
+
 export default function AdminSiteSettingsPage() {
   const { toast } = useToast()
   const [loading, setLoading] = useState(true)
@@ -83,7 +98,7 @@ export default function AdminSiteSettingsPage() {
     } catch (error: any) {
         toast({
             title: "Hata",
-            description: error.message,
+            description: toReadableAdminError(error),
             variant: "destructive"
         })
     } finally {
@@ -123,7 +138,7 @@ export default function AdminSiteSettingsPage() {
     } catch (error: any) {
       toast({
         title: "Hata",
-        description: error.message,
+        description: toReadableAdminError(error),
         variant: "destructive"
       })
     } finally {

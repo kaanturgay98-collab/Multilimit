@@ -22,6 +22,27 @@ type SiteSettingRow = {
   copyright: string | null
 }
 
+function toReadableSiteSettingsError(error: unknown) {
+  const raw = String((error as any)?.message || error || "Failed to save site settings")
+  const lower = raw.toLowerCase()
+
+  if (
+    lower.includes("sqlite_readonly") ||
+    lower.includes("readonly database") ||
+    lower.includes("attempt to write a readonly database")
+  ) {
+    return "Sunucu veritabanı yazma izni vermiyor (read-only). Canlı ortamda DATABASE_URL'i yazılabilir kalıcı bir dizine veya harici bir veritabanına taşıyın."
+  }
+  if (lower.includes("unable to open database file")) {
+    return "Veritabanı dosyası açılamadı. DATABASE_URL yolunu ve dosya/dizin izinlerini kontrol edin."
+  }
+  if (lower.includes("no such table")) {
+    return "Gerekli tablo bulunamadı. Veritabanı şemasını/migrasyonu kontrol edin."
+  }
+
+  return raw
+}
+
 async function ensureSiteSettingTable() {
   const ds = await getDb()
   await ds.query(`
@@ -163,8 +184,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: true, row: toClientRow(updatedRows[0] ?? null) })
   } catch (error: any) {
     console.error("Site settings POST error:", error)
-    // Surface the actual reason in JSON so the admin UI can show it.
-    const msg = String(error?.message || error || "Failed to save site settings")
+    const msg = toReadableSiteSettingsError(error)
     return NextResponse.json({ ok: false, error: msg }, { status: 500 })
   }
 }

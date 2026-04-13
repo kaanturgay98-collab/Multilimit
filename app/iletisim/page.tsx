@@ -55,10 +55,10 @@ export default async function ContactPage() {
           <div className="container relative mx-auto px-4 lg:px-8 py-16 lg:py-20">
             <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/70 px-3 py-1 text-xs text-muted-foreground">
               <Sparkles className="h-3.5 w-3.5" />
-              Hemen bizimle bağlantıya gecin
+              Hemen bizimle bağlantıya geçin
             </div>
             <h1 className="mt-4 max-w-3xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-              İletişimde kalalim, sorularinizi hızlıca çözelim.
+              İletişimde kalalım, sorularınızı hızlıca çözelim.
             </h1>
             <p className="mt-4 max-w-2xl text-base text-muted-foreground">
               İletişim, destek ve iş birliği talepleriniz için en uygun kanaldan bize ulaşabilirsiniz.

@@ -53,7 +53,6 @@ const navSections: readonly NavSection[] = [
     href: "/admin/editor?slug=icerikler",
     items: [
       { href: "/admin/editor?slug=icerikler", label: "Sayfa Tasarımı (Puck)" },
-      { href: "/admin/pages", label: "Tüm Sayfalar" },
       // { href: "/admin/menu", label: "Menü Yönetimi" },
     ],
   },
