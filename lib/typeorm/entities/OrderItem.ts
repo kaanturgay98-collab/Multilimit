@@ -4,7 +4,7 @@ import type { Order } from "@/lib/typeorm/entities/Order"
 import type { Product } from "@/lib/typeorm/entities/Product"
 import type { ProductVariant } from "@/lib/typeorm/entities/ProductVariant"
 
-@Entity()
+@Entity("OrderItem")
 export class OrderItem extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   productName!: string

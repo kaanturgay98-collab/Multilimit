@@ -14,7 +14,7 @@ export type OrderStatus =
 
 export type PaymentStatus = "pending" | "paid" | "refunded" | "failed"
 
-@Entity()
+@Entity("Order")
 @Index(["createdAt"])
 @Index(["status"])
 export class Order extends BaseEntityWithTimestamps {

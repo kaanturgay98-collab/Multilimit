@@ -4,7 +4,7 @@ import { Order } from "@/lib/typeorm/entities/Order"
 
 export type UserAuthProvider = "email" | "google" | "facebook" | "guest"
 
-@Entity()
+@Entity("User")
 @Index(["email"], { unique: true })
 export class User extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
