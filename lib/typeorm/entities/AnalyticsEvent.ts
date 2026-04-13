@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
 export type AnalyticsEventType = "page_view" | "click"
 
-@Entity()
+@Entity("AnalyticsEvent")
 @Index(["createdAt"])
 @Index(["type", "path"])
 export class AnalyticsEvent extends BaseEntityWithTimestamps {

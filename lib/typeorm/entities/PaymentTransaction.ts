@@ -5,7 +5,7 @@ import { Order } from "@/lib/typeorm/entities/Order"
 export type PaymentProvider = "mock"
 export type PaymentTxStatus = "created" | "pending" | "paid" | "failed" | "cancelled"
 
-@Entity()
+@Entity("PaymentTransaction")
 @Index(["createdAt"])
 @Index(["provider", "providerSessionId"])
 export class PaymentTransaction extends BaseEntityWithTimestamps {

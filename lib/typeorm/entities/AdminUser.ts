@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { Role } from "@/lib/typeorm/entities/Role"
 
-@Entity()
+@Entity("AdminUser")
 export class AdminUser extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   username!: string

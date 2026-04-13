@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
 export type CouponType = "percentage" | "amount"
 
-@Entity()
+@Entity("Coupon")
 export class Coupon extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   code!: string

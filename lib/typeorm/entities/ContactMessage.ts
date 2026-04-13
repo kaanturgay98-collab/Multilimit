@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
 export type ContactStatus = "new" | "read" | "replied"
 
-@Entity()
+@Entity("ContactMessage")
 export class ContactMessage extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   name!: string

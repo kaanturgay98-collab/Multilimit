@@ -4,7 +4,7 @@ import type { AdminUser } from "@/lib/typeorm/entities/AdminUser"
 
 export type RoleKey = "super_admin" | "editor" | "order_manager" | "content_manager"
 
-@Entity()
+@Entity("Role")
 export class Role extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   key!: RoleKey

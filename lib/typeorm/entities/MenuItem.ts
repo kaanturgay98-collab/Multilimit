@@ -4,7 +4,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 export type MenuLocation = "header" | "footer"
 export type FooterMenuGroup = "quick" | "product" | "legal"
 
-@Entity()
+@Entity("MenuItem")
 @Index(["location", "sortOrder"])
 export class MenuItem extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })

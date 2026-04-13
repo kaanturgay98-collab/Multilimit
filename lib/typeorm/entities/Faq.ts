@@ -1,7 +1,7 @@
 import { Column, Entity, Index } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 
-@Entity()
+@Entity("Faq")
 @Index(["category", "sortOrder"])
 export class Faq extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })

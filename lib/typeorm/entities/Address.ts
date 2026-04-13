@@ -2,7 +2,7 @@ import { Column, Entity, ManyToOne, Index } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import { User } from "@/lib/typeorm/entities/User"
 
-@Entity()
+@Entity("Address")
 @Index(["createdAt"])
 export class Address extends BaseEntityWithTimestamps {
   @ManyToOne(() => User, { nullable: true, onDelete: "SET NULL" })

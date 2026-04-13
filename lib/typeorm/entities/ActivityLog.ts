@@ -2,7 +2,7 @@ import { Column, Entity, Index, ManyToOne } from "typeorm"
 import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { AdminUser } from "@/lib/typeorm/entities/AdminUser"
 
-@Entity()
+@Entity("ActivityLog")
 @Index(["createdAt"])
 export class ActivityLog extends BaseEntityWithTimestamps {
   @ManyToOne("AdminUser", { nullable: true })
