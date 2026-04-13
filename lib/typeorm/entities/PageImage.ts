@@ -9,7 +9,7 @@ import {
 } from "typeorm"
 import type { Page } from "@/lib/typeorm/entities/Page"
 
-@Entity()
+@Entity("PageImage")
 @Index(["pageId", "sortOrder"])
 export class PageImage {
   @PrimaryGeneratedColumn("uuid")

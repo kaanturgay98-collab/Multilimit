@@ -3,7 +3,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import type { Product } from "@/lib/typeorm/entities/Product"
 import type { Page } from "@/lib/typeorm/entities/Page"
 
-@Entity()
+@Entity("SeoMeta")
 export class SeoMeta extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   seoTitle!: string

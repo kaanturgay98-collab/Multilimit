@@ -5,7 +5,7 @@ import type { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 
 export type ProductBadge = "premium" | "new" | "bestseller" | null
 
-@Entity()
+@Entity("Product")
 export class Product extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   name!: string

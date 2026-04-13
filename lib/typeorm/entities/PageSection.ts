@@ -11,7 +11,7 @@ export type PageSectionType =
   | "cta"
   | "custom"
 
-@Entity()
+@Entity("PageSection")
 export class PageSection extends BaseEntityWithTimestamps {
   @ManyToOne("Page", (page: any) => page.sections, { onDelete: "CASCADE" })
   page!: Page

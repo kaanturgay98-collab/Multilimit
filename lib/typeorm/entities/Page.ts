@@ -4,7 +4,7 @@ import { BaseEntityWithTimestamps } from "@/lib/typeorm/entities/BaseColumns"
 import { PageSection } from "@/lib/typeorm/entities/PageSection"
 import { SeoMeta } from "@/lib/typeorm/entities/SeoMeta"
 
-@Entity()
+@Entity("Page")
 export class Page extends BaseEntityWithTimestamps {
 
   @Column({ type: "varchar", unique: true })
