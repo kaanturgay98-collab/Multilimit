@@ -16,6 +16,7 @@ type SiteSettingRow = {
   whatsapp: string | null
   instagramUrl: string | null
   facebookUrl: string | null
+  trendyolUrl: string | null
   youtubeUrl: string | null
   xUrl: string | null
   footerText: string | null
@@ -59,6 +60,7 @@ async function ensureSiteSettingTable() {
       "whatsapp" text,
       "instagramUrl" text,
       "facebookUrl" text,
+      "trendyolUrl" text,
       "youtubeUrl" text,
       "xUrl" text,
       "footerText" text,
@@ -70,6 +72,7 @@ async function ensureSiteSettingTable() {
   const names = new Set(cols.map((c) => c.name))
   if (!names.has("instagramUrl")) await ds.query(`ALTER TABLE "SiteSetting" ADD COLUMN "instagramUrl" text`)
   if (!names.has("facebookUrl")) await ds.query(`ALTER TABLE "SiteSetting" ADD COLUMN "facebookUrl" text`)
+  if (!names.has("trendyolUrl")) await ds.query(`ALTER TABLE "SiteSetting" ADD COLUMN "trendyolUrl" text`)
   if (!names.has("youtubeUrl")) await ds.query(`ALTER TABLE "SiteSetting" ADD COLUMN "youtubeUrl" text`)
   if (!names.has("xUrl")) await ds.query(`ALTER TABLE "SiteSetting" ADD COLUMN "xUrl" text`)
 
@@ -87,6 +90,7 @@ function toClientRow(row: SiteSettingRow | null) {
       whatsapp: "",
       instagramUrl: "",
       facebookUrl: "",
+      trendyolUrl: "",
       youtubeUrl: "",
       xUrl: "",
       footerText: "",
@@ -130,6 +134,7 @@ export async function POST(req: Request) {
       whatsapp: json.whatsapp ?? current?.whatsapp ?? null,
       instagramUrl: json.instagramUrl ?? current?.instagramUrl ?? null,
       facebookUrl: json.facebookUrl ?? current?.facebookUrl ?? null,
+      trendyolUrl: json.trendyolUrl ?? current?.trendyolUrl ?? null,
       youtubeUrl: json.youtubeUrl ?? current?.youtubeUrl ?? null,
       xUrl: json.xUrl ?? current?.xUrl ?? null,
       footerText: json.footerText ?? current?.footerText ?? null,
@@ -139,7 +144,7 @@ export async function POST(req: Request) {
     if (current) {
       await ds.query(
         `UPDATE "SiteSetting"
-         SET "siteName" = ?, "logoUrl" = ?, "faviconUrl" = ?, "phone" = ?, "email" = ?, "whatsapp" = ?, "instagramUrl" = ?, "facebookUrl" = ?, "youtubeUrl" = ?, "xUrl" = ?, "footerText" = ?, "copyright" = ?, "updatedAt" = datetime('now')
+         SET "siteName" = ?, "logoUrl" = ?, "faviconUrl" = ?, "phone" = ?, "email" = ?, "whatsapp" = ?, "instagramUrl" = ?, "facebookUrl" = ?, "trendyolUrl" = ?, "youtubeUrl" = ?, "xUrl" = ?, "footerText" = ?, "copyright" = ?, "updatedAt" = datetime('now')
          WHERE "id" = ?`,
         [
           next.siteName,
@@ -150,6 +155,7 @@ export async function POST(req: Request) {
           next.whatsapp,
           next.instagramUrl,
           next.facebookUrl,
+          next.trendyolUrl,
           next.youtubeUrl,
           next.xUrl,
           next.footerText,
@@ -160,8 +166,8 @@ export async function POST(req: Request) {
     } else {
       await ds.query(
         `INSERT INTO "SiteSetting"
-         ("id", "createdAt", "updatedAt", "isActive", "siteName", "logoUrl", "faviconUrl", "phone", "email", "whatsapp", "instagramUrl", "facebookUrl", "youtubeUrl", "xUrl", "footerText", "copyright")
-         VALUES (?, datetime('now'), datetime('now'), 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         ("id", "createdAt", "updatedAt", "isActive", "siteName", "logoUrl", "faviconUrl", "phone", "email", "whatsapp", "instagramUrl", "facebookUrl", "trendyolUrl", "youtubeUrl", "xUrl", "footerText", "copyright")
+         VALUES (?, datetime('now'), datetime('now'), 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           crypto.randomUUID(),
           next.siteName,
@@ -172,6 +178,7 @@ export async function POST(req: Request) {
           next.whatsapp,
           next.instagramUrl,
           next.facebookUrl,
+          next.trendyolUrl,
           next.youtubeUrl,
           next.xUrl,
           next.footerText,

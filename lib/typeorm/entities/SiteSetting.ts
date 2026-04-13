@@ -28,6 +28,9 @@ export class SiteSetting extends BaseEntityWithTimestamps {
   facebookUrl!: string | null
 
   @Column({ type: "text", nullable: true })
+  trendyolUrl!: string | null
+
+  @Column({ type: "text", nullable: true })
   youtubeUrl!: string | null
 
   @Column({ type: "text", nullable: true })

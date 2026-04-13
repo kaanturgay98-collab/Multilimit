@@ -4,6 +4,7 @@ export type PublicSiteSettings = {
   whatsapp: string
   instagramUrl: string
   facebookUrl: string
+  trendyolUrl: string
   youtubeUrl: string
   xUrl: string
 }
@@ -15,6 +16,7 @@ export const MOCK_SITE_SETTINGS: PublicSiteSettings = {
   whatsapp: "905444575629",
   instagramUrl: "https://www.instagram.com/multi.limit/",
   facebookUrl: "https://www.facebook.com/multi.limit/",
+  trendyolUrl: "https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513",
   youtubeUrl: "https://www.youtube.com/",
   xUrl: "https://x.com/",
 }

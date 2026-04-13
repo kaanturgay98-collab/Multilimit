@@ -59,7 +59,7 @@ export function Header() {
 
   const whatsappLink = useMemo(() => {
     const num = settings?.whatsapp || MOCK_SITE_SETTINGS.whatsapp
-    const msg = encodeURIComponent('Merhaba, Multilimit Premium Detoks Kompleksi hakkında bilgi almak istiyorum.')
+    const msg = encodeURIComponent('Merhaba, Multilimit Alkol öncesi gıda takviyesi hakkında bilgi almak istiyorum.')
     return `https://wa.me/${num}?text=${msg}`
   }, [settings])
 
@@ -95,6 +95,8 @@ export function Header() {
     ],
     [settings, whatsappLink]
   )
+
+  const trendyolUrl = settings?.trendyolUrl || MOCK_SITE_SETTINGS.trendyolUrl
 
   if (pathname?.startsWith('/admin')) {
     return null
@@ -157,7 +159,7 @@ export function Header() {
               </a>
             ))}
             <a
-              href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513"
+              href={trendyolUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="ml-1 inline-flex items-center gap-1 rounded-md bg-[#F27A1A] px-2.5 py-1.5 text-xs font-semibold text-white hover:opacity-90 transition-opacity"
@@ -232,7 +234,7 @@ export function Header() {
                     ))}
                   </div>
                   <a
-                    href="https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513"
+                    href={trendyolUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setIsOpen(false)}

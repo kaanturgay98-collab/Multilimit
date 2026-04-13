@@ -18,8 +18,6 @@ export default async function ContactPage() {
       whatsapp: string | null
       instagramUrl: string | null
       facebookUrl: string | null
-      youtubeUrl: string | null
-      xUrl: string | null
     }
 
     const h = await headers()
@@ -36,16 +34,13 @@ export default async function ContactPage() {
       whatsapp: fetched?.whatsapp || MOCK_SITE_SETTINGS.whatsapp,
       instagramUrl: fetched?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl,
       facebookUrl: fetched?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl,
-      youtubeUrl: fetched?.youtubeUrl || MOCK_SITE_SETTINGS.youtubeUrl,
-      xUrl: fetched?.xUrl || MOCK_SITE_SETTINGS.xUrl,
     }
 
     const socialLinks = [
       { label: "Instagram", href: settings.instagramUrl || null },
       { label: "Facebook", href: settings.facebookUrl || null },
-      { label: "YouTube", href: settings.youtubeUrl || null },
-      { label: "X", href: settings.xUrl || null },
     ].filter((s) => !!s.href)
+    const whatsappMessage = encodeURIComponent("Merhaba, Multilimit Alkol öncesi gıda takviyesi hakkında bilgi almak istiyorum.")
 
     return (
       <main className="min-h-screen bg-background">
@@ -66,7 +61,7 @@ export default async function ContactPage() {
             <div className="mt-8 flex flex-wrap gap-3">
               {settings?.whatsapp ? (
                 <a
-                  href={`https://wa.me/${settings.whatsapp}`}
+                  href={`https://wa.me/${settings.whatsapp}?text=${whatsappMessage}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 rounded-xl bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-500"
@@ -130,7 +125,7 @@ export default async function ContactPage() {
               <div className="mt-2 text-sm">
                 {settings?.whatsapp ? (
                   <a
-                    href={`https://wa.me/${settings.whatsapp}`}
+                    href={`https://wa.me/${settings.whatsapp}?text=${whatsappMessage}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="font-medium text-foreground hover:text-primary"
