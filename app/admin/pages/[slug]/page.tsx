@@ -92,7 +92,8 @@ export default function AdminPageEditor() {
         { method: "POST", body: form }
       )
       if (!data.ok || !data.image) throw new Error(data.error || "Upload basarisiz")
-      setPage((p) => (p ? { ...p, images: [...p.images, data.image].sort((a, b) => a.sortOrder - b.sortOrder) } : p))
+      const image = data.image
+      setPage((p) => (p ? { ...p, images: [...p.images, image].sort((a, b) => a.sortOrder - b.sortOrder) } : p))
       setUploadAlt("")
     } finally {
       setUploading(false)

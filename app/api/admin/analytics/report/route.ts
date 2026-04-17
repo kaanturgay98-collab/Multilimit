@@ -4,9 +4,9 @@ import { getDb } from "@/lib/db"
 export const runtime = "nodejs"
 
 function sinceFrom(q: string | null) {
-  if (q === "24h") return new Date(Date.now() - 24 * 60 * 60 * 1000)
+  if (q === "24h") return "-24 hours"
   // default 7d
-  return new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  return "-7 days"
 }
 
 export async function GET(req: Request) {
@@ -21,7 +21,7 @@ export async function GET(req: Request) {
     .select("e.path", "path")
     .addSelect("COUNT(1)", "count")
     .where("e.type = :t", { t: "page_view" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .groupBy("e.path")
     .orderBy("count", "DESC")
     .limit(20)
@@ -32,7 +32,7 @@ export async function GET(req: Request) {
     .select("COALESCE(e.name, 'unknown')", "name")
     .addSelect("COUNT(1)", "count")
     .where("e.type = :t", { t: "click" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .groupBy("e.name")
     .orderBy("count", "DESC")
     .limit(20)
@@ -42,42 +42,42 @@ export async function GET(req: Request) {
     .createQueryBuilder("e")
     .where("e.type = :t", { t: "page_view" })
     .andWhere("e.path = :p", { p: "/" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .getCount()
 
   const heroPrimaryClicks = await repo
     .createQueryBuilder("e")
     .where("e.type = :t", { t: "click" })
     .andWhere("e.name = :n", { n: "hero_primary_cta" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .getCount()
 
   const orderClicks = await repo
     .createQueryBuilder("e")
     .where("e.type = :t", { t: "click" })
     .andWhere("e.name = :n", { n: "header_order_cta" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .getCount()
 
   const whatsappClicks = await repo
     .createQueryBuilder("e")
     .where("e.type = :t", { t: "click" })
     .andWhere("e.name IN (:...names)", { names: ["header_whatsapp", "footer_whatsapp"] })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .getCount()
 
   const newsletter = await repo
     .createQueryBuilder("e")
     .where("e.type = :t", { t: "click" })
     .andWhere("e.name = :n", { n: "footer_newsletter_submit" })
-    .andWhere("e.createdAt >= :d", { d: since.toISOString() })
+    .andWhere(`e.createdAt >= datetime('now', '${since}')`)
     .getCount()
 
   const ctrHeroPrimary = homeViews > 0 ? heroPrimaryClicks / homeViews : 0
 
   return NextResponse.json({
     ok: true,
-    since: since.toISOString(),
+    since,
     ctr: {
       heroPrimary: ctrHeroPrimary,
     },

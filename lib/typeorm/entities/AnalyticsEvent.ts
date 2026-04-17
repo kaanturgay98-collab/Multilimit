@@ -6,6 +6,7 @@ export type AnalyticsEventType = "page_view" | "click"
 @Entity("AnalyticsEvent")
 @Index(["createdAt"])
 @Index(["type", "path"])
+@Index(["createdAt", "ipHash"])
 export class AnalyticsEvent extends BaseEntityWithTimestamps {
   @Column({ type: "varchar" })
   type!: AnalyticsEventType
@@ -21,6 +22,9 @@ export class AnalyticsEvent extends BaseEntityWithTimestamps {
 
   @Column({ type: "varchar" })
   sessionId!: string
+
+  @Column({ type: "text", nullable: true })
+  ipHash!: string | null
 
   @Column({ type: "text", nullable: true })
   userAgent!: string | null
