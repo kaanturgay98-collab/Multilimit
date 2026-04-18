@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import { Mail, MessageCircle, Phone, ArrowUpRight, Sparkles } from "lucide-react"
+import { Mail, MessageCircle, Phone, ArrowUpRight, Sparkles, MapPin } from "lucide-react"
 import { headers } from "next/headers"
 import { MOCK_SITE_SETTINGS } from "@/lib/mock-site-settings"
 
@@ -16,6 +16,7 @@ export default async function ContactPage() {
       phone: string | null
       email: string | null
       whatsapp: string | null
+      address: string | null
       instagramUrl: string | null
       facebookUrl: string | null
     }
@@ -32,6 +33,7 @@ export default async function ContactPage() {
       phone: fetched?.phone || MOCK_SITE_SETTINGS.phone,
       email: fetched?.email || MOCK_SITE_SETTINGS.email,
       whatsapp: fetched?.whatsapp || MOCK_SITE_SETTINGS.whatsapp,
+      address: fetched?.address || MOCK_SITE_SETTINGS.address,
       instagramUrl: fetched?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl,
       facebookUrl: fetched?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl,
     }
@@ -84,7 +86,7 @@ export default async function ContactPage() {
         </section>
 
         <section className="container mx-auto px-4 lg:px-8 py-10 lg:py-12">
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-5">
             <article className="group rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-md">
               <div className="mb-3 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
                 <Phone className="h-4 w-4" />
@@ -132,6 +134,20 @@ export default async function ContactPage() {
                   >
                     {settings.whatsapp}
                   </a>
+                ) : (
+                  <span className="text-sm text-muted-foreground">Henüz tanımlanmadı.</span>
+                )}
+              </div>
+            </article>
+
+            <article className="group rounded-2xl border border-border bg-card p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+              <div className="mb-3 inline-flex rounded-lg bg-primary/10 p-2 text-primary">
+                <MapPin className="h-4 w-4" />
+              </div>
+              <p className="text-xs uppercase tracking-wide text-muted-foreground">Adres</p>
+              <div className="mt-2 text-sm">
+                {settings?.address ? (
+                  <span className="font-medium text-foreground">{settings.address}</span>
                 ) : (
                   <span className="text-sm text-muted-foreground">Henüz tanımlanmadı.</span>
                 )}

@@ -18,11 +18,11 @@ const quickLinks = [
 ]
 
 const productLinks = [
-  { name: 'Nasil Kullanilir', href: '/nasil-kullanilir' },
-  { name: 'Kimler Icin Uygun', href: '/kimler-icin-uygun' },
-  { name: 'Icerikler', href: '/icerikler' },
-  { name: 'Sik Sorulan Sorular', href: '/sss' },
-  { name: 'Kullanici Yorumlari', href: '/yorumlar' },
+  { name: 'Nasıl Kullanılır', href: '/nasil-kullanilir' },
+  { name: 'Kimler İçin Uygun', href: '/kimler-icin-uygun' },
+  { name: 'İçerikler', href: '/icerikler' },
+  { name: 'Sıkça Sorulan Sorular', href: '/sss' },
+  { name: 'Kullanıcı Yorumları', href: '/yorumlar' },
 ]
 
 const legalLinks = [
@@ -41,8 +41,7 @@ export function Footer() {
     return [
       { name: 'Instagram', href: settings?.instagramUrl || MOCK_SITE_SETTINGS.instagramUrl, icon: Instagram },
       { name: 'Facebook', href: settings?.facebookUrl || MOCK_SITE_SETTINGS.facebookUrl, icon: Facebook },
-      { name: 'Twitter', href: settings?.xUrl || MOCK_SITE_SETTINGS.xUrl, icon: Twitter },
-      { name: 'YouTube', href: settings?.youtubeUrl || MOCK_SITE_SETTINGS.youtubeUrl, icon: Youtube },
+
     ].filter((s) => s.href && s.href !== '#')
   }, [settings])
 
@@ -177,10 +176,12 @@ export function Footer() {
                   {settings.email}
                 </a>
               )}
-              <div className="flex items-start gap-3 text-muted-foreground">
-                <MapPin className="h-4 w-4 mt-0.5" />
-                <span>Levent Mah. Buyukdere Cad. No:123<br />Besiktas, Istanbul 34394</span>
-              </div>
+              {(settings?.address || MOCK_SITE_SETTINGS.address) && (
+                <div className="flex items-start gap-3 text-muted-foreground">
+                  <MapPin className="h-4 w-4 mt-0.5" />
+                  <span>{settings?.address || MOCK_SITE_SETTINGS.address}</span>
+                </div>
+              )}
             </div>
 
             {/* Social Links */}

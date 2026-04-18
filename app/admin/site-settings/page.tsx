@@ -6,13 +6,14 @@ import { AdminPageHeader } from "@/components/admin/admin-page-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useToast } from "@/hooks/use-toast"
-import { Save, Phone, Mail, MessageCircle, Link2, ShoppingBag } from "lucide-react"
+import { Save, Phone, Mail, MessageCircle, Link2, ShoppingBag, MapPin } from "lucide-react"
 import { adminFetchJson } from "@/lib/admin/admin-fetch"
 
 type SiteSettings = {
   phone: string | null
   email: string | null
   whatsapp: string | null
+  address: string | null
   instagramUrl: string | null
   facebookUrl: string | null
   trendyolUrl: string | null
@@ -42,6 +43,7 @@ export default function AdminSiteSettingsPage() {
     phone: "",
     email: "",
     whatsapp: "",
+    address: "",
     instagramUrl: "",
     facebookUrl: "",
     trendyolUrl: "",
@@ -56,6 +58,7 @@ export default function AdminSiteSettingsPage() {
             phone: data.row.phone || "",
             email: data.row.email || "",
             whatsapp: data.row.whatsapp || "",
+            address: data.row.address || "",
             instagramUrl: data.row.instagramUrl || "",
             facebookUrl: data.row.facebookUrl || "",
             trendyolUrl: data.row.trendyolUrl || "",
@@ -181,6 +184,19 @@ export default function AdminSiteSettingsPage() {
                 value={settings.facebookUrl || ""}
                 onChange={(e) => setSettings({ ...settings, facebookUrl: e.target.value })}
                 placeholder="https://facebook.com/..."
+                className="bg-white border-slate-300 text-slate-900 pl-10"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Adres</label>
+            <div className="relative">
+              <MapPin className="absolute left-3 top-3.5 w-4 h-4 text-slate-400 pointer-events-none" />
+              <Input
+                value={settings.address || ""}
+                onChange={(e) => setSettings({ ...settings, address: e.target.value })}
+                placeholder="Levent Mah. Buyukdere Cad. No:123, Besiktas, Istanbul 34394"
                 className="bg-white border-slate-300 text-slate-900 pl-10"
               />
             </div>
