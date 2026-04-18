@@ -5,9 +5,9 @@ import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 import { Header } from '@/components/layout/header'
 import { Footer } from '@/components/layout/footer'
-import { ChatbotWidget } from '@/components/chatbot-widget'
 import { AnalyticsTracker } from '@/components/analytics/tracker'
 import { MetaPixelPageViews } from '@/components/analytics/meta-pixel-pageviews'
+import { ChatbotWidget } from '@/components/chatbot-widget'
 import { Toaster } from '@/components/ui/toaster'
 
 const isVercelDeployment = process.env.VERCEL === '1'
@@ -64,7 +64,7 @@ export default function RootLayout({
     <html lang="tr" className={dmSans.variable}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         {/* Meta Pixel Code */}
-        <Script id="meta-pixel" strategy="afterInteractive">
+        <Script id="meta-pixel" strategy="lazyOnload">
           {`
 !function(f,b,e,v,n,t,s)
 {if(f.fbq)return;n=f.fbq=function(){n.callMethod?

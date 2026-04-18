@@ -8,6 +8,19 @@
     "start": "next start -p 5601",
     "lint": "eslint ."
   },
+  "browserslist": {
+    "production": [
+      "chrome >= 120",
+      "chromeandroid >= 120",
+      "ios_saf >= 16.4",
+      "safari >= 16.4",
+      "samsung >= 21",
+      "firefox >= 120"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
     "@measured/puck": "^0.20.2",

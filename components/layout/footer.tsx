@@ -11,10 +11,10 @@ import { MOCK_SITE_SETTINGS } from '@/lib/mock-site-settings'
 
 const quickLinks = [
   { name: 'Ana Sayfa', href: '/' },
-  { name: 'Hakkimizda', href: '/hakkimizda' },
-  { name: 'Urun', href: '/urun' },
+  { name: 'Hakkımızda', href: '/hakkimizda' },
+  { name: 'Ürün', href: '/urun' },
   { name: 'Blog', href: '/blog' },
-  { name: 'Iletisim', href: '/iletisim' },
+  { name: 'İletişim', href: '/iletisim' },
 ]
 
 const productLinks = [
@@ -26,10 +26,10 @@ const productLinks = [
 ]
 
 const legalLinks = [
-  { name: 'Gizlilik Politikasi', href: '/gizlilik-politikasi' },
-  { name: 'Mesafeli Satis Sozlesmesi', href: '/mesafeli-satis-sozlesmesi' },
-  { name: 'Iade Kosullari', href: '/iade-kosullari' },
-  { name: 'Kullanim Kosullari', href: '/kullanim-kosullari' },
+  { name: 'Gizlilik Politikası', href: '/gizlilik-politikasi' },
+  { name: 'Mesafeli Satış Sözleşmesi', href: '/mesafeli-satis-sozlesmesi' },
+  { name: 'İade Koşulları', href: '/iade-kosullari' },
+  { name: 'Kullanım Koşulları', href: '/kullanim-kosullari' },
 ]
 
 export function Footer() {
@@ -120,10 +120,10 @@ export function Footer() {
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
             <div className="text-center lg:text-left">
               <h3 className="text-2xl font-bold text-foreground mb-2">
-                E-Posta Bultenimize Kayit Olun
+                E-Posta Bültenimize Kayıt Olun
               </h3>
               <p className="text-muted-foreground">
-                Ozel firsatlardan ve yeni iceriklerden haberdar olun.
+                Özel fırsatlardan ve yeni içeriklerden haberdar olun.
               </p>
             </div>
             <form className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
@@ -201,7 +201,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Hizli Erisim</h4>
+            <h4 className="font-semibold text-foreground mb-4">Hızlı Erişim</h4>
             <ul className="space-y-3">
               {footerQuick.map((link) => (
                 <li key={link.name}>
@@ -221,7 +221,7 @@ export function Footer() {
 
           {/* Product Links */}
           <div>
-            <h4 className="font-semibold text-foreground mb-4">Urun</h4>
+            <h4 className="font-semibold text-foreground mb-4">Ürün</h4>
             <ul className="space-y-3">
               {footerProduct.map((link) => (
                 <li key={link.name}>
@@ -281,7 +281,7 @@ export function Footer() {
               {settings?.copyright || `© ${new Date().getFullYear()} Multilimit. Tüm hakları saklıdır.`}
             </p>
             <p>
-              Bu urun bir gida takviyesidir. Hastaliklari tedavi etmek veya onlemek icin kullanilmaz.
+              Bu ürün bir gıda takviyesidir. Hastalıkları tedavi etmek veya önlemek için kullanılmaz.
             </p>
           </div>
         </div>

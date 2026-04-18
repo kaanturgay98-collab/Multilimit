@@ -26,16 +26,16 @@ function ChatbotIcon({ className }: { className?: string }) {
 }
 
 const quickActions = [
-  { label: 'Urunu Kesfet', href: '/urun', icon: Package },
-  { label: "Trendyol'da Siparis", href: 'https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513', icon: ShoppingCart, external: true },
+  { label: 'Ürünü Keşfet', href: '/urun', icon: Package },
+  { label: "Trendyol'da Sipariş", href: 'https://www.trendyol.com/multilimit/alkol-sonrasi-detoks-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513', icon: ShoppingCart, external: true },
   { label: 'WhatsApp Destek', href: 'https://wa.me/905551234567?text=Merhaba%2C%20Multilimit%20Premium%20Detoks%20Kompleksi%20hakkinda%20bilgi%20almak%20istiyorum.', icon: MessageCircle, external: true },
-  { label: 'Sik Sorulan Sorular', href: '/sss', icon: HelpCircle },
+  { label: 'Sıkça Sorulan Sorular', href: '/sss', icon: HelpCircle },
 ]
 
 const chatMessages = [
   {
     type: 'bot',
-    message: 'Merhaba! Multilimit Premium Detoks Kompleksi hakkinda size nasil yardimci olabilirim?',
+    message: 'Merhaba! Multilimit Premium Detoks Kompleksi hakkında size nasıl yardımcı olabilirim?',
   },
 ]
 
@@ -53,7 +53,7 @@ export function ChatbotWidget() {
       { type: 'user', message: inputValue },
       { 
         type: 'bot', 
-        message: 'Tesekkur ederiz! Ekibimiz en kisa surede sizinle iletisime gececek. Dilerseniz WhatsApp uzerinden de bize ulasabilirsiniz.' 
+        message: 'Teşekkür ederiz! Ekibimiz en kısa sürede sizinle iletişime geçecek. Dilerseniz WhatsApp üzerinden de bize ulaşabilirsiniz.' 
       },
     ])
     setInputValue('')
@@ -69,7 +69,7 @@ export function ChatbotWidget() {
       <button
         onClick={() => setIsOpen(true)}
         className={`fixed bottom-6 right-6 z-50 flex items-center justify-center w-16 h-16 rounded-full bg-primary text-primary-foreground shadow-xl ring-4 ring-primary/20 hover:bg-primary/90 transition-all duration-300 ${isOpen ? 'scale-0 opacity-0' : 'scale-100 opacity-100'}`}
-        aria-label="Canli Destek"
+        aria-label="Canlı Destek"
       >
         <ChatbotIcon className="w-8 h-8" />
         <span className="absolute -top-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-background" />
@@ -90,7 +90,7 @@ export function ChatbotWidget() {
             </div>
             <div>
               <h3 className="font-semibold text-foreground text-sm">Multilimit Destek</h3>
-              <p className="text-xs text-muted-foreground">Genellikle aninda yanit verir</p>
+              <p className="text-xs text-muted-foreground">Genellikle anında yanıt verir</p>
             </div>
           </div>
           <Button
@@ -126,7 +126,7 @@ export function ChatbotWidget() {
 
         {/* Quick Actions */}
         <div className="px-4 pb-3">
-          <p className="text-xs text-muted-foreground mb-2">Hizli Erisim</p>
+          <p className="text-xs text-muted-foreground mb-2">Hızlı Erişim</p>
           <div className="grid grid-cols-2 gap-2">
             {quickActions.map((action) => (
               action.external ? (
@@ -172,7 +172,7 @@ export function ChatbotWidget() {
             />
             <Button type="submit" size="icon" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <Send className="w-4 h-4" />
-              <span className="sr-only">Gonder</span>
+              <span className="sr-only">Gönder</span>
             </Button>
           </form>
         </div>
