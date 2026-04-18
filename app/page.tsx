@@ -1,5 +1,4 @@
 import { PuckRender } from "@/components/puck/PuckRender"
-import "@measured/puck/puck.css"
 import db from "@/lib/puck-db"
 
 export const dynamic = "force-dynamic";

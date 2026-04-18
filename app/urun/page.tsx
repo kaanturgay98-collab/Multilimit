@@ -1,5 +1,4 @@
 import { PuckRender } from "@/components/puck/PuckRender"
-import "@measured/puck/puck.css"
 import { AdminOverlay } from '@/components/public/admin-overlay'
 import { Metadata } from 'next'
 import { listActiveProducts, listProductMedia } from "@/lib/products-db"
