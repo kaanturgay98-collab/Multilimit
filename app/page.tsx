@@ -19,7 +19,7 @@ export default async function HomePage() {
     image: "https://mltlimit.com/paket-multilimit.webp",
     offers: {
       "@type": "Offer",
-      price: "299",
+      price: "656,25",
       priceCurrency: "TRY",
       url: "https://www.trendyol.com/multilimit/alkol-sonrasi-aksamdan-kalma-hangover-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513",
       availability: "https://schema.org/InStock",
