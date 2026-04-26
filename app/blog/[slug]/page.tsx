@@ -13,27 +13,27 @@ interface BlogPostPageProps {
 }
 
 const blogSchemas: Record<string, { question: string; answer: string }> = {
-  "alkol-sonrasi-bas-agrisi": {
+  "alkol-sonrasi-bas-agrisi-icin-ne-yapilabilir": {
     question: "Alkol sonrası baş ağrısı için ne yapılabilir?",
     answer:
       "Dinlenme, su tüketimi ve vücudu yormayan bir süreç önerilir. Multilimit, gece sonrası oluşan yorgunluk hissine karşı vücudun toparlanma sürecini desteklemek amacıyla kullanılabilir."
   },
-  "hangover-nasil-atlatilir": {
+  "hangover-nasil-daha-rahat-atlatilir": {
     question: "Hangover nasıl daha rahat atlatılır?",
     answer:
       "Bu süreçte dinlenmek ve vücudu desteklemek önemlidir. Multilimit, içeriği sayesinde ertesi gün daha dengeli hissetmeye yardımcı olabilir."
   },
-  "icki-sonrasi-mide": {
+  "icki-sonrasi-mide-hassasiyeti-icin-ne-yapilabilir": {
     question: "İçki sonrası mide hassasiyeti için ne yapılabilir?",
     answer:
       "Hafif beslenme ve dinlenme önerilir. Multilimit, genel toparlanma sürecini destekleyerek bu sürecin daha konforlu geçmesine yardımcı olabilir."
   },
-  "alkol-vucuttan-atilma": {
+  "alkol-vucuttan-ne-kadar-surede-atilir": {
     question: "Alkol vücuttan ne kadar sürede atılır?",
     answer:
       "Bu süre kişisel faktörlere göre değişir. Multilimit, bu süreçte destekleyici bir takviye olarak kullanılabilir."
   },
-  "hangover-ne-kadar-surer": {
+  "hangover-etkisi-ne-kadar-surer": {
     question: "Hangover etkisi ne kadar sürer?",
     answer:
       "Genellikle 6–24 saat sürebilir. Multilimit, ertesi gün daha toparlanmış hissetmeye yardımcı olabilir."
