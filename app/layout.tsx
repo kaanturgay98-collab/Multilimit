@@ -40,6 +40,9 @@ export const metadata: Metadata = {
     title: 'Multilimit Premium Detoks Kompleksi',
     description: 'Gunluk yasam temposuna destek veren premium formul',
   },
+  verification: {
+    google: 'UGvr0iKbRtvw5a7EsdrpJvruJJdw8BEKVl0JwkDDYWE',
+  },
   icons: {
     icon: '/mltlimit-favicon.ico',
     shortcut: '/mltlimit-favicon.ico',
