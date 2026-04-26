@@ -1,10 +1,31 @@
 import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
 import db from "@/lib/puck-db"
+import { SchemaOrg } from "@/components/SchemaOrg"
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const productSchema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: "Multilimit",
+    description:
+      "Multilimit, gece tüketim sonrası oluşabilecek yorgunluk ve halsizlik hissine karşı vücudun toparlanma sürecini desteklemeye yardımcı olan takviye edici gıdadır. İçeriğindeki zeolit ve L-sistein ile vücut dengesinin korunmasına katkı sağlar.",
+    brand: {
+      "@type": "Brand",
+      name: "Multilimit",
+    },
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "TRY",
+      url: "https://www.trendyol.com/multilimit/alkol-sonrasi-aksamdan-kalma-hangover-destegi-saglayan-gida-takviyesi-p-1116265098?boutiqueId=61&merchantId=1239513",
+      availability: "https://schema.org/InStock",
+      itemCondition: "https://schema.org/NewCondition",
+    },
+    inLanguage: "tr-TR",
+  } as const
+
   let pageData = null;
 
   try {
@@ -24,6 +45,7 @@ export default async function HomePage() {
   if (!hasValidContent) {
     return (
       <main className="min-h-screen flex items-center justify-center p-8">
+        <SchemaOrg schema={productSchema} id="product-schema" />
         <div className="text-center p-12 rounded-2xl shadow-sm border border-slate-100 max-w-lg">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">No content yet</h2>
           <p className="text-slate-500">Go to the admin panel (/admin/editor) to add content to the homepage.</p>
@@ -35,6 +57,7 @@ export default async function HomePage() {
   // Render the Puck data
   return (
     <main className="min-h-screen ">
+      <SchemaOrg schema={productSchema} id="product-schema" />
       <PuckRender data={pageData} />
     </main>
   )
