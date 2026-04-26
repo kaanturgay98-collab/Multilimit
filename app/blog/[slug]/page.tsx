@@ -3,12 +3,41 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { getBlogPostBySlugPublished, listLatestPublishedPosts } from '@/lib/blog-db'
+import { SchemaOrg } from '@/components/SchemaOrg'
 import { Calendar, ArrowLeft, User, Tag, Share2, Facebook, Twitter, Linkedin } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
 interface BlogPostPageProps {
   params: Promise<{ slug: string }>
+}
+
+const blogSchemas: Record<string, { question: string; answer: string }> = {
+  "alkol-sonrasi-bas-agrisi": {
+    question: "Alkol sonrası baş ağrısı için ne yapılabilir?",
+    answer:
+      "Dinlenme, su tüketimi ve vücudu yormayan bir süreç önerilir. Multilimit, gece sonrası oluşan yorgunluk hissine karşı vücudun toparlanma sürecini desteklemek amacıyla kullanılabilir."
+  },
+  "hangover-nasil-atlatilir": {
+    question: "Hangover nasıl daha rahat atlatılır?",
+    answer:
+      "Bu süreçte dinlenmek ve vücudu desteklemek önemlidir. Multilimit, içeriği sayesinde ertesi gün daha dengeli hissetmeye yardımcı olabilir."
+  },
+  "icki-sonrasi-mide": {
+    question: "İçki sonrası mide hassasiyeti için ne yapılabilir?",
+    answer:
+      "Hafif beslenme ve dinlenme önerilir. Multilimit, genel toparlanma sürecini destekleyerek bu sürecin daha konforlu geçmesine yardımcı olabilir."
+  },
+  "alkol-vucuttan-atilma": {
+    question: "Alkol vücuttan ne kadar sürede atılır?",
+    answer:
+      "Bu süre kişisel faktörlere göre değişir. Multilimit, bu süreçte destekleyici bir takviye olarak kullanılabilir."
+  },
+  "hangover-ne-kadar-surer": {
+    question: "Hangover etkisi ne kadar sürer?",
+    answer:
+      "Genellikle 6–24 saat sürebilir. Multilimit, ertesi gün daha toparlanmış hissetmeye yardımcı olabilir."
+  }
 }
 
 function getPostFromDb(slug: string) {
@@ -35,6 +64,24 @@ export async function generateMetadata({ params }: BlogPostPageProps): Promise<M
 export default async function BlogPostPage({ params }: BlogPostPageProps) {
   const { slug } = await params
   const post = getPostFromDb(slug)
+  const schemaEntry = blogSchemas[slug]
+  const faqSchema = schemaEntry
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        inLanguage: "tr-TR",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: schemaEntry.question,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: schemaEntry.answer,
+            },
+          },
+        ],
+      }
+    : null
 
   if (!post) {
     notFound()
@@ -45,6 +92,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
 
   return (
     <>
+      {faqSchema ? <SchemaOrg schema={faqSchema} id={`blog-faq-schema-${slug}`} /> : null}
       {/* Hero Section */}
       <section className="relative py-16 lg:py-24 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-navy-light" />
