@@ -20,29 +20,29 @@ export const dynamic = "force-dynamic";
 
 const faqEntries = [
   {
-    question: "Alkol sonrası baş ağrısı için ne yapılabilir?",
+    question: "Multilimit nedir ve ne için kullanılır?",
     answer:
-      "Dinlenme, su tüketimi ve vücudu yormayan bir süreç önerilir. Multilimit, gece sonrası oluşan yorgunluk hissine karşı vücudun toparlanma sürecini desteklemek amacıyla kullanılabilir.",
+      "Multilimit, gece tüketimi sonrası oluşabilecek yorgunluk ve halsizlik hissine karşı vücudun toparlanma sürecini desteklemeye yardımcı olan takviye edici gıdadır.",
   },
   {
-    question: "Hangover nasıl daha rahat atlatılır?",
+    question: "Multilimit ne zaman kullanılmalıdır?",
     answer:
-      "Bu süreçte dinlenmek ve vücudu desteklemek önemlidir. Multilimit, içeriği sayesinde ertesi gün daha dengeli hissetmeye yardımcı olabilir.",
+      "Ürün, gece tüketimi sonrası oluşabilecek etkiler için destek amacıyla tercih edilir. Kullanıma dair en doğru bilgi için ambalaj üzerindeki yönlendirmeler takip edilmelidir.",
   },
   {
-    question: "İçki sonrası mide hassasiyeti için ne yapılabilir?",
+    question: "Multilimit'in içeriğinde hangi bileşenler bulunur?",
     answer:
-      "Hafif beslenme ve dinlenme önerilir. Multilimit, genel toparlanma sürecini destekleyerek bu sürecin daha konforlu geçmesine yardımcı olabilir.",
+      "Multilimit formülünde zeolit ve L-sistein gibi bileşenler yer alır. Bu içerik, vücut dengesinin korunmasına ve toparlanma sürecinin desteklenmesine yardımcı olur.",
   },
   {
-    question: "Alkol vücuttan ne kadar sürede atılır?",
+    question: "Multilimit ilaç mıdır?",
     answer:
-      "Bu süre kişisel faktörlere göre değişir. Vücudun bu süreci doğal şekilde yönetmesi önemlidir. Multilimit, bu süreçte destekleyici bir takviye olarak kullanılabilir.",
+      "Hayır. Multilimit bir ilaç değil, takviye edici gıdadır. Hastalıkları teşhis etme, tedavi etme veya önleme amacıyla kullanılmaz.",
   },
   {
-    question: "Hangover etkisi ne kadar sürer?",
+    question: "Multilimit kimler için uygundur?",
     answer:
-      "Genellikle 6–24 saat sürebilir. Kişiden kişiye değişir. Multilimit, ertesi gün daha toparlanmış hissetmeye yardımcı olabilir.",
+      "Ürün yetişkin kullanıcılar için geliştirilmiştir. Özel durumlar (hamilelik, emzirme, kronik rahatsızlık veya düzenli ilaç kullanımı) varsa sağlık uzmanına danışılması önerilir.",
   },
 ] as const
 
@@ -60,17 +60,59 @@ const faqSchema = {
   })),
 } as const
 
+function mergeFaqEntriesIntoPuckData(data: any, extraEntries: ReadonlyArray<{ question: string; answer: string }>) {
+  if (!data || !Array.isArray(data.content)) {
+    return { data, hasFaqComponent: false }
+  }
+
+  let hasFaqComponent = false
+
+  const mergedContent = data.content.map((block: any) => {
+    if (block?.type !== "FAQ") {
+      return block
+    }
+
+    hasFaqComponent = true
+    const currentItems = Array.isArray(block?.props?.items) ? block.props.items : []
+    const existingQuestions = new Set(
+      currentItems
+        .map((item: any) => (typeof item?.question === "string" ? item.question.trim().toLocaleLowerCase("tr-TR") : ""))
+        .filter(Boolean)
+    )
+
+    const nonDuplicateExtras = extraEntries.filter(
+      (entry) => !existingQuestions.has(entry.question.trim().toLocaleLowerCase("tr-TR"))
+    )
+
+    return {
+      ...block,
+      props: {
+        ...block.props,
+        items: [...currentItems, ...nonDuplicateExtras],
+      },
+    }
+  })
+
+  return {
+    data: {
+      ...data,
+      content: mergedContent,
+    },
+    hasFaqComponent,
+  }
+}
+
 function FAQAccordion() {
   return (
     <section className="mx-auto w-full max-w-3xl px-4 py-10 sm:px-6">
-      <h2 className="mb-6 text-2xl font-semibold text-slate-900">Sikca Sorulan Sorular</h2>
-      <Accordion type="single" collapsible className="w-full rounded-xl border bg-white px-4 sm:px-6">
+      <h2 className="mb-6 text-2xl font-semibold text-slate-900">Sıkça Sorulan Sorular</h2>
+      <Accordion type="single" collapsible className="w-full rounded-xl border border-slate-200 bg-white px-4 sm:px-6">
         {faqEntries.map((entry, index) => (
-          <AccordionItem key={entry.question} value={`item-${index}`}>
-            <AccordionTrigger className="text-base leading-6">
+          <AccordionItem key={entry.question} value={`item-${index}`} className="border-slate-200">
+            <AccordionTrigger className="text-base leading-6 text-slate-900 hover:text-slate-900">
               {entry.question}
             </AccordionTrigger>
-            <AccordionContent className="text-sm leading-6 text-slate-600 sm:text-base">
+            <AccordionContent className="text-sm leading-6 text-slate-700 sm:text-base">
               {entry.answer}
             </AccordionContent>
           </AccordionItem>
@@ -100,6 +142,7 @@ export default async function FAQPage() {
 
   // Check if data is valid and has content array
   const hasValidContent = pageData && Array.isArray(pageData.content) && pageData.content.length > 0;
+  const { data: pageDataWithMergedFaq, hasFaqComponent } = mergeFaqEntriesIntoPuckData(pageData, faqEntries)
 
   if (!hasValidContent) {
     return (
@@ -123,8 +166,8 @@ export default async function FAQPage() {
     <main className="min-h-screen">
       <SchemaOrg schema={faqSchema} id="faq-schema" />
       <AdminOverlay slug={slug} />
-      <PuckRender data={pageData} />
-      <FAQAccordion />
+      <PuckRender data={pageDataWithMergedFaq} />
+      {!hasFaqComponent && <FAQAccordion />}
     </main>
   )
 }
