@@ -2,10 +2,13 @@ import { PuckRender } from "@/components/puck/PuckRender"
 import "@measured/puck/puck.css"
 import db from "@/lib/puck-db"
 import { SchemaOrg } from "@/components/SchemaOrg"
+import { listLatestPublishedPosts } from "@/lib/blog-db"
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
+  const siteUrl = "https://multilimit.com"
+  const latestBlogPosts = listLatestPublishedPosts(24)
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -31,7 +34,85 @@ export default async function HomePage() {
       reviewCount: "3",
     },
     inLanguage: "tr-TR",
-  } as const
+  }
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: "tr-TR",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "Alkol sonrası baş ağrısına ne iyi gelir?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Alkol sonrası baş ağrısında su tüketimi, dinlenme ve dengeli beslenme önemlidir; Multilimit ise toparlanma sürecini desteklemek için tercih edilen takviye seçeneklerinden biridir.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Alkol sonrası baş ağrısı için ne yapılmalı?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Alkol sonrası baş ağrısı için öncelikle sıvı desteği ve istirahat önerilir; Multilimit, gece sonrası yorgunluk ve halsizlik hissine karşı günlük rutinde destek amacıyla kullanılabilir.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Aksamdan kalma baş ağrısına ne iyi gelir?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Aksamdan kalma baş ağrısında yeterli su içmek ve vücudu dinlendirmek faydalıdır; Multilimit, toparlanma döneminde destekleyici bir takviye olarak öne çıkar.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Hangover nedir ve hangover etkisi nasil azaltilir?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Hangover, gece sonrasi olusan yorgunluk, halsizlik ve bas agrisi gibi belirtileri tanimlar; su tuketimi, dinlenme ve Multilimit kullanimi toparlanma surecine destek olabilir.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Hangover sabahinda toparlanmak icin ne onerilir?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Hangover sabahinda su ve elektrolit destegi, hafif beslenme ve istirahat onceliklidir; Multilimit de bu surecte vucudun dengeyi yeniden kurmasina destek amaciyla kullanilabilir.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Hangover belirtilerinde Multilimit ne ise yarar?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Hangover belirtilerinde Multilimit, icerigindeki bilesenlerle gece sonrasi yorgunluk ve halsizlik hissine karsi toparlanma surecini desteklemeyi hedefleyen bir gida takviyesidir.",
+        },
+      },
+    ],
+  }
+  const blogPagesSchema = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: "Multilimit Blog",
+    url: `${siteUrl}/blog`,
+    inLanguage: "tr-TR",
+    isPartOf: {
+      "@type": "WebSite",
+      name: "Multilimit",
+      url: siteUrl,
+    },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListOrder: "https://schema.org/ItemListOrderDescending",
+      numberOfItems: latestBlogPosts.length,
+      itemListElement: latestBlogPosts.map((post, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        url: `${siteUrl}/blog/${post.slug}`,
+        name: post.title,
+      })),
+    },
+  }
 
   let pageData = null;
 
@@ -53,6 +134,8 @@ export default async function HomePage() {
     return (
       <main className="min-h-screen flex items-center justify-center p-8">
         <SchemaOrg schema={productSchema} id="product-schema" />
+        <SchemaOrg schema={faqSchema} id="faq-schema" />
+        <SchemaOrg schema={blogPagesSchema} id="blog-pages-schema" />
         <div className="text-center p-12 rounded-2xl shadow-sm border border-slate-100 max-w-lg">
           <h2 className="text-2xl font-bold text-slate-800 mb-2">No content yet</h2>
           <p className="text-slate-500">Go to the admin panel (/admin/editor) to add content to the homepage.</p>
@@ -65,6 +148,8 @@ export default async function HomePage() {
   return (
     <main className="min-h-screen ">
       <SchemaOrg schema={productSchema} id="product-schema" />
+      <SchemaOrg schema={faqSchema} id="faq-schema" />
+      <SchemaOrg schema={blogPagesSchema} id="blog-pages-schema" />
       <PuckRender data={pageData} />
     </main>
   )
